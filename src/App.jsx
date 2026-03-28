@@ -191,7 +191,7 @@ export default function App() {
               <button
                 onClick={() =>
                   window.open(
-                    `https://wa.me/6281234567890?text=Halo%20saya%20ingin%20order%20${encodeURIComponent(
+                    `https://wa.me/60166173129?text=Halo%20saya%20ingin%20order%20${encodeURIComponent(
                       selectedProduct.name
                     )}`,
                     "_blank"
