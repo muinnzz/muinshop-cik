@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "./supabase";
 
 const products = [
@@ -52,6 +52,8 @@ export default function App() {
   const [customerWhatsapp, setCustomerWhatsapp] = useState("");
   const [customerNote, setCustomerNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const productsRef = useRef(null);
 
   useEffect(() => {
     let mounted = true;
@@ -133,6 +135,16 @@ export default function App() {
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
     setMenuOpen(false);
+
+    setTimeout(() => {
+      const y =
+        productsRef.current?.getBoundingClientRect().top + window.scrollY - 20;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }, 150);
   };
 
   const handleAdminLogin = async (e) => {
@@ -355,11 +367,16 @@ Catatan: ${customerNote || "-"}`;
             ))}
           </div>
 
-          <Section
-            title="Virtual Private Server"
-            data={groupedProducts["Virtual Private Server"]}
-          />
-          <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
+          <div ref={productsRef}>
+            <Section
+              title="Virtual Private Server"
+              data={groupedProducts["Virtual Private Server"]}
+            />
+            <Section
+              title="Pterodactyl"
+              data={groupedProducts["Pterodactyl"]}
+            />
+          </div>
         </div>
 
         {menuOpen && (
@@ -623,4 +640,4 @@ Catatan: ${customerNote || "-"}`;
       </div>
     </div>
   );
-      }
+}
