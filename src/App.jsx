@@ -54,8 +54,10 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+
     supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session ?? null);
+      if (mounted) setSession(data.session ?? null);
     });
 
     const {
@@ -64,28 +66,24 @@ export default function App() {
       setSession(currentSession ?? null);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
-
-  useEffect(() => {
-    fetchPaidCount();
-  }, []);
-
-  useEffect(() => {
-    if (session) {
-      fetchOrders();
-    }
-  }, [session]);
 
   const fetchPaidCount = async () => {
     const { count, error } = await supabase
       .from("orders")
-      .select("*", { count: "exact", head: true })
+      .select("id", { count: "exact", head: true })
       .eq("status", "paid");
 
-    if (!error) {
-      setPaidCount(count || 0);
+    if (error) {
+      console.log("fetchPaidCount error:", error.message);
+      return;
     }
+
+    setPaidCount(count || 0);
   };
 
   const fetchOrders = async () => {
@@ -94,10 +92,29 @@ export default function App() {
       .select("*")
       .order("id", { ascending: false });
 
-    if (!error) {
-      setOrders(data || []);
+    if (error) {
+      console.log("fetchOrders error:", error.message);
+      return;
     }
+
+    setOrders(data || []);
   };
+
+  useEffect(() => {
+    fetchPaidCount();
+
+    const interval = setInterval(() => {
+      fetchPaidCount();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (session) {
+      fetchOrders();
+    }
+  }, [session]);
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === "Semua") return products;
@@ -606,4 +623,4 @@ Catatan: ${customerNote || "-"}`;
       </div>
     </div>
   );
-  }
+      }
