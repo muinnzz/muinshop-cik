@@ -2,28 +2,41 @@ export default function App() {
   const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
 
   const vps = [
-    { name: "VPS R16 4CORE", price: "Rp 8.000", soldOut: true },
-    { name: "VPS R16 8CORE", price: "Rp 8.000", soldOut: true },
+    {
+      name: "VPS R16 4CORE",
+      price: "Rp 8.000",
+      image: "https://i.ibb.co/0yQ2z3B/vps.png"
+    },
+    {
+      name: "VPS R16 8CORE",
+      price: "Rp 8.000",
+      image: "https://i.ibb.co/0yQ2z3B/vps.png"
+    },
   ];
 
   const ptero = [
-    { name: "Pterodactyl Unlimited", price: "Rp 10.000", soldOut: true },
-    { name: "Pterodactyl 9 GB", price: "Rp 12.000", soldOut: true },
+    {
+      name: "Pterodactyl Unlimited",
+      price: "Rp 10.000",
+      image: "https://i.ibb.co/7QpKsCX/ptero.png"
+    },
+    {
+      name: "Pterodactyl 9 GB",
+      price: "Rp 12.000",
+      image: "https://i.ibb.co/7QpKsCX/ptero.png"
+    },
   ];
 
   const Card = ({ item }) => (
     <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm">
+      
       <div className="rounded-[24px] bg-slate-50 p-4 border">
-        <div className="relative">
-          {item.soldOut && (
-            <span className="absolute left-2 top-2 bg-rose-400 text-white text-xs px-3 py-1 rounded-full font-bold">
-              Sold Out
-            </span>
-          )}
-
-          <div className="h-[120px] rounded-xl bg-white flex items-center justify-center">
-            <span className="text-4xl">🖥️</span>
-          </div>
+        <div className="h-[120px] flex items-center justify-center">
+          <img
+            src={item.image}
+            alt={item.name}
+            className="h-full object-contain"
+          />
         </div>
       </div>
 
@@ -56,6 +69,7 @@ export default function App() {
     <div className="min-h-screen bg-[#f5f7fb] text-slate-900">
       <div className="max-w-md mx-auto px-4 py-5">
 
+        {/* HEADER */}
         <div className="bg-white rounded-3xl p-4 flex justify-between items-center shadow">
           <div>☰</div>
           <h1 className="font-extrabold text-sm">MUINSHOP CIK</h1>
@@ -64,6 +78,7 @@ export default function App() {
           </div>
         </div>
 
+        {/* HERO */}
         <div className="mt-6 bg-gradient-to-br from-sky-500 to-purple-500 text-white p-6 rounded-3xl shadow-lg">
           <h2 className="text-2xl font-extrabold">Muinshop Cik</h2>
           <p className="text-sm">Premium Account & Game Server Provider ✨</p>
@@ -76,6 +91,7 @@ export default function App() {
           </div>
         </div>
 
+        {/* CATEGORY */}
         <div className="mt-6 flex gap-2 overflow-x-auto">
           {categories.map((c, i) => (
             <button
@@ -91,6 +107,7 @@ export default function App() {
           ))}
         </div>
 
+        {/* CONTENT */}
         <Section title="Virtual Private Server" data={vps} />
         <Section title="Pterodactyl" data={ptero} />
 
