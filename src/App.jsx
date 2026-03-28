@@ -1,4 +1,38 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { supabase } from "./supabase";
+
+const products = [
+  {
+    category: "Virtual Private Server",
+    name: "VPS R16 4CORE",
+    price: "Rp 8.000",
+    image: "https://i.ibb.co/0yQ2z3B/vps.png",
+    description: "VPS hemat untuk kebutuhan ringan dan testing.",
+  },
+  {
+    category: "Virtual Private Server",
+    name: "VPS R16 8CORE",
+    price: "Rp 8.000",
+    image: "https://i.ibb.co/0yQ2z3B/vps.png",
+    description: "VPS lebih kencang untuk kebutuhan menengah.",
+  },
+  {
+    category: "Pterodactyl",
+    name: "Pterodactyl Unlimited",
+    price: "Rp 10.000",
+    image: "https://i.ibb.co/7QpKsCX/ptero.png",
+    description: "Paket panel unlimited untuk kebutuhan game server.",
+  },
+  {
+    category: "Pterodactyl",
+    name: "Pterodactyl 9 GB",
+    price: "Rp 12.000",
+    image: "https://i.ibb.co/7QpKsCX/ptero.png",
+    description: "Panel Pterodactyl dengan resource 9 GB.",
+  },
+];
+
+const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
 
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
@@ -6,38 +40,64 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const products = [
-    {
-      category: "Virtual Private Server",
-      name: "VPS R16 4CORE",
-      price: "Rp 8.000",
-      image: "https://i.ibb.co/0yQ2z3B/vps.png",
-      description: "VPS hemat untuk kebutuhan ringan dan testing.",
-    },
-    {
-      category: "Virtual Private Server",
-      name: "VPS R16 8CORE",
-      price: "Rp 8.000",
-      image: "https://i.ibb.co/0yQ2z3B/vps.png",
-      description: "VPS lebih kencang untuk kebutuhan menengah.",
-    },
-    {
-      category: "Pterodactyl",
-      name: "Pterodactyl Unlimited",
-      price: "Rp 10.000",
-      image: "https://i.ibb.co/7QpKsCX/ptero.png",
-      description: "Paket panel unlimited untuk kebutuhan game server.",
-    },
-    {
-      category: "Pterodactyl",
-      name: "Pterodactyl 9 GB",
-      price: "Rp 12.000",
-      image: "https://i.ibb.co/7QpKsCX/ptero.png",
-      description: "Panel Pterodactyl dengan resource 9 GB.",
-    },
-  ];
+  const [paidCount, setPaidCount] = useState(0);
 
-  const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
+  const [session, setSession] = useState(null);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [orders, setOrders] = useState([]);
+
+  const [customerName, setCustomerName] = useState("");
+  const [customerWhatsapp, setCustomerWhatsapp] = useState("");
+  const [customerNote, setCustomerNote] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+      setSession(currentSession ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    fetchPaidCount();
+  }, []);
+
+  useEffect(() => {
+    if (session) {
+      fetchOrders();
+    }
+  }, [session]);
+
+  const fetchPaidCount = async () => {
+    const { count, error } = await supabase
+      .from("orders")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "paid");
+
+    if (!error) {
+      setPaidCount(count || 0);
+    }
+  };
+
+  const fetchOrders = async () => {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (!error) {
+      setOrders(data || []);
+    }
+  };
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === "Semua") return products;
@@ -58,13 +118,99 @@ export default function App() {
     setMenuOpen(false);
   };
 
-  const handleWhatsAppOrder = (productName) => {
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: adminEmail,
+      password: adminPassword,
+    });
+
+    if (error) {
+      alert("Login admin gagal: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setShowAdmin(false);
+  };
+
+  const handleCreateOrder = async () => {
+    if (!selectedProduct) return;
+
+    if (!customerName.trim() || !customerWhatsapp.trim()) {
+      alert("Nama dan nomor WhatsApp wajib diisi.");
+      return;
+    }
+
+    setSubmitting(true);
+
+    const { error } = await supabase.from("orders").insert({
+      product_name: selectedProduct.name,
+      price: selectedProduct.price,
+      customer_name: customerName,
+      customer_whatsapp: customerWhatsapp,
+      note: customerNote,
+      status: "pending",
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      alert("Gagal simpan order: " + error.message);
+      return;
+    }
+
+    const waMessage = `Halo, saya ingin order ${selectedProduct.name}
+Nama: ${customerName}
+No WhatsApp: ${customerWhatsapp}
+Catatan: ${customerNote || "-"}`;
+
     window.open(
-      `https://wa.me/60166173129?text=${encodeURIComponent(
-        `Halo, saya ingin order ${productName}`
-      )}`,
+      `https://wa.me/60166173129?text=${encodeURIComponent(waMessage)}`,
       "_blank"
     );
+
+    setCustomerName("");
+    setCustomerWhatsapp("");
+    setCustomerNote("");
+    setSelectedProduct(null);
+
+    alert("Order berhasil dikirim.");
+  };
+
+  const markAsPaid = async (id) => {
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: "paid" })
+      .eq("id", id);
+
+    if (error) {
+      alert("Gagal update status: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+    await fetchPaidCount();
+  };
+
+  const markAsCancelled = async (id) => {
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: "cancelled" })
+      .eq("id", id);
+
+    if (error) {
+      alert("Gagal update status: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+    await fetchPaidCount();
   };
 
   const Card = ({ item }) => (
@@ -168,7 +314,7 @@ export default function App() {
 
             <div className="mt-4 flex justify-between">
               <div className="rounded-full bg-white/20 px-4 py-2 text-xs">
-                ✔ 0 Transaksi Berhasil
+                ✔ {paidCount} Transaksi Berhasil
               </div>
               <span className="text-5xl opacity-20">⚡</span>
             </div>
@@ -252,6 +398,37 @@ export default function App() {
                   Pterodactyl
                 </button>
 
+                {!session ? (
+                  <button
+                    onClick={() => {
+                      setShowAdmin(true);
+                      setMenuOpen(false);
+                    }}
+                    className="w-full rounded-xl bg-amber-500 px-4 py-3 text-left font-bold text-white"
+                  >
+                    Login Admin
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        setShowAdmin(true);
+                        setMenuOpen(false);
+                      }}
+                      className="w-full rounded-xl bg-amber-500 px-4 py-3 text-left font-bold text-white"
+                    >
+                      Panel Admin
+                    </button>
+
+                    <button
+                      onClick={handleLogout}
+                      className="w-full rounded-xl bg-rose-500 px-4 py-3 text-left font-bold text-white"
+                    >
+                      Logout Admin
+                    </button>
+                  </>
+                )}
+
                 <button
                   onClick={() => {
                     setMenuOpen(false);
@@ -291,11 +468,36 @@ export default function App() {
                 {selectedProduct.description}
               </p>
 
+              <input
+                type="text"
+                placeholder="Nama kamu"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                className="mt-4 w-full rounded-xl border px-4 py-3 text-slate-900"
+              />
+
+              <input
+                type="text"
+                placeholder="Nomor WhatsApp kamu"
+                value={customerWhatsapp}
+                onChange={(e) => setCustomerWhatsapp(e.target.value)}
+                className="mt-3 w-full rounded-xl border px-4 py-3 text-slate-900"
+              />
+
+              <textarea
+                placeholder="Catatan tambahan"
+                value={customerNote}
+                onChange={(e) => setCustomerNote(e.target.value)}
+                className="mt-3 w-full rounded-xl border px-4 py-3 text-slate-900"
+                rows={3}
+              />
+
               <button
-                onClick={() => handleWhatsAppOrder(selectedProduct.name)}
-                className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white"
+                onClick={handleCreateOrder}
+                disabled={submitting}
+                className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white disabled:opacity-60"
               >
-                Order via WhatsApp
+                {submitting ? "Mengirim..." : "Order via WhatsApp"}
               </button>
 
               <button
@@ -307,7 +509,101 @@ export default function App() {
             </div>
           </div>
         )}
+
+        {showAdmin && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4">
+            <div
+              className={`max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl p-5 ${
+                darkMode ? "bg-slate-900 text-white" : "bg-white text-slate-900"
+              }`}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-extrabold">
+                  {session ? "Panel Admin" : "Login Admin"}
+                </h2>
+                <button onClick={() => setShowAdmin(false)} className="text-xl">
+                  ✕
+                </button>
+              </div>
+
+              {!session ? (
+                <form onSubmit={handleAdminLogin}>
+                  <input
+                    type="email"
+                    placeholder="Email admin"
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                    className="mt-2 w-full rounded-xl border px-4 py-3 text-slate-900"
+                  />
+
+                  <input
+                    type="password"
+                    placeholder="Password admin"
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    className="mt-3 w-full rounded-xl border px-4 py-3 text-slate-900"
+                  />
+
+                  <button
+                    type="submit"
+                    className="mt-4 w-full rounded-xl bg-sky-500 py-3 font-bold text-white"
+                  >
+                    Login
+                  </button>
+                </form>
+              ) : (
+                <div className="space-y-4">
+                  {orders.length === 0 ? (
+                    <div className="rounded-2xl bg-slate-100 p-4 text-slate-800">
+                      Belum ada order.
+                    </div>
+                  ) : (
+                    orders.map((order) => (
+                      <div
+                        key={order.id}
+                        className={`rounded-2xl border p-4 ${
+                          darkMode
+                            ? "border-slate-700 bg-slate-800"
+                            : "border-slate-200 bg-slate-50"
+                        }`}
+                      >
+                        <div className="font-extrabold">{order.product_name}</div>
+                        <div className="mt-1 text-sm">Harga: {order.price}</div>
+                        <div className="text-sm">Nama: {order.customer_name}</div>
+                        <div className="text-sm">
+                          WhatsApp: {order.customer_whatsapp}
+                        </div>
+                        <div className="text-sm">
+                          Catatan: {order.note || "-"}
+                        </div>
+                        <div className="mt-2 text-sm font-bold">
+                          Status: {order.status}
+                        </div>
+
+                        <div className="mt-3 flex gap-2">
+                          <button
+                            onClick={() => markAsPaid(order.id)}
+                            className="rounded-xl bg-green-500 px-4 py-2 text-sm font-bold text-white"
+                          >
+                            Tandai Berhasil
+                          </button>
+
+                          <button
+                            onClick={() => markAsCancelled(order.id)}
+                            className="rounded-xl bg-rose-500 px-4 py-2 text-sm font-bold text-white"
+                          >
+                            Batal
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
-}
+  }
