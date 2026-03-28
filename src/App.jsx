@@ -4,6 +4,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const products = [
     {
@@ -11,28 +12,28 @@ export default function App() {
       name: "VPS R16 4CORE",
       price: "Rp 8.000",
       image: "https://i.ibb.co/0yQ2z3B/vps.png",
-      description: "VPS hemat untuk kebutuhan ringan dan testing."
+      description: "VPS hemat untuk kebutuhan ringan dan testing.",
     },
     {
       category: "Virtual Private Server",
       name: "VPS R16 8CORE",
       price: "Rp 8.000",
       image: "https://i.ibb.co/0yQ2z3B/vps.png",
-      description: "VPS lebih kencang untuk kebutuhan menengah."
+      description: "VPS lebih kencang untuk kebutuhan menengah.",
     },
     {
       category: "Pterodactyl",
       name: "Pterodactyl Unlimited",
       price: "Rp 10.000",
       image: "https://i.ibb.co/7QpKsCX/ptero.png",
-      description: "Paket panel unlimited untuk kebutuhan game server."
+      description: "Paket panel unlimited untuk kebutuhan game server.",
     },
     {
       category: "Pterodactyl",
       name: "Pterodactyl 9 GB",
       price: "Rp 12.000",
       image: "https://i.ibb.co/7QpKsCX/ptero.png",
-      description: "Panel Pterodactyl dengan resource 9 GB."
+      description: "Panel Pterodactyl dengan resource 9 GB.",
     },
   ];
 
@@ -52,6 +53,20 @@ export default function App() {
     ),
   };
 
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setMenuOpen(false);
+  };
+
+  const handleWhatsAppOrder = (productName) => {
+    window.open(
+      `https://wa.me/60166173129?text=${encodeURIComponent(
+        `Halo, saya ingin order ${productName}`
+      )}`,
+      "_blank"
+    );
+  };
+
   const Card = ({ item }) => (
     <div
       className={`rounded-[28px] border p-4 shadow-sm ${
@@ -67,7 +82,7 @@ export default function App() {
             : "border-slate-200 bg-slate-50"
         }`}
       >
-        <div className="h-[120px] flex items-center justify-center">
+        <div className="flex h-[120px] items-center justify-center">
           <img
             src={item.image}
             alt={item.name}
@@ -77,9 +92,14 @@ export default function App() {
       </div>
 
       <div className="pt-4">
-        <h3 className={`font-extrabold text-lg ${darkMode ? "text-white" : "text-slate-900"}`}>
+        <h3
+          className={`text-lg font-extrabold leading-tight ${
+            darkMode ? "text-white" : "text-slate-900"
+          }`}
+        >
           {item.name}
         </h3>
+
         <p className="mt-2 font-extrabold text-sky-500">{item.price}</p>
 
         <button
@@ -112,18 +132,31 @@ export default function App() {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      <div className={`min-h-screen ${darkMode ? "bg-slate-950 text-white" : "bg-[#f5f7fb] text-slate-900"}`}>
+      <div
+        className={`min-h-screen overflow-x-hidden ${
+          darkMode ? "bg-slate-950 text-white" : "bg-[#f5f7fb] text-slate-900"
+        }`}
+      >
         <div className="mx-auto max-w-md px-4 py-5">
           <div
             className={`flex items-center justify-between rounded-3xl p-4 shadow ${
               darkMode ? "bg-slate-900" : "bg-white"
             }`}
           >
-            <button className="text-xl">☰</button>
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="text-xl"
+              aria-label="Open Menu"
+            >
+              ☰
+            </button>
+
             <h1 className="text-sm font-extrabold">MUINSHOP CIK</h1>
+
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white"
+              aria-label="Toggle Dark Mode"
             >
               {darkMode ? "☀️" : "🌙"}
             </button>
@@ -131,7 +164,7 @@ export default function App() {
 
           <div className="mt-6 rounded-3xl bg-gradient-to-br from-sky-500 to-purple-500 p-6 text-white shadow-lg">
             <h2 className="text-2xl font-extrabold">Muinshop Cik</h2>
-            <p className="text-sm">Premium Account & Game Server Provider ✨</p>
+            <p className="text-sm">Premium Account &amp; Game Server Provider ✨</p>
 
             <div className="mt-4 flex justify-between">
               <div className="rounded-full bg-white/20 px-4 py-2 text-xs">
@@ -145,7 +178,7 @@ export default function App() {
             {categories.map((c) => (
               <button
                 key={c}
-                onClick={() => setActiveCategory(c)}
+                onClick={() => handleCategoryClick(c)}
                 className={`rounded-full px-4 py-2 text-sm font-bold ${
                   activeCategory === c
                     ? "bg-sky-500 text-white"
@@ -166,6 +199,73 @@ export default function App() {
           <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
         </div>
 
+        {menuOpen && (
+          <div className="fixed inset-0 z-50 flex">
+            <div
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setMenuOpen(false)}
+            />
+
+            <div
+              className={`relative h-full w-[280px] p-5 shadow-xl ${
+                darkMode ? "bg-slate-900 text-white" : "bg-white text-slate-900"
+              }`}
+            >
+              <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-lg font-extrabold">Menu</h2>
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xl"
+                  aria-label="Close Menu"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={() => handleCategoryClick("Semua")}
+                  className="w-full rounded-xl bg-sky-500 px-4 py-3 text-left font-bold text-white"
+                >
+                  Semua Produk
+                </button>
+
+                <button
+                  onClick={() => handleCategoryClick("Virtual Private Server")}
+                  className={`w-full rounded-xl px-4 py-3 text-left font-bold ${
+                    darkMode
+                      ? "bg-slate-800 text-white"
+                      : "bg-slate-100 text-slate-900"
+                  }`}
+                >
+                  Virtual Private Server
+                </button>
+
+                <button
+                  onClick={() => handleCategoryClick("Pterodactyl")}
+                  className={`w-full rounded-xl px-4 py-3 text-left font-bold ${
+                    darkMode
+                      ? "bg-slate-800 text-white"
+                      : "bg-slate-100 text-slate-900"
+                  }`}
+                >
+                  Pterodactyl
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    window.open("https://wa.me/60166173129", "_blank");
+                  }}
+                  className="w-full rounded-xl bg-green-500 px-4 py-3 text-left font-bold text-white"
+                >
+                  Chat WhatsApp
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {selectedProduct && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
             <div
@@ -178,25 +278,21 @@ export default function App() {
                 alt={selectedProduct.name}
                 className="mx-auto h-28 object-contain"
               />
+
               <h3 className="mt-4 text-xl font-extrabold">
                 {selectedProduct.name}
               </h3>
+
               <p className="mt-2 font-bold text-sky-500">
                 {selectedProduct.price}
               </p>
+
               <p className="mt-3 text-sm opacity-80">
                 {selectedProduct.description}
               </p>
 
               <button
-                onClick={() =>
-                  window.open(
-                    `https://wa.me/60166173129?text=Halo%20saya%20ingin%20order%20${encodeURIComponent(
-                      selectedProduct.name
-                    )}`,
-                    "_blank"
-                  )
-                }
+                onClick={() => handleWhatsAppOrder(selectedProduct.name)}
                 className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white"
               >
                 Order via WhatsApp
