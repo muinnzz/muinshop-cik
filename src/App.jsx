@@ -6,28 +6,28 @@ const products = [
     category: "Virtual Private Server",
     name: "VPS R16 4 CORE",
     price: "Rp 8.000",
-    image: "https://i.ibb.co/0yQ2z3B/vps.png",
+    image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS hemat untuk kebutuhan ringan dan testing.",
   },
   {
     category: "Virtual Private Server",
     name: "VPS R16 8 CORE",
     price: "Rp 8.000",
-    image: "https://i.ibb.co/0yQ2z3B/vps.png",
+    image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS lebih kencang untuk kebutuhan menengah.",
   },
   {
     category: "Pterodactyl",
     name: "Pterodactyl Unlimited",
     price: "Rp 10.000",
-    image: "https://i.ibb.co/7QpKsCX/ptero.png",
+    image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Paket panel unlimited untuk kebutuhan game server.",
   },
   {
     category: "Pterodactyl",
     name: "Pterodactyl 9GB",
     price: "Rp 5.000",
-    image: "https://i.ibb.co/7QpKsCX/ptero.png",
+    image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Panel Pterodactyl dengan resource 9 GB.",
   },
 ];
@@ -328,44 +328,47 @@ Catatan: ${customerNote || "-"}`;
 
   const ProductCard = ({ item }) => (
     <div
-      className={`rounded-[28px] border p-4 shadow-sm ${
+      className={`rounded-[24px] border p-3 shadow-sm ${
         darkMode
           ? "border-slate-700 bg-slate-900"
           : "border-slate-200 bg-white"
       }`}
     >
       <div
-        className={`rounded-[22px] border p-4 ${
+        className={`rounded-[20px] border p-3 ${
           darkMode
             ? "border-slate-700 bg-slate-800"
             : "border-slate-200 bg-slate-50"
         }`}
       >
-        <div className="relative flex h-[115px] items-center justify-center overflow-hidden rounded-xl bg-white">
+        <div className="relative flex h-[105px] items-center justify-center overflow-hidden rounded-xl bg-white">
           <img
             src={item.image}
             alt={item.name}
+            onError={(e) => {
+              e.currentTarget.src = "https://via.placeholder.com/140x100?text=No+Image";
+            }}
             className="h-full object-contain"
           />
         </div>
       </div>
 
-      <div className="pt-5">
+      <div className="pt-4">
         <h3
-          className={`min-h-[56px] text-[18px] font-extrabold leading-tight ${
+          className={`min-h-[44px] text-[15px] font-bold leading-tight ${
             darkMode ? "text-white" : "text-slate-800"
           }`}
         >
           {item.name}
         </h3>
 
-        <p className="mt-4 text-[18px] font-extrabold text-sky-600">
+        <p className="mt-3 text-[16px] font-bold text-sky-600">
           {item.price}
         </p>
 
         <button
           onClick={() => setSelectedProduct(item)}
-          className="mt-5 w-full rounded-[18px] border border-sky-200 bg-sky-50 py-3 text-lg font-bold uppercase tracking-wide text-sky-600"
+          className="mt-4 w-full rounded-[16px] border border-sky-200 bg-sky-50 py-2.5 text-sm font-bold uppercase tracking-wide text-sky-600"
         >
           Detail
         </button>
@@ -377,8 +380,8 @@ Catatan: ${customerNote || "-"}`;
     if (!data.length) return null;
 
     return (
-      <section className="mt-10">
-        <h2 className="mb-5 text-[18px] font-extrabold uppercase tracking-[0.25em] text-sky-600">
+      <section className="mt-9">
+        <h2 className="mb-4 text-sm font-extrabold uppercase tracking-[0.22em] text-sky-600">
           {title}
         </h2>
 
@@ -397,9 +400,9 @@ Catatan: ${customerNote || "-"}`;
         darkMode ? "bg-slate-950 text-white" : "bg-[#f4f6fb] text-slate-900"
       }`}
     >
-      <div ref={topRef} className="mx-auto max-w-md px-4 py-5">
+      <div ref={topRef} className="mx-auto max-w-sm px-3 py-4">
         <div
-          className={`rounded-[32px] border px-5 py-4 shadow-sm ${
+          className={`rounded-[28px] border px-4 py-4 shadow-sm ${
             darkMode
               ? "border-slate-800 bg-slate-900"
               : "border-white/80 bg-white"
@@ -411,7 +414,7 @@ Catatan: ${customerNote || "-"}`;
               className="rounded-full p-2 text-slate-700 dark:text-white"
             >
               <svg
-                className="h-7 w-7"
+                className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.4"
@@ -426,7 +429,7 @@ Catatan: ${customerNote || "-"}`;
             </button>
 
             <h1
-              className={`text-[18px] font-extrabold uppercase tracking-[0.14em] ${
+              className={`text-[16px] font-extrabold uppercase tracking-[0.14em] ${
                 darkMode ? "text-white" : "text-slate-800"
               }`}
             >
@@ -435,20 +438,20 @@ Catatan: ${customerNote || "-"}`;
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-md"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-md"
             >
               {darkMode ? "☀️" : "🌙"}
             </button>
           </div>
         </div>
 
-        <div className="mt-7 overflow-hidden rounded-[34px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-6 text-white shadow-lg">
-          <div className="flex min-h-[190px] flex-col justify-between">
+        <div className="mt-6 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-lg">
+          <div className="flex min-h-[170px] flex-col justify-between">
             <div>
-              <h2 className="text-4xl font-extrabold tracking-tight">
+              <h2 className="text-3xl font-extrabold tracking-tight">
                 Muin Shop Cik
               </h2>
-              <p className="mt-2 min-h-[28px] max-w-[290px] text-lg text-white/90">
+              <p className="mt-2 min-h-[54px] max-w-[270px] text-base text-white/90">
                 {displayed}
                 <span className={`${showCursor ? "opacity-100" : "opacity-0"}`}>
                   |
@@ -456,31 +459,31 @@ Catatan: ${customerNote || "-"}`;
               </p>
             </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-3">
+            <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm">
-                <div className="text-xs text-white/80">Transaksi Berhasil</div>
-                <div className="mt-1 text-xl font-extrabold">{paidCount}</div>
+                <div className="text-[11px] text-white/80">Transaksi Berhasil</div>
+                <div className="mt-1 text-lg font-extrabold">{paidCount}</div>
               </div>
 
               <div className="rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm">
-                <div className="text-xs text-white/80">Total Order</div>
-                <div className="mt-1 text-xl font-extrabold">{totalOrders}</div>
+                <div className="text-[11px] text-white/80">Total Order</div>
+                <div className="mt-1 text-lg font-extrabold">{totalOrders}</div>
               </div>
 
               <div className="col-span-2 rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm">
-                <div className="text-xs text-white/80">Pending</div>
-                <div className="mt-1 text-xl font-extrabold">{totalPending}</div>
+                <div className="text-[11px] text-white/80">Pending</div>
+                <div className="mt-1 text-lg font-extrabold">{totalPending}</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 flex gap-3 overflow-x-auto pb-2">
+        <div className="mt-7 flex gap-3 overflow-x-auto pb-2">
           {categories.map((item) => (
             <button
               key={item}
               onClick={() => handleCategoryClick(item)}
-              className={`whitespace-nowrap rounded-full border px-6 py-4 text-lg font-bold ${
+              className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-sm font-semibold ${
                 activeCategory === item
                   ? "border-sky-500 bg-sky-500 text-white shadow-md"
                   : darkMode
@@ -503,7 +506,7 @@ Catatan: ${customerNote || "-"}`;
 
         <button
           onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-          className="fixed bottom-6 right-6 z-30 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-3xl text-white shadow-lg"
+          className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-2xl text-white shadow-lg"
         >
           🎧
         </button>
@@ -537,7 +540,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   topRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-6 py-5 text-left text-2xl font-extrabold text-slate-800"
+                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-6 py-5 text-left text-xl font-extrabold text-slate-800"
               >
                 <span>🏠</span>
                 <span>Dashboard API</span>
@@ -548,13 +551,13 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   alert("Bahagian panduan belum disambungkan lagi.");
                 }}
-                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-6 py-5 text-left text-2xl font-extrabold text-slate-800"
+                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-6 py-5 text-left text-xl font-extrabold text-slate-800"
               >
                 <div className="flex items-center gap-4">
                   <span>📘</span>
                   <span>Panduan</span>
                 </div>
-                <span className="rounded-full bg-sky-400 px-4 py-1 text-sm font-bold text-white">
+                <span className="rounded-full bg-sky-400 px-4 py-1 text-xs font-bold text-white">
                   WAJIB BACA
                 </span>
               </button>
@@ -564,7 +567,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   productsRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[24px] px-6 py-5 text-left text-2xl font-extrabold text-slate-800"
+                className="flex w-full items-center gap-4 rounded-[24px] px-6 py-5 text-left text-xl font-extrabold text-slate-800"
               >
                 <span>👜</span>
                 <span>Produk Terjual</span>
@@ -576,7 +579,7 @@ Catatan: ${customerNote || "-"}`;
                     setMenuOpen(false);
                     setShowAdmin(true);
                   }}
-                  className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-2xl font-extrabold text-white"
+                  className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-xl font-extrabold text-white"
                 >
                   Login Admin
                 </button>
@@ -587,14 +590,14 @@ Catatan: ${customerNote || "-"}`;
                       setMenuOpen(false);
                       setShowAdmin(true);
                     }}
-                    className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-2xl font-extrabold text-white"
+                    className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-xl font-extrabold text-white"
                   >
                     Panel Admin
                   </button>
 
                   <button
                     onClick={handleLogout}
-                    className="w-full rounded-[24px] bg-rose-500 px-6 py-5 text-left text-2xl font-extrabold text-white"
+                    className="w-full rounded-[24px] bg-rose-500 px-6 py-5 text-left text-xl font-extrabold text-white"
                   >
                     Logout Admin
                   </button>
@@ -611,10 +614,13 @@ Catatan: ${customerNote || "-"}`;
             <img
               src={selectedProduct.image}
               alt={selectedProduct.name}
+              onError={(e) => {
+                e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
+              }}
               className="mx-auto h-28 object-contain"
             />
 
-            <h3 className="mt-4 text-xl font-extrabold">
+            <h3 className="mt-4 text-lg font-extrabold">
               {selectedProduct.name}
             </h3>
 
@@ -756,4 +762,4 @@ Catatan: ${customerNote || "-"}`;
       )}
     </div>
   );
-      }
+               }
