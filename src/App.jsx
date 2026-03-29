@@ -33,6 +33,11 @@ const products = [
 ];
 
 const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
+const PAKASIR_SLUG = import.meta.env.VITE_PAKASIR_SLUG || "muin";
+
+const parsePriceToNumber = (price) => {
+  return Number(String(price).replace(/[^\d]/g, ""));
+};
 
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
@@ -162,17 +167,21 @@ export default function App() {
 
     setSubmitting(true);
 
+    const amount = parsePriceToNumber(selectedProduct.price);
+    const orderId = `ORDER-${Date.now()}`;
+
     const { error } = await supabase.from("orders").insert([
       {
+        order_id: orderId,
         product_name: selectedProduct.name,
-        price: selectedProduct.price,
+        price: amount,
         customer_name: customerName,
         customer_whatsapp: customerWhatsapp,
         note: customerNote,
         status: "pending",
       },
     ]);
-console.log("PAKASIR:", import.meta.env.VITE_PAKASIR_SLUG);
+
     setSubmitting(false);
 
     if (error) {
@@ -180,24 +189,14 @@ console.log("PAKASIR:", import.meta.env.VITE_PAKASIR_SLUG);
       return;
     }
 
-    const message = `Halo, saya ingin order ${selectedProduct.name}
-Nama: ${customerName}
-WhatsApp: ${customerWhatsapp}
-Catatan: ${customerNote || "-"}`;
+    const redirectUrl = `${window.location.origin}`;
+    const paymentUrl =
+      `https://app.pakasir.com/pay/${PAKASIR_SLUG}/${amount}` +
+      `?order_id=${encodeURIComponent(orderId)}` +
+      `&qris_only=1` +
+      `&redirect=${encodeURIComponent(redirectUrl)}`;
 
-    window.open(
-      `https://wa.me/60166173129?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
-
-    setCustomerName("");
-    setCustomerWhatsapp("");
-    setCustomerNote("");
-    setSelectedProduct(null);
-
-    alert("Order berhasil dihantar.");
-    fetchStats();
-    if (session) fetchOrders();
+    window.location.href = paymentUrl;
   };
 
   const handleAdminLogin = async (e) => {
@@ -596,7 +595,7 @@ Catatan: ${customerNote || "-"}`;
               disabled={submitting}
               className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white transition-all duration-200 disabled:opacity-60 active:scale-[0.98]"
             >
-              {submitting ? "Mengirim..." : "Order via WhatsApp"}
+              {submitting ? "Membuat pembayaran..." : "Bayar Sekarang"}
             </button>
 
             <button
@@ -665,6 +664,7 @@ Catatan: ${customerNote || "-"}`;
                         WhatsApp: {order.customer_whatsapp}
                       </div>
                       <div className="text-sm">Catatan: {order.note || "-"}</div>
+                      <div className="text-sm">Order ID: {order.order_id || "-"}</div>
                       <div className="mt-2 text-sm font-bold">
                         Status: {order.status}
                       </div>
@@ -747,8 +747,8 @@ Catatan: ${customerNote || "-"}`;
                     3
                   </div>
                   <p className="text-base leading-7">
-                    Tunggu sistem <span className="font-bold text-slate-700">pakasir.com</span> memproses
-                    (Otomatis tiap 10 detik).
+                    Tunggu sistem <span className="font-bold text-slate-700">Pakasir</span> memproses
+                    pembayaran anda.
                   </p>
                 </div>
 
@@ -757,7 +757,7 @@ Catatan: ${customerNote || "-"}`;
                     4
                   </div>
                   <p className="text-base leading-7">
-                    Data produk akan muncul di layar & dikirim ke email anda.
+                    Setelah transaksi selesai, anda akan diarahkan kembali ke website.
                   </p>
                 </div>
               </div>
@@ -768,84 +768,9 @@ Catatan: ${customerNote || "-"}`;
                 ⚠️ PENTING: JANGAN REFRESH!
               </h3>
               <p className="mt-3 text-base leading-7 text-orange-700">
-                Dilarang menutup/muat ulang halaman saat proses transaksi.
+                Dilarang menutup atau memuat ulang halaman saat proses transaksi.
                 Jika ada kendala, hubungi CS segera.
               </p>
-            </div>
-
-            <div className="mt-6 overflow-hidden rounded-[24px] bg-white shadow-sm">
-              <div className="border-b bg-slate-50 px-6 py-5">
-                <h3 className="text-xl font-extrabold text-emerald-500">
-                  GARANSI & REFUND
-                </h3>
-              </div>
-
-              <div className="space-y-6 px-6 py-6 text-base leading-7 text-slate-600">
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
-                    📅
-                  </div>
-                  <p>
-                    <span className="font-bold text-slate-700">Masa Berlaku:</span> Garansi hanya berlaku sesuai
-                    durasi pada deskripsi produk. Jika melewati tanggal tersebut,
-                    garansi <span className="font-bold text-slate-700">hangus</span>.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
-                    📷
-                  </div>
-                  <p>
-                    <span className="font-bold text-slate-700">Syarat Claim:</span> Wajib melampirkan Bukti
-                    Screenshot Transaksi Sukses atau Bukti Email Pembelian.
-                  </p>
-                </div>
-
-                <div className="rounded-[20px] border-2 border-dashed border-emerald-400 bg-emerald-50 px-5 py-4 font-bold text-emerald-700">
-                  ℹ️ Tanpa bukti screenshot, claim garansi/refund tidak dapat kami proses.
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 overflow-hidden rounded-[24px] bg-white shadow-sm">
-              <div className="border-b bg-slate-50 px-6 py-5">
-                <h3 className="text-xl font-extrabold text-rose-400">
-                  🔨 RULES & KETENTUAN
-                </h3>
-              </div>
-
-              <div className="space-y-5 px-6 py-6 text-base leading-7 text-slate-600">
-                <div className="flex gap-4">
-                  <span className="text-xl text-emerald-500">✔</span>
-                  <p>Garansi berlaku jika tidak melanggar aturan penggunaan.</p>
-                </div>
-
-                <div className="flex gap-4">
-                  <span className="text-xl text-emerald-500">✔</span>
-                  <p>Dilarang keras mengubah data pada akun sharing.</p>
-                </div>
-
-                <div className="flex gap-4">
-                  <span className="text-xl text-emerald-500">✔</span>
-                  <p>VPS/Panel dilarang digunakan untuk ilegal (DDoS/Mining).</p>
-                </div>
-
-                <div className="flex gap-4">
-                  <span className="text-xl text-emerald-500">✔</span>
-                  <p>Refund hanya diberikan jika stok produk kami kosong.</p>
-                </div>
-
-                <div className="flex gap-4">
-                  <span className="text-xl text-emerald-500">✔</span>
-                  <p>
-                    Sistem bekerja berdasarkan validasi nominal yang presisi.
-                    Segala bentuk ketidaksesuaian nominal deposit yang disebabkan
-                    oleh kelalaian atau kesengajaan user akan dianggap sebagai
-                    Donasi dan tidak akan masuk ke saldo akun.
-                  </p>
-                </div>
-              </div>
             </div>
 
             <button
@@ -853,13 +778,6 @@ Catatan: ${customerNote || "-"}`;
               className="mt-6 w-full rounded-[22px] bg-sky-600 px-6 py-4 text-lg font-extrabold text-white shadow"
             >
               SAYA MENGERTI, LANJUTKAN ✅
-            </button>
-
-            <button
-              onClick={() => window.open("https://whatsapp.com/channel/", "_blank")}
-              className="mx-auto mt-6 flex items-center gap-2 rounded-full bg-white px-6 py-4 text-base font-bold text-sky-600 shadow"
-            >
-              💬 Whatsapp Channel
             </button>
 
             <div className="mt-8 pb-8 text-center text-xl font-extrabold text-slate-400">
@@ -870,4 +788,4 @@ Catatan: ${customerNote || "-"}`;
       )}
     </div>
   );
-      }
+}
