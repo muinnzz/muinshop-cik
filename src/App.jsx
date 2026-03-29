@@ -26,7 +26,7 @@ const products = [
   {
     category: "Pterodactyl",
     name: "Pterodactyl 9GB",
-    price: "Rp 5.000",
+    price: "Rp 0.500",
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Panel Pterodactyl dengan resource 9 GB.",
   },
