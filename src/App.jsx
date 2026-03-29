@@ -172,7 +172,7 @@ export default function App() {
         status: "pending",
       },
     ]);
-
+console.log("PAKASIR:", import.meta.env.VITE_PAKASIR_SLUG);
     setSubmitting(false);
 
     if (error) {
