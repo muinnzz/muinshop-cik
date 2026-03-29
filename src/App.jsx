@@ -8,6 +8,7 @@ const products = [
     price: "Rp 8.000",
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS hemat untuk kebutuhan ringan dan testing.",
+    badge: "Best Seller",
   },
   {
     category: "Virtual Private Server",
@@ -15,6 +16,7 @@ const products = [
     price: "Rp 8.000",
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS lebih kencang untuk kebutuhan menengah.",
+    badge: "Populer",
   },
   {
     category: "Pterodactyl",
@@ -22,6 +24,7 @@ const products = [
     price: "Rp 10.000",
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Paket panel unlimited untuk kebutuhan game server.",
+    badge: "Premium",
   },
   {
     category: "Pterodactyl",
@@ -29,6 +32,7 @@ const products = [
     price: "Rp 5.000",
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Panel Pterodactyl dengan resource 9 GB.",
+    badge: "Murah",
   },
 ];
 
@@ -40,9 +44,9 @@ const parsePriceToNumber = (price) => {
 };
 
 const statusStyles = {
-  paid: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  pending: "bg-amber-100 text-amber-700 border-amber-200",
-  failed: "bg-rose-100 text-rose-700 border-rose-200",
+  paid: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  pending: "border-amber-200 bg-amber-50 text-amber-700",
+  failed: "border-rose-200 bg-rose-50 text-rose-700",
 };
 
 function Toast({ toast, onClose }) {
@@ -62,7 +66,7 @@ function Toast({ toast, onClose }) {
       : "bg-slate-800";
 
   return (
-    <div className="fixed left-1/2 top-4 z-[100] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease]">
+    <div className="fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease]">
       <div
         className={`rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-2xl ${tone}`}
       >
@@ -74,25 +78,22 @@ function Toast({ toast, onClose }) {
 
 function SkeletonStat() {
   return (
-    <div className="animate-pulse rounded-2xl border border-white/10 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+    <div className="animate-pulse rounded-2xl border border-white/15 bg-white/15 px-4 py-3 backdrop-blur-md">
       <div className="h-3 w-24 rounded bg-white/30" />
-      <div className="mt-2 h-5 w-10 rounded bg-white/30" />
+      <div className="mt-2 h-6 w-12 rounded bg-white/30" />
     </div>
   );
 }
 
-function SkeletonOrderCard() {
+function SkeletonProduct() {
   return (
-    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
-      <div className="h-4 w-40 rounded bg-slate-200" />
-      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
-      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
-      <div className="mt-2 h-3 w-36 rounded bg-slate-200" />
-      <div className="mt-3 flex gap-2">
-        <div className="h-9 w-24 rounded-xl bg-slate-200" />
-        <div className="h-9 w-20 rounded-xl bg-slate-200" />
-        <div className="h-9 w-20 rounded-xl bg-slate-200" />
+    <div className="animate-pulse overflow-hidden rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+      <div className="rounded-[20px] border border-slate-200 bg-slate-50 p-3">
+        <div className="h-[100px] rounded-[14px] bg-slate-200" />
       </div>
+      <div className="mt-4 h-4 w-24 rounded bg-slate-200" />
+      <div className="mt-3 h-5 w-28 rounded bg-slate-200" />
+      <div className="mt-4 h-11 rounded-2xl bg-slate-200" />
     </div>
   );
 }
@@ -221,7 +222,7 @@ export default function App() {
 
     setTimeout(() => {
       const y =
-        productsRef.current?.getBoundingClientRect().top + window.scrollY - 88;
+        productsRef.current?.getBoundingClientRect().top + window.scrollY - 96;
 
       window.scrollTo({
         top: y,
@@ -272,7 +273,7 @@ export default function App() {
       return;
     }
 
-    showToast("Pembayaran sedang dibuat...", "success");
+    showToast("Mengarahkan ke pembayaran...", "success");
 
     const paymentUrl =
       `https://app.pakasir.com/pay/${PAKASIR_SLUG}/${amount}` +
@@ -319,7 +320,7 @@ export default function App() {
 
     await fetchOrders();
     await fetchStats();
-    showToast("Status berhasil diubah ke paid.", "success");
+    showToast("Order ditandai berhasil.", "success");
   };
 
   const markAsPending = async (id) => {
@@ -335,7 +336,7 @@ export default function App() {
 
     await fetchOrders();
     await fetchStats();
-    showToast("Status berhasil diubah ke pending.", "success");
+    showToast("Order ditandai pending.", "success");
   };
 
   const deleteOrder = async (id) => {
@@ -356,21 +357,30 @@ export default function App() {
 
   const ProductCard = ({ item }) => (
     <div
-      className={`group overflow-hidden rounded-[24px] border transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] ${
+      className={`group overflow-hidden rounded-[28px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,23,42,0.10)] active:scale-[0.985] ${
         darkMode
           ? "border-slate-800 bg-slate-900 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
           : "border-white/70 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)]"
       }`}
     >
-      <div className="p-3">
+      <div className="p-4">
+        <div className="mb-3 flex items-center justify-between">
+          <span className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-sky-600">
+            {item.badge}
+          </span>
+          <span className="text-[11px] font-semibold text-slate-400">
+            {item.category === "Virtual Private Server" ? "VPS" : "PTERO"}
+          </span>
+        </div>
+
         <div
-          className={`rounded-[18px] border p-3 ${
+          className={`rounded-[20px] border p-3 ${
             darkMode
               ? "border-slate-700 bg-slate-800"
               : "border-slate-200 bg-slate-50"
           }`}
         >
-          <div className="flex h-[90px] items-center justify-center overflow-hidden rounded-[14px] bg-white">
+          <div className="flex h-[100px] items-center justify-center overflow-hidden rounded-[14px] bg-white">
             <img
               src={item.image}
               alt={item.name}
@@ -383,24 +393,31 @@ export default function App() {
           </div>
         </div>
 
-        <div className="pt-3">
+        <div className="pt-4">
           <h3
-            className={`min-h-[42px] text-[14px] font-bold leading-tight ${
+            className={`min-h-[42px] text-[15px] font-extrabold leading-tight ${
               darkMode ? "text-white" : "text-slate-800"
             }`}
           >
             {item.name}
           </h3>
 
-          <p className="mt-2 text-[15px] font-extrabold text-sky-600">
-            {item.price}
-          </p>
+          <p className="mt-1 text-xs text-slate-400">{item.description}</p>
+
+          <div className="mt-4">
+            <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+              Harga mulai
+            </div>
+            <p className="mt-1 text-[18px] font-extrabold text-sky-600">
+              {item.price}
+            </p>
+          </div>
 
           <button
             onClick={() => setSelectedProduct(item)}
-            className="mt-3 w-full rounded-[14px] border border-sky-200 bg-sky-50 py-2 text-[13px] font-bold uppercase tracking-wide text-sky-600 transition-all duration-200 hover:bg-sky-100 active:scale-[0.98]"
+            className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[13px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
           >
-            Detail
+            Beli Sekarang
           </button>
         </div>
       </div>
@@ -411,10 +428,10 @@ export default function App() {
     if (!data.length) return null;
 
     return (
-      <section className="mt-8">
-        <div className="mb-4 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-sky-500" />
-          <h2 className="text-[13px] font-extrabold uppercase tracking-[0.18em] text-sky-600">
+      <section className="mt-10">
+        <div className="mb-5 flex items-center gap-2">
+          <div className="h-2.5 w-2.5 rounded-full bg-sky-500" />
+          <h2 className="text-[13px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
             {title}
           </h2>
         </div>
@@ -443,7 +460,7 @@ export default function App() {
       >
         <div ref={topRef} className="mx-auto max-w-sm px-3 pt-4">
           <div
-            className={`rounded-[28px] border px-4 py-3 transition-all duration-300 ${
+            className={`rounded-[28px] border px-4 py-3 ${
               darkMode
                 ? "border-slate-800 bg-slate-900 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
                 : "border-white/80 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
@@ -469,13 +486,18 @@ export default function App() {
                 </svg>
               </button>
 
-              <h1
-                className={`text-[15px] font-extrabold uppercase tracking-[0.14em] ${
-                  darkMode ? "text-white" : "text-slate-800"
-                }`}
-              >
-                MUINSHOP CIK
-              </h1>
+              <div className="text-center">
+                <h1
+                  className={`text-[15px] font-extrabold uppercase tracking-[0.14em] ${
+                    darkMode ? "text-white" : "text-slate-800"
+                  }`}
+                >
+                  MUINSHOP CIK
+                </h1>
+                <p className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-slate-400">
+                  Premium Digital Store
+                </p>
+              </div>
 
               <button
                 onClick={() => setDarkMode(!darkMode)}
@@ -488,21 +510,26 @@ export default function App() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-sm px-3 pb-4">
-        <div className="mt-5 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_14px_36px_rgba(59,130,246,0.28)]">
+      <div className="mx-auto max-w-sm px-3 pb-6">
+        <div className="mt-5 overflow-hidden rounded-[32px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-[0_18px_40px_rgba(59,130,246,0.28)]">
           <div className="relative">
             <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
             <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
 
             <div className="relative">
-              <h2 className="text-[28px] font-extrabold tracking-tight">
+              <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/90">
+                Trusted Service
+              </div>
+
+              <h2 className="mt-3 text-[30px] font-extrabold leading-tight tracking-tight">
                 Muinshop Cik
               </h2>
-              <p className="mt-2 max-w-[240px] text-[15px] text-white/90">
-                Premium Account & Game Server Provider ✨
+              <p className="mt-2 max-w-[250px] text-[15px] leading-7 text-white/90">
+                Premium account, panel, dan server provider yang simpel, cepat,
+                dan siap dipakai.
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="mt-5 grid grid-cols-2 gap-3">
                 {statsLoading ? (
                   <>
                     <SkeletonStat />
@@ -513,27 +540,27 @@ export default function App() {
                   </>
                 ) : (
                   <>
-                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                    <div className="rounded-2xl border border-white/15 bg-white/15 px-4 py-3 backdrop-blur-md">
                       <div className="text-[11px] text-white/80">
                         Transaksi Berhasil
                       </div>
-                      <div className="mt-1 text-base font-extrabold">
+                      <div className="mt-1 text-lg font-extrabold">
                         {paidCount}
                       </div>
                     </div>
 
-                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                    <div className="rounded-2xl border border-white/15 bg-white/15 px-4 py-3 backdrop-blur-md">
                       <div className="text-[11px] text-white/80">
                         Total Order
                       </div>
-                      <div className="mt-1 text-base font-extrabold">
+                      <div className="mt-1 text-lg font-extrabold">
                         {totalOrders}
                       </div>
                     </div>
 
-                    <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                    <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-4 py-3 backdrop-blur-md">
                       <div className="text-[11px] text-white/80">Pending</div>
-                      <div className="mt-1 text-base font-extrabold">
+                      <div className="mt-1 text-lg font-extrabold">
                         {totalPending}
                       </div>
                     </div>
@@ -544,12 +571,12 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2">
+        <div className="mt-7 flex gap-3 overflow-x-auto pb-2">
           {categories.map((item) => (
             <button
               key={item}
               onClick={() => handleCategoryClick(item)}
-              className={`whitespace-nowrap rounded-full border px-4 py-2 text-[13px] font-semibold transition-all duration-300 active:scale-[0.97] ${
+              className={`whitespace-nowrap rounded-full border px-5 py-2.5 text-[13px] font-bold transition-all duration-300 active:scale-[0.97] ${
                 activeCategory === item
                   ? "border-sky-500 bg-sky-500 text-white shadow-md"
                   : darkMode
@@ -563,11 +590,33 @@ export default function App() {
         </div>
 
         <div ref={productsRef}>
-          <Section
-            title="Virtual Private Server"
-            data={groupedProducts["Virtual Private Server"]}
-          />
-          <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
+          {statsLoading ? (
+            <>
+              <section className="mt-10">
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-sky-500" />
+                  <h2 className="text-[13px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+                    Virtual Private Server
+                  </h2>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <SkeletonProduct />
+                  <SkeletonProduct />
+                </div>
+              </section>
+            </>
+          ) : (
+            <>
+              <Section
+                title="Virtual Private Server"
+                data={groupedProducts["Virtual Private Server"]}
+              />
+              <Section
+                title="Pterodactyl"
+                data={groupedProducts["Pterodactyl"]}
+              />
+            </>
+          )}
         </div>
 
         <button
@@ -587,7 +636,7 @@ export default function App() {
             onClick={() => setMenuOpen(false)}
           />
 
-          <div className="relative h-full w-[82%] max-w-[360px] rounded-r-[30px] bg-white p-5 shadow-2xl transition-transform duration-300 animate-[slideInLeft_.22s_ease]">
+          <div className="relative h-full w-[82%] max-w-[360px] animate-[slideInLeft_.22s_ease] rounded-r-[30px] bg-white p-5 shadow-2xl">
             <div className="mb-7 flex items-center gap-4">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -675,44 +724,54 @@ export default function App() {
 
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl transition-all duration-300">
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              onError={(e) => {
-                e.currentTarget.src =
-                  "https://via.placeholder.com/160x120?text=No+Image";
-              }}
-              className="mx-auto h-24 object-contain"
-            />
+          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-[20px] bg-slate-50">
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://via.placeholder.com/160x120?text=No+Image";
+                }}
+                className="h-20 object-contain"
+              />
+            </div>
 
-            <h3 className="mt-4 text-base font-extrabold">
+            <div className="text-center">
+              <span className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-sky-600">
+                {selectedProduct.badge}
+              </span>
+            </div>
+
+            <h3 className="mt-4 text-center text-lg font-extrabold">
               {selectedProduct.name}
             </h3>
 
-            <p className="mt-2 font-bold text-sky-500">{selectedProduct.price}</p>
+            <p className="mt-2 text-center text-[22px] font-extrabold text-sky-600">
+              {selectedProduct.price}
+            </p>
 
-            <p className="mt-3 text-sm text-slate-500">
+            <p className="mt-3 text-center text-sm leading-6 text-slate-500">
               {selectedProduct.description}
             </p>
 
             <input
               placeholder="Nama"
-              className="mt-4 w-full rounded-xl border px-4 py-3 outline-none transition focus:border-sky-400"
+              className="mt-5 w-full rounded-2xl border px-4 py-3 outline-none transition focus:border-sky-400"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
             />
 
             <input
               placeholder="WhatsApp"
-              className="mt-3 w-full rounded-xl border px-4 py-3 outline-none transition focus:border-sky-400"
+              className="mt-3 w-full rounded-2xl border px-4 py-3 outline-none transition focus:border-sky-400"
               value={customerWhatsapp}
               onChange={(e) => setCustomerWhatsapp(e.target.value)}
             />
 
             <textarea
               placeholder="Catatan"
-              className="mt-3 w-full rounded-xl border px-4 py-3 outline-none transition focus:border-sky-400"
+              className="mt-3 w-full rounded-2xl border px-4 py-3 outline-none transition focus:border-sky-400"
               rows={3}
               value={customerNote}
               onChange={(e) => setCustomerNote(e.target.value)}
@@ -721,14 +780,14 @@ export default function App() {
             <button
               onClick={handleCreateOrder}
               disabled={submitting}
-              className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white transition-all duration-200 hover:bg-sky-600 disabled:opacity-60 active:scale-[0.98]"
+              className="mt-5 w-full rounded-2xl bg-sky-500 py-3.5 text-sm font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 disabled:opacity-60 active:scale-[0.98]"
             >
-              {submitting ? "Membuat pembayaran..." : "Bayar Sekarang"}
+              {submitting ? "Memproses..." : "Lanjutkan Pembayaran"}
             </button>
 
             <button
               onClick={() => setSelectedProduct(null)}
-              className="mt-3 w-full rounded-xl bg-slate-200 py-3 font-bold text-slate-800 transition-all duration-200 hover:bg-slate-300 active:scale-[0.98]"
+              className="mt-3 w-full rounded-2xl bg-slate-200 py-3 font-bold text-slate-800 transition-all duration-200 hover:bg-slate-300 active:scale-[0.98]"
             >
               Tutup
             </button>
@@ -755,7 +814,7 @@ export default function App() {
                   placeholder="Email admin"
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
-                  className="mt-2 w-full rounded-xl border px-4 py-3"
+                  className="mt-2 w-full rounded-2xl border px-4 py-3"
                 />
 
                 <input
@@ -763,12 +822,12 @@ export default function App() {
                   placeholder="Password admin"
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
-                  className="mt-3 w-full rounded-xl border px-4 py-3"
+                  className="mt-3 w-full rounded-2xl border px-4 py-3"
                 />
 
                 <button
                   type="submit"
-                  className="mt-4 w-full rounded-xl bg-sky-500 py-3 font-bold text-white"
+                  className="mt-4 w-full rounded-2xl bg-sky-500 py-3 font-bold text-white"
                 >
                   Login
                 </button>
@@ -777,8 +836,16 @@ export default function App() {
               <div className="space-y-4">
                 {ordersLoading ? (
                   <>
-                    <SkeletonOrderCard />
-                    <SkeletonOrderCard />
+                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-4 w-40 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
+                    </div>
+                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-4 w-40 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
+                    </div>
                   </>
                 ) : orders.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
@@ -811,7 +878,7 @@ export default function App() {
                         <span
                           className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold uppercase ${
                             statusStyles[order.status] ||
-                            "bg-slate-100 text-slate-700 border-slate-200"
+                            "border-slate-200 bg-slate-100 text-slate-700"
                           }`}
                         >
                           {order.status}
@@ -894,8 +961,7 @@ export default function App() {
                     1
                   </div>
                   <p className="text-base leading-7">
-                    Isi <span className="font-bold text-slate-700">Email & WhatsApp</span> aktif untuk
-                    pengiriman data produk.
+                    Isi <span className="font-bold text-slate-700">Email & WhatsApp</span> aktif untuk pengiriman data produk.
                   </p>
                 </div>
 
@@ -953,4 +1019,4 @@ export default function App() {
       )}
     </div>
   );
-          }
+    }
