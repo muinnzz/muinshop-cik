@@ -342,9 +342,6 @@ Catatan: ${customerNote || "-"}`;
         }`}
       >
         <div className="relative flex h-[115px] items-center justify-center overflow-hidden rounded-xl bg-white">
-          <span className="absolute left-3 top-3 rounded-full bg-rose-400 px-4 py-1 text-xs font-bold text-white">
-            SOLD OUT
-          </span>
           <img
             src={item.image}
             alt={item.name}
@@ -401,7 +398,6 @@ Catatan: ${customerNote || "-"}`;
       }`}
     >
       <div ref={topRef} className="mx-auto max-w-md px-4 py-5">
-        {/* Navbar */}
         <div
           className={`rounded-[32px] border px-5 py-4 shadow-sm ${
             darkMode
@@ -446,7 +442,6 @@ Catatan: ${customerNote || "-"}`;
           </div>
         </div>
 
-        {/* Hero */}
         <div className="mt-7 overflow-hidden rounded-[34px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-6 text-white shadow-lg">
           <div className="flex min-h-[190px] flex-col justify-between">
             <div>
@@ -480,7 +475,6 @@ Catatan: ${customerNote || "-"}`;
           </div>
         </div>
 
-        {/* Tabs */}
         <div className="mt-8 flex gap-3 overflow-x-auto pb-2">
           {categories.map((item) => (
             <button
@@ -499,7 +493,6 @@ Catatan: ${customerNote || "-"}`;
           ))}
         </div>
 
-        {/* Content */}
         <div ref={productsRef}>
           <Section
             title="Virtual Private Server"
@@ -508,7 +501,6 @@ Catatan: ${customerNote || "-"}`;
           <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
         </div>
 
-        {/* Floating */}
         <button
           onClick={() => window.open("https://wa.me/60166173129", "_blank")}
           className="fixed bottom-6 right-6 z-30 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-3xl text-white shadow-lg"
@@ -517,7 +509,6 @@ Catatan: ${customerNote || "-"}`;
         </button>
       </div>
 
-      {/* Sidebar */}
       {menuOpen && (
         <div className="fixed inset-0 z-50 flex">
           <div
@@ -614,7 +605,6 @@ Catatan: ${customerNote || "-"}`;
         </div>
       )}
 
-      {/* Modal Order */}
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4">
           <div className="w-full max-w-sm rounded-[28px] bg-white p-5 text-slate-900">
@@ -674,7 +664,6 @@ Catatan: ${customerNote || "-"}`;
         </div>
       )}
 
-      {/* Admin Panel */}
       {showAdmin && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
           <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[28px] bg-white p-5 text-slate-900">
@@ -767,4 +756,4 @@ Catatan: ${customerNote || "-"}`;
       )}
     </div>
   );
-          }
+  }
