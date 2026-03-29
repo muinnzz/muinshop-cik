@@ -135,7 +135,9 @@ export default function App() {
     let mounted = true;
 
     supabase.auth.getSession().then(({ data }) => {
-      if (mounted) setSession(data.session ?? null);
+      if (mounted) {
+        setSession(data.session ?? null);
+      }
     });
 
     const {
@@ -191,16 +193,20 @@ export default function App() {
     setOrdersLoading(false);
   };
 
+  // TANPA POLLING
   useEffect(() => {
     fetchStats();
-
-    const interval = setInterval(() => {
-      fetchStats();
-      if (session) fetchOrders();
-    }, 3000);
-
-    return () => clearInterval(interval);
+    if (session) {
+      fetchOrders();
+    }
   }, [session]);
+
+  const refreshData = async ({ withOrders = false } = {}) => {
+    await fetchStats();
+    if (withOrders && session) {
+      await fetchOrders();
+    }
+  };
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === "Semua") return products;
@@ -273,6 +279,7 @@ export default function App() {
       return;
     }
 
+    await refreshData({ withOrders: true });
     showToast("Mengarahkan ke pembayaran...", "success");
 
     const paymentUrl =
@@ -297,13 +304,15 @@ export default function App() {
       return;
     }
 
-    showToast("Login admin berhasil.", "success");
     await fetchOrders();
+    await fetchStats();
+    showToast("Login admin berhasil.", "success");
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setShowAdmin(false);
+    setOrders([]);
     showToast("Logout admin berhasil.", "success");
   };
 
@@ -318,8 +327,7 @@ export default function App() {
       return;
     }
 
-    await fetchOrders();
-    await fetchStats();
+    await refreshData({ withOrders: true });
     showToast("Order ditandai berhasil.", "success");
   };
 
@@ -334,8 +342,7 @@ export default function App() {
       return;
     }
 
-    await fetchOrders();
-    await fetchStats();
+    await refreshData({ withOrders: true });
     showToast("Order ditandai pending.", "success");
   };
 
@@ -350,8 +357,7 @@ export default function App() {
       return;
     }
 
-    await fetchOrders();
-    await fetchStats();
+    await refreshData({ withOrders: true });
     showToast("Order berhasil dihapus.", "success");
   };
 
@@ -591,20 +597,18 @@ export default function App() {
 
         <div ref={productsRef}>
           {statsLoading ? (
-            <>
-              <section className="mt-10">
-                <div className="mb-5 flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-sky-500" />
-                  <h2 className="text-[13px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-                    Virtual Private Server
-                  </h2>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <SkeletonProduct />
-                  <SkeletonProduct />
-                </div>
-              </section>
-            </>
+            <section className="mt-10">
+              <div className="mb-5 flex items-center gap-2">
+                <div className="h-2.5 w-2.5 rounded-full bg-sky-500" />
+                <h2 className="text-[13px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+                  Virtual Private Server
+                </h2>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <SkeletonProduct />
+                <SkeletonProduct />
+              </div>
+            </section>
           ) : (
             <>
               <Section
@@ -1019,4 +1023,4 @@ export default function App() {
       )}
     </div>
   );
-    }
+      }
