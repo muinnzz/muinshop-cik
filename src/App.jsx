@@ -39,6 +39,64 @@ const parsePriceToNumber = (price) => {
   return Number(String(price).replace(/[^\d]/g, ""));
 };
 
+const statusStyles = {
+  paid: "bg-emerald-100 text-emerald-700 border-emerald-200",
+  pending: "bg-amber-100 text-amber-700 border-amber-200",
+  failed: "bg-rose-100 text-rose-700 border-rose-200",
+};
+
+function Toast({ toast, onClose }) {
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(onClose, 2600);
+    return () => clearTimeout(timer);
+  }, [toast, onClose]);
+
+  if (!toast) return null;
+
+  const tone =
+    toast.type === "error"
+      ? "bg-rose-500"
+      : toast.type === "success"
+      ? "bg-emerald-500"
+      : "bg-slate-800";
+
+  return (
+    <div className="fixed left-1/2 top-4 z-[100] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease]">
+      <div
+        className={`rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-2xl ${tone}`}
+      >
+        {toast.message}
+      </div>
+    </div>
+  );
+}
+
+function SkeletonStat() {
+  return (
+    <div className="animate-pulse rounded-2xl border border-white/10 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+      <div className="h-3 w-24 rounded bg-white/30" />
+      <div className="mt-2 h-5 w-10 rounded bg-white/30" />
+    </div>
+  );
+}
+
+function SkeletonOrderCard() {
+  return (
+    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <div className="h-4 w-40 rounded bg-slate-200" />
+      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
+      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
+      <div className="mt-2 h-3 w-36 rounded bg-slate-200" />
+      <div className="mt-3 flex gap-2">
+        <div className="h-9 w-24 rounded-xl bg-slate-200" />
+        <div className="h-9 w-20 rounded-xl bg-slate-200" />
+        <div className="h-9 w-20 rounded-xl bg-slate-200" />
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,10 +104,12 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   const [guideLoading, setGuideLoading] = useState(false);
+  const [toast, setToast] = useState(null);
 
   const [paidCount, setPaidCount] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalPending, setTotalPending] = useState(0);
+  const [statsLoading, setStatsLoading] = useState(true);
 
   const [customerName, setCustomerName] = useState("");
   const [customerWhatsapp, setCustomerWhatsapp] = useState("");
@@ -61,9 +121,14 @@ export default function App() {
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [orders, setOrders] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
 
   const topRef = useRef(null);
   const productsRef = useRef(null);
+
+  const showToast = (message, type = "info") => {
+    setToast({ message, type });
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -85,6 +150,8 @@ export default function App() {
   }, []);
 
   const fetchStats = async () => {
+    setStatsLoading(true);
+
     const { count: total } = await supabase
       .from("orders")
       .select("id", { count: "exact", head: true });
@@ -102,9 +169,12 @@ export default function App() {
     setTotalOrders(total || 0);
     setPaidCount(paid || 0);
     setTotalPending(pending || 0);
+    setStatsLoading(false);
   };
 
   const fetchOrders = async () => {
+    setOrdersLoading(true);
+
     const { data, error } = await supabase
       .from("orders")
       .select("*")
@@ -112,10 +182,12 @@ export default function App() {
 
     if (error) {
       console.log("fetchOrders error:", error.message);
+      setOrdersLoading(false);
       return;
     }
 
     setOrders(data || []);
+    setOrdersLoading(false);
   };
 
   useEffect(() => {
@@ -149,7 +221,7 @@ export default function App() {
 
     setTimeout(() => {
       const y =
-        productsRef.current?.getBoundingClientRect().top + window.scrollY - 12;
+        productsRef.current?.getBoundingClientRect().top + window.scrollY - 88;
 
       window.scrollTo({
         top: y,
@@ -172,7 +244,7 @@ export default function App() {
     if (!selectedProduct) return;
 
     if (!customerName.trim() || !customerWhatsapp.trim()) {
-      alert("Isi nama dan WhatsApp dulu.");
+      showToast("Isi nama dan WhatsApp dulu.", "error");
       return;
     }
 
@@ -196,9 +268,11 @@ export default function App() {
     setSubmitting(false);
 
     if (error) {
-      alert("Gagal simpan order: " + error.message);
+      showToast("Gagal simpan order: " + error.message, "error");
       return;
     }
+
+    showToast("Pembayaran sedang dibuat...", "success");
 
     const paymentUrl =
       `https://app.pakasir.com/pay/${PAKASIR_SLUG}/${amount}` +
@@ -218,16 +292,18 @@ export default function App() {
     });
 
     if (error) {
-      alert("Login admin gagal: " + error.message);
+      showToast("Login admin gagal: " + error.message, "error");
       return;
     }
 
+    showToast("Login admin berhasil.", "success");
     await fetchOrders();
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setShowAdmin(false);
+    showToast("Logout admin berhasil.", "success");
   };
 
   const markAsPaid = async (id) => {
@@ -237,12 +313,13 @@ export default function App() {
       .eq("id", id);
 
     if (error) {
-      alert("Gagal update status: " + error.message);
+      showToast("Gagal update status: " + error.message, "error");
       return;
     }
 
     await fetchOrders();
     await fetchStats();
+    showToast("Status berhasil diubah ke paid.", "success");
   };
 
   const markAsPending = async (id) => {
@@ -252,12 +329,13 @@ export default function App() {
       .eq("id", id);
 
     if (error) {
-      alert("Gagal update status: " + error.message);
+      showToast("Gagal update status: " + error.message, "error");
       return;
     }
 
     await fetchOrders();
     await fetchStats();
+    showToast("Status berhasil diubah ke pending.", "success");
   };
 
   const deleteOrder = async (id) => {
@@ -267,17 +345,18 @@ export default function App() {
     const { error } = await supabase.from("orders").delete().eq("id", id);
 
     if (error) {
-      alert("Gagal hapus order: " + error.message);
+      showToast("Gagal hapus order: " + error.message, "error");
       return;
     }
 
     await fetchOrders();
     await fetchStats();
+    showToast("Order berhasil dihapus.", "success");
   };
 
   const ProductCard = ({ item }) => (
     <div
-      className={`group overflow-hidden rounded-[24px] border transition-all duration-300 active:scale-[0.98] ${
+      className={`group overflow-hidden rounded-[24px] border transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] ${
         darkMode
           ? "border-slate-800 bg-slate-900 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
           : "border-white/70 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)]"
@@ -355,51 +434,61 @@ export default function App() {
         darkMode ? "bg-slate-950 text-white" : "bg-[#eef3fb] text-slate-900"
       }`}
     >
-      <div ref={topRef} className="mx-auto max-w-sm px-3 py-4">
-        <div
-          className={`rounded-[28px] border px-4 py-3 transition-all duration-300 ${
-            darkMode
-              ? "border-slate-800 bg-slate-900 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
-              : "border-white/80 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="rounded-full p-2 text-slate-700 transition-all duration-200 active:scale-95 dark:text-white"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.4"
-                viewBox="0 0 24 24"
+      <Toast toast={toast} onClose={() => setToast(null)} />
+
+      <div
+        className={`sticky top-0 z-40 backdrop-blur-md ${
+          darkMode ? "bg-slate-950/80" : "bg-[#eef3fb]/80"
+        }`}
+      >
+        <div ref={topRef} className="mx-auto max-w-sm px-3 pt-4">
+          <div
+            className={`rounded-[28px] border px-4 py-3 transition-all duration-300 ${
+              darkMode
+                ? "border-slate-800 bg-slate-900 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
+                : "border-white/80 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setMenuOpen(true)}
+                className="rounded-full p-2 text-slate-700 transition-all duration-200 active:scale-95 dark:text-white"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 7h16M4 12h16M4 17h16"
-                />
-              </svg>
-            </button>
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 7h16M4 12h16M4 17h16"
+                  />
+                </svg>
+              </button>
 
-            <h1
-              className={`text-[15px] font-extrabold uppercase tracking-[0.14em] ${
-                darkMode ? "text-white" : "text-slate-800"
-              }`}
-            >
-              MUINSHOP CIK
-            </h1>
+              <h1
+                className={`text-[15px] font-extrabold uppercase tracking-[0.14em] ${
+                  darkMode ? "text-white" : "text-slate-800"
+                }`}
+              >
+                MUINSHOP CIK
+              </h1>
 
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500 text-white shadow-md transition-all duration-300 active:scale-95"
-            >
-              {darkMode ? "☀️" : "🌙"}
-            </button>
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500 text-white shadow-md transition-all duration-300 active:scale-95"
+              >
+                {darkMode ? "☀️" : "🌙"}
+              </button>
+            </div>
           </div>
         </div>
+      </div>
 
+      <div className="mx-auto max-w-sm px-3 pb-4">
         <div className="mt-5 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_14px_36px_rgba(59,130,246,0.28)]">
           <div className="relative">
             <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
@@ -414,28 +503,42 @@ export default function App() {
               </p>
 
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                  <div className="text-[11px] text-white/80">
-                    Transaksi Berhasil
-                  </div>
-                  <div className="mt-1 text-base font-extrabold">
-                    {paidCount}
-                  </div>
-                </div>
+                {statsLoading ? (
+                  <>
+                    <SkeletonStat />
+                    <SkeletonStat />
+                    <div className="col-span-2">
+                      <SkeletonStat />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                      <div className="text-[11px] text-white/80">
+                        Transaksi Berhasil
+                      </div>
+                      <div className="mt-1 text-base font-extrabold">
+                        {paidCount}
+                      </div>
+                    </div>
 
-                <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                  <div className="text-[11px] text-white/80">Total Order</div>
-                  <div className="mt-1 text-base font-extrabold">
-                    {totalOrders}
-                  </div>
-                </div>
+                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                      <div className="text-[11px] text-white/80">
+                        Total Order
+                      </div>
+                      <div className="mt-1 text-base font-extrabold">
+                        {totalOrders}
+                      </div>
+                    </div>
 
-                <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                  <div className="text-[11px] text-white/80">Pending</div>
-                  <div className="mt-1 text-base font-extrabold">
-                    {totalPending}
-                  </div>
-                </div>
+                    <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                      <div className="text-[11px] text-white/80">Pending</div>
+                      <div className="mt-1 text-base font-extrabold">
+                        {totalPending}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -484,7 +587,7 @@ export default function App() {
             onClick={() => setMenuOpen(false)}
           />
 
-          <div className="relative h-full w-[82%] max-w-[360px] rounded-r-[30px] bg-white p-5 shadow-2xl transition-transform duration-300">
+          <div className="relative h-full w-[82%] max-w-[360px] rounded-r-[30px] bg-white p-5 shadow-2xl transition-transform duration-300 animate-[slideInLeft_.22s_ease]">
             <div className="mb-7 flex items-center gap-4">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -572,7 +675,7 @@ export default function App() {
 
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl transition-all duration-300">
+          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl transition-all duration-300">
             <img
               src={selectedProduct.image}
               alt={selectedProduct.name}
@@ -635,7 +738,7 @@ export default function App() {
 
       {showAdmin && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="max-h-[90vh] w-full max-w-lg animate-[modalIn_.22s_ease] overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-extrabold">
                 {session ? "Panel Admin" : "Login Admin"}
@@ -672,9 +775,20 @@ export default function App() {
               </form>
             ) : (
               <div className="space-y-4">
-                {orders.length === 0 ? (
-                  <div className="rounded-2xl bg-slate-100 p-4">
-                    Belum ada order.
+                {ordersLoading ? (
+                  <>
+                    <SkeletonOrderCard />
+                    <SkeletonOrderCard />
+                  </>
+                ) : orders.length === 0 ? (
+                  <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
+                    <div className="text-4xl">📦</div>
+                    <div className="mt-3 text-base font-bold text-slate-700">
+                      Belum ada order
+                    </div>
+                    <p className="mt-1 text-sm text-slate-500">
+                      Order yang masuk akan tampil di sini.
+                    </p>
                   </div>
                 ) : (
                   orders.map((order) => (
@@ -689,9 +803,19 @@ export default function App() {
                         WhatsApp: {order.customer_whatsapp}
                       </div>
                       <div className="text-sm">Catatan: {order.note || "-"}</div>
-                      <div className="text-sm">Order ID: {order.order_id || "-"}</div>
-                      <div className="mt-2 text-sm font-bold">
-                        Status: {order.status}
+                      <div className="text-sm">
+                        Order ID: {order.order_id || "-"}
+                      </div>
+
+                      <div className="mt-3">
+                        <span
+                          className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold uppercase ${
+                            statusStyles[order.status] ||
+                            "bg-slate-100 text-slate-700 border-slate-200"
+                          }`}
+                        >
+                          {order.status}
+                        </span>
                       </div>
 
                       <div className="mt-3 flex flex-wrap gap-2">
@@ -742,7 +866,7 @@ export default function App() {
 
       {showGuide && (
         <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
-          <div className="mx-auto max-w-md">
+          <div className="mx-auto max-w-md animate-[fadeIn_.22s_ease]">
             <button
               onClick={() => setShowGuide(false)}
               className="mb-4 rounded-xl bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow"
