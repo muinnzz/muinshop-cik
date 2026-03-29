@@ -45,6 +45,7 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
+  const [guideLoading, setGuideLoading] = useState(false);
 
   const [paidCount, setPaidCount] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -155,6 +156,16 @@ export default function App() {
         behavior: "smooth",
       });
     }, 120);
+  };
+
+  const openGuideWithLoading = () => {
+    setGuideLoading(true);
+    setMenuOpen(false);
+
+    setTimeout(() => {
+      setGuideLoading(false);
+      setShowGuide(true);
+    }, 1500);
   };
 
   const handleCreateOrder = async () => {
@@ -501,10 +512,7 @@ export default function App() {
               </button>
 
               <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  setShowGuide(true);
-                }}
+                onClick={openGuideWithLoading}
                 className="flex w-full items-center justify-between rounded-[22px] border-2 border-dashed border-sky-400 px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
               >
                 <div className="flex items-center gap-4">
@@ -717,6 +725,21 @@ export default function App() {
         </div>
       )}
 
+      {guideLoading && (
+        <div className="fixed inset-0 z-[79] flex items-center justify-center bg-[#eef3fb]">
+          <div className="text-center">
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:0ms]"></span>
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:200ms]"></span>
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:400ms]"></span>
+            </div>
+            <h2 className="text-[18px] font-extrabold tracking-[0.2em] text-slate-800">
+              Muinshop Cik
+            </h2>
+          </div>
+        </div>
+      )}
+
       {showGuide && (
         <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
           <div className="mx-auto max-w-md">
@@ -806,4 +829,4 @@ export default function App() {
       )}
     </div>
   );
-}
+          }
