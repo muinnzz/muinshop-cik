@@ -34,68 +34,12 @@ const products = [
 
 const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
 
-function useTypingLoop(text, speed = 70, pause = 1200) {
-  const [displayed, setDisplayed] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-
-  useEffect(() => {
-    let i = 0;
-    let deleting = false;
-    let intervalId;
-    let timeoutId;
-
-    const start = () => {
-      intervalId = setInterval(() => {
-        if (!deleting) {
-          setDisplayed(text.slice(0, i + 1));
-          i += 1;
-
-          if (i === text.length) {
-            clearInterval(intervalId);
-            timeoutId = setTimeout(() => {
-              deleting = true;
-              start();
-            }, pause);
-          }
-        } else {
-          setDisplayed(text.slice(0, i - 1));
-          i -= 1;
-
-          if (i === 0) {
-            clearInterval(intervalId);
-            deleting = false;
-            timeoutId = setTimeout(() => {
-              start();
-            }, 300);
-          }
-        }
-      }, speed);
-    };
-
-    start();
-
-    return () => {
-      clearInterval(intervalId);
-      clearTimeout(timeoutId);
-    };
-  }, [text, speed, pause]);
-
-  useEffect(() => {
-    const cursor = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 500);
-
-    return () => clearInterval(cursor);
-  }, []);
-
-  return { displayed, showCursor };
-}
-
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
 
   const [paidCount, setPaidCount] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -114,10 +58,6 @@ export default function App() {
 
   const topRef = useRef(null);
   const productsRef = useRef(null);
-
-  const { displayed, showCursor } = useTypingLoop(
-    "Premium Account & Game Server Provider ✨"
-  );
 
   useEffect(() => {
     let mounted = true;
@@ -346,7 +286,8 @@ Catatan: ${customerNote || "-"}`;
             src={item.image}
             alt={item.name}
             onError={(e) => {
-              e.currentTarget.src = "https://via.placeholder.com/140x100?text=No+Image";
+              e.currentTarget.src =
+                "https://via.placeholder.com/140x100?text=No+Image";
             }}
             className="h-full object-contain"
           />
@@ -433,7 +374,7 @@ Catatan: ${customerNote || "-"}`;
                 darkMode ? "text-white" : "text-slate-800"
               }`}
             >
-              MUIN SHOP CIK
+              MUINSHOP CIK
             </h1>
 
             <button
@@ -449,13 +390,10 @@ Catatan: ${customerNote || "-"}`;
           <div className="flex min-h-[170px] flex-col justify-between">
             <div>
               <h2 className="text-3xl font-extrabold tracking-tight">
-                Muin Shop Cik
+                Muinshop Cik
               </h2>
-              <p className="mt-2 min-h-[54px] max-w-[270px] text-base text-white/90">
-                {displayed}
-                <span className={`${showCursor ? "opacity-100" : "opacity-0"}`}>
-                  |
-                </span>
+              <p className="mt-2 max-w-[270px] text-base text-white/90">
+                Premium Account & Game Server Provider ✨
               </p>
             </div>
 
@@ -508,7 +446,9 @@ Catatan: ${customerNote || "-"}`;
           onClick={() => window.open("https://wa.me/60166173129", "_blank")}
           className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-2xl text-white shadow-lg"
         >
-          🎧
+          <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.5 0 .16 5.34.16 11.91c0 2.1.55 4.15 1.59 5.96L0 24l6.3-1.65a11.9 11.9 0 0 0 5.77 1.47h.01c6.57 0 11.91-5.34 11.91-11.91 0-3.18-1.24-6.16-3.47-8.43ZM12.08 21.8h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.38a9.86 9.86 0 0 1-1.52-5.25c0-5.46 4.44-9.9 9.91-9.9 2.64 0 5.12 1.03 6.99 2.91a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.89 9.9Zm5.43-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.39-1.46-.88-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.08-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.69.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z" />
+          </svg>
         </button>
       </div>
 
@@ -522,13 +462,13 @@ Catatan: ${customerNote || "-"}`;
           <div className="relative h-full w-[82%] max-w-[380px] rounded-r-[34px] bg-white p-6 shadow-2xl">
             <div className="mb-8 flex items-center gap-4">
               <img
-                src="https://i.ibb.co/G0JwJ4H/anime-avatar.jpg"
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                 alt="avatar"
                 className="h-14 w-14 rounded-2xl object-cover"
               />
               <div>
                 <h3 className="text-2xl font-extrabold text-slate-800">
-                  Muin Shop Cik
+                  Muinshop Cik
                 </h3>
                 <p className="text-slate-400">Premium Digital Service</p>
               </div>
@@ -540,7 +480,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   topRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-6 py-5 text-left text-xl font-extrabold text-slate-800"
+                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-5 py-4 text-left text-lg font-bold text-slate-800"
               >
                 <span>🏠</span>
                 <span>Dashboard API</span>
@@ -549,9 +489,9 @@ Catatan: ${customerNote || "-"}`;
               <button
                 onClick={() => {
                   setMenuOpen(false);
-                  alert("Bahagian panduan belum disambungkan lagi.");
+                  setShowGuide(true);
                 }}
-                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-6 py-5 text-left text-xl font-extrabold text-slate-800"
+                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-5 py-4 text-left text-lg font-bold text-slate-800"
               >
                 <div className="flex items-center gap-4">
                   <span>📘</span>
@@ -567,7 +507,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   productsRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[24px] px-6 py-5 text-left text-xl font-extrabold text-slate-800"
+                className="flex w-full items-center gap-4 rounded-[24px] px-5 py-4 text-left text-lg font-bold text-slate-800"
               >
                 <span>👜</span>
                 <span>Produk Terjual</span>
@@ -579,7 +519,7 @@ Catatan: ${customerNote || "-"}`;
                     setMenuOpen(false);
                     setShowAdmin(true);
                   }}
-                  className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-xl font-extrabold text-white"
+                  className="w-full rounded-[24px] bg-amber-500 px-5 py-4 text-left text-lg font-bold text-white"
                 >
                   Login Admin
                 </button>
@@ -590,14 +530,14 @@ Catatan: ${customerNote || "-"}`;
                       setMenuOpen(false);
                       setShowAdmin(true);
                     }}
-                    className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-xl font-extrabold text-white"
+                    className="w-full rounded-[24px] bg-amber-500 px-5 py-4 text-left text-lg font-bold text-white"
                   >
                     Panel Admin
                   </button>
 
                   <button
                     onClick={handleLogout}
-                    className="w-full rounded-[24px] bg-rose-500 px-6 py-5 text-left text-xl font-extrabold text-white"
+                    className="w-full rounded-[24px] bg-rose-500 px-5 py-4 text-left text-lg font-bold text-white"
                   >
                     Logout Admin
                   </button>
@@ -615,7 +555,8 @@ Catatan: ${customerNote || "-"}`;
               src={selectedProduct.image}
               alt={selectedProduct.name}
               onError={(e) => {
-                e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
+                e.currentTarget.src =
+                  "https://via.placeholder.com/160x120?text=No+Image";
               }}
               className="mx-auto h-28 object-contain"
             />
@@ -760,6 +701,175 @@ Catatan: ${customerNote || "-"}`;
           </div>
         </div>
       )}
+
+      {showGuide && (
+        <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
+          <div className="mx-auto max-w-md">
+            <button
+              onClick={() => setShowGuide(false)}
+              className="mb-4 rounded-xl bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow"
+            >
+              ← Kembali
+            </button>
+
+            <div className="mb-6 text-center">
+              <h1 className="text-4xl font-extrabold text-sky-600">Muinshop Cik</h1>
+              <div className="mt-2 text-slate-400">-------------</div>
+            </div>
+
+            <div className="overflow-hidden rounded-[28px] bg-white shadow-sm">
+              <div className="border-b bg-slate-50 px-6 py-5">
+                <h2 className="text-2xl font-extrabold text-slate-800">
+                  🛒 PANDUAN CHECKOUT
+                </h2>
+              </div>
+
+              <div className="space-y-6 px-6 py-6 text-slate-600">
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold text-white">
+                    1
+                  </div>
+                  <p className="text-lg leading-8">
+                    Isi <span className="font-bold text-slate-700">Email & WhatsApp</span> aktif untuk
+                    pengiriman data produk.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold text-white">
+                    2
+                  </div>
+                  <p className="text-lg leading-8">
+                    Klik tombol pembayaran dan <span className="font-bold text-slate-700">Scan QRIS</span> yang muncul.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold text-white">
+                    3
+                  </div>
+                  <p className="text-lg leading-8">
+                    Tunggu sistem <span className="font-bold text-slate-700">pakasir.com</span> memproses
+                    (Otomatis tiap 10 detik).
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold text-white">
+                    4
+                  </div>
+                  <p className="text-lg leading-8">
+                    Data produk akan muncul di layar & dikirim ke email anda.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 rounded-[28px] border border-orange-200 bg-orange-50 px-6 py-5 shadow-sm">
+              <h3 className="text-2xl font-extrabold text-orange-600">
+                ⚠️ PENTING: JANGAN REFRESH!
+              </h3>
+              <p className="mt-3 text-lg leading-8 text-orange-700">
+                Dilarang menutup/muat ulang halaman saat proses transaksi.
+                Jika ada kendala, hubungi CS segera.
+              </p>
+            </div>
+
+            <div className="mt-6 overflow-hidden rounded-[28px] bg-white shadow-sm">
+              <div className="border-b bg-slate-50 px-6 py-5">
+                <h3 className="text-2xl font-extrabold text-emerald-500">
+                  GARANSI & REFUND
+                </h3>
+              </div>
+
+              <div className="space-y-6 px-6 py-6 text-lg leading-8 text-slate-600">
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
+                    📅
+                  </div>
+                  <p>
+                    <span className="font-bold text-slate-700">Masa Berlaku:</span> Garansi hanya berlaku sesuai
+                    durasi pada deskripsi produk. Jika melewati tanggal tersebut,
+                    garansi <span className="font-bold text-slate-700">hangus</span>.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
+                    📷
+                  </div>
+                  <p>
+                    <span className="font-bold text-slate-700">Syarat Claim:</span> Wajib melampirkan Bukti
+                    Screenshot Transaksi Sukses atau Bukti Email Pembelian.
+                  </p>
+                </div>
+
+                <div className="rounded-[24px] border-2 border-dashed border-emerald-400 bg-emerald-50 px-5 py-4 font-bold text-emerald-700">
+                  ℹ️ Tanpa bukti screenshot, claim garansi/refund tidak dapat kami proses.
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 overflow-hidden rounded-[28px] bg-white shadow-sm">
+              <div className="border-b bg-slate-50 px-6 py-5">
+                <h3 className="text-2xl font-extrabold text-rose-400">
+                  🔨 RULES & KETENTUAN
+                </h3>
+              </div>
+
+              <div className="space-y-5 px-6 py-6 text-lg leading-8 text-slate-600">
+                <div className="flex gap-4">
+                  <span className="text-2xl text-emerald-500">✔</span>
+                  <p>Garansi berlaku jika tidak melanggar aturan penggunaan.</p>
+                </div>
+
+                <div className="flex gap-4">
+                  <span className="text-2xl text-emerald-500">✔</span>
+                  <p>Dilarang keras mengubah data pada akun sharing.</p>
+                </div>
+
+                <div className="flex gap-4">
+                  <span className="text-2xl text-emerald-500">✔</span>
+                  <p>VPS/Panel dilarang digunakan untuk ilegal (DDoS/Mining).</p>
+                </div>
+
+                <div className="flex gap-4">
+                  <span className="text-2xl text-emerald-500">✔</span>
+                  <p>Refund hanya diberikan jika stok produk kami kosong.</p>
+                </div>
+
+                <div className="flex gap-4">
+                  <span className="text-2xl text-emerald-500">✔</span>
+                  <p>
+                    Sistem bekerja berdasarkan validasi nominal yang presisi.
+                    Segala bentuk ketidaksesuaian nominal deposit yang disebabkan
+                    oleh kelalaian atau kesengajaan user akan dianggap sebagai
+                    Donasi dan tidak akan masuk ke saldo akun.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowGuide(false)}
+              className="mt-6 w-full rounded-[24px] bg-sky-600 px-6 py-5 text-xl font-extrabold text-white shadow"
+            >
+              SAYA MENGERTI, LANJUTKAN ✅
+            </button>
+
+            <button
+              onClick={() => window.open("https://whatsapp.com/channel/", "_blank")}
+              className="mx-auto mt-6 flex items-center gap-2 rounded-full bg-white px-6 py-4 text-lg font-bold text-sky-600 shadow"
+            >
+              💬 Whatsapp Channel
+            </button>
+
+            <div className="mt-8 pb-8 text-center text-2xl font-extrabold text-slate-400">
+              MUINSHOP CIK
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-               }
+}
