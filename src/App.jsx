@@ -149,7 +149,7 @@ export default function App() {
         top: y,
         behavior: "smooth",
       });
-    }, 150);
+    }, 120);
   };
 
   const handleCreateOrder = async () => {
@@ -268,7 +268,7 @@ Catatan: ${customerNote || "-"}`;
 
   const ProductCard = ({ item }) => (
     <div
-      className={`rounded-[24px] border p-3 shadow-sm ${
+      className={`rounded-[24px] border p-3 shadow-sm transition-all duration-300 active:scale-[0.98] ${
         darkMode
           ? "border-slate-700 bg-slate-900"
           : "border-slate-200 bg-white"
@@ -289,7 +289,7 @@ Catatan: ${customerNote || "-"}`;
               e.currentTarget.src =
                 "https://via.placeholder.com/140x100?text=No+Image";
             }}
-            className="h-full object-contain"
+            className="h-full object-contain transition-transform duration-300"
           />
         </div>
       </div>
@@ -309,7 +309,7 @@ Catatan: ${customerNote || "-"}`;
 
         <button
           onClick={() => setSelectedProduct(item)}
-          className="mt-4 w-full rounded-[16px] border border-sky-200 bg-sky-50 py-2.5 text-sm font-bold uppercase tracking-wide text-sky-600"
+          className="mt-4 w-full rounded-[16px] border border-sky-200 bg-sky-50 py-2.5 text-sm font-bold uppercase tracking-wide text-sky-600 transition-all duration-200 active:scale-[0.98]"
         >
           Detail
         </button>
@@ -337,13 +337,13 @@ Catatan: ${customerNote || "-"}`;
 
   return (
     <div
-      className={`min-h-screen ${
+      className={`min-h-screen transition-colors duration-300 ${
         darkMode ? "bg-slate-950 text-white" : "bg-[#f4f6fb] text-slate-900"
       }`}
     >
       <div ref={topRef} className="mx-auto max-w-sm px-3 py-4">
         <div
-          className={`rounded-[28px] border px-4 py-4 shadow-sm ${
+          className={`rounded-[28px] border px-4 py-4 shadow-sm transition-all duration-300 ${
             darkMode
               ? "border-slate-800 bg-slate-900"
               : "border-white/80 bg-white"
@@ -352,7 +352,7 @@ Catatan: ${customerNote || "-"}`;
           <div className="flex items-center justify-between">
             <button
               onClick={() => setMenuOpen(true)}
-              className="rounded-full p-2 text-slate-700 dark:text-white"
+              className="rounded-full p-2 text-slate-700 transition-all duration-200 active:scale-95 dark:text-white"
             >
               <svg
                 className="h-6 w-6"
@@ -379,7 +379,7 @@ Catatan: ${customerNote || "-"}`;
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-md"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-md transition-all duration-300 active:scale-95"
             >
               {darkMode ? "☀️" : "🌙"}
             </button>
@@ -398,17 +398,17 @@ Catatan: ${customerNote || "-"}`;
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm">
+              <div className="rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm transition-all duration-300">
                 <div className="text-[11px] text-white/80">Transaksi Berhasil</div>
                 <div className="mt-1 text-lg font-extrabold">{paidCount}</div>
               </div>
 
-              <div className="rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm">
+              <div className="rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm transition-all duration-300">
                 <div className="text-[11px] text-white/80">Total Order</div>
                 <div className="mt-1 text-lg font-extrabold">{totalOrders}</div>
               </div>
 
-              <div className="col-span-2 rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm">
+              <div className="col-span-2 rounded-2xl bg-white/18 px-4 py-3 backdrop-blur-sm transition-all duration-300">
                 <div className="text-[11px] text-white/80">Pending</div>
                 <div className="mt-1 text-lg font-extrabold">{totalPending}</div>
               </div>
@@ -421,7 +421,7 @@ Catatan: ${customerNote || "-"}`;
             <button
               key={item}
               onClick={() => handleCategoryClick(item)}
-              className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-sm font-semibold ${
+              className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-sm font-semibold transition-all duration-300 active:scale-[0.97] ${
                 activeCategory === item
                   ? "border-sky-500 bg-sky-500 text-white shadow-md"
                   : darkMode
@@ -444,7 +444,7 @@ Catatan: ${customerNote || "-"}`;
 
         <button
           onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-          className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-2xl text-white shadow-lg"
+          className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-2xl text-white shadow-lg transition-all duration-300 active:scale-95"
         >
           <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
             <path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.5 0 .16 5.34.16 11.91c0 2.1.55 4.15 1.59 5.96L0 24l6.3-1.65a11.9 11.9 0 0 0 5.77 1.47h.01c6.57 0 11.91-5.34 11.91-11.91 0-3.18-1.24-6.16-3.47-8.43ZM12.08 21.8h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.38a9.86 9.86 0 0 1-1.52-5.25c0-5.46 4.44-9.9 9.91-9.9 2.64 0 5.12 1.03 6.99 2.91a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.89 9.9Zm5.43-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.39-1.46-.88-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.08-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.69.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z" />
@@ -455,11 +455,11 @@ Catatan: ${customerNote || "-"}`;
       {menuOpen && (
         <div className="fixed inset-0 z-50 flex">
           <div
-            className="absolute inset-0 bg-black/45 backdrop-blur-[1px]"
+            className="absolute inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-300"
             onClick={() => setMenuOpen(false)}
           />
 
-          <div className="relative h-full w-[82%] max-w-[380px] rounded-r-[34px] bg-white p-6 shadow-2xl">
+          <div className="relative h-full w-[82%] max-w-[380px] rounded-r-[34px] bg-white p-6 shadow-2xl transition-transform duration-300">
             <div className="mb-8 flex items-center gap-4">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -480,7 +480,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   topRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-5 py-4 text-left text-lg font-bold text-slate-800"
+                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-5 py-4 text-left text-lg font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
               >
                 <span>🏠</span>
                 <span>Dashboard API</span>
@@ -491,7 +491,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   setShowGuide(true);
                 }}
-                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-5 py-4 text-left text-lg font-bold text-slate-800"
+                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-5 py-4 text-left text-lg font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
               >
                 <div className="flex items-center gap-4">
                   <span>📘</span>
@@ -507,7 +507,7 @@ Catatan: ${customerNote || "-"}`;
                   setMenuOpen(false);
                   productsRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[24px] px-5 py-4 text-left text-lg font-bold text-slate-800"
+                className="flex w-full items-center gap-4 rounded-[24px] px-5 py-4 text-left text-lg font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
               >
                 <span>👜</span>
                 <span>Produk Terjual</span>
@@ -519,7 +519,7 @@ Catatan: ${customerNote || "-"}`;
                     setMenuOpen(false);
                     setShowAdmin(true);
                   }}
-                  className="w-full rounded-[24px] bg-amber-500 px-5 py-4 text-left text-lg font-bold text-white"
+                  className="w-full rounded-[24px] bg-amber-500 px-5 py-4 text-left text-lg font-bold text-white transition-all duration-200 active:scale-[0.98]"
                 >
                   Login Admin
                 </button>
@@ -530,14 +530,14 @@ Catatan: ${customerNote || "-"}`;
                       setMenuOpen(false);
                       setShowAdmin(true);
                     }}
-                    className="w-full rounded-[24px] bg-amber-500 px-5 py-4 text-left text-lg font-bold text-white"
+                    className="w-full rounded-[24px] bg-amber-500 px-5 py-4 text-left text-lg font-bold text-white transition-all duration-200 active:scale-[0.98]"
                   >
                     Panel Admin
                   </button>
 
                   <button
                     onClick={handleLogout}
-                    className="w-full rounded-[24px] bg-rose-500 px-5 py-4 text-left text-lg font-bold text-white"
+                    className="w-full rounded-[24px] bg-rose-500 px-5 py-4 text-left text-lg font-bold text-white transition-all duration-200 active:scale-[0.98]"
                   >
                     Logout Admin
                   </button>
@@ -550,7 +550,7 @@ Catatan: ${customerNote || "-"}`;
 
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4">
-          <div className="w-full max-w-sm rounded-[28px] bg-white p-5 text-slate-900">
+          <div className="w-full max-w-sm rounded-[28px] bg-white p-5 text-slate-900 transition-all duration-300">
             <img
               src={selectedProduct.image}
               alt={selectedProduct.name}
@@ -596,14 +596,14 @@ Catatan: ${customerNote || "-"}`;
             <button
               onClick={handleCreateOrder}
               disabled={submitting}
-              className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white disabled:opacity-60"
+              className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white transition-all duration-200 disabled:opacity-60 active:scale-[0.98]"
             >
               {submitting ? "Mengirim..." : "Order via WhatsApp"}
             </button>
 
             <button
               onClick={() => setSelectedProduct(null)}
-              className="mt-3 w-full rounded-xl bg-slate-200 py-3 font-bold text-slate-800"
+              className="mt-3 w-full rounded-xl bg-slate-200 py-3 font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
             >
               Tutup
             </button>
@@ -872,4 +872,4 @@ Catatan: ${customerNote || "-"}`;
       )}
     </div>
   );
-}
+              }
