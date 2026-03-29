@@ -1,687 +1,208 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "./supabase";
 
-const products = [
-  {
-    category: "Virtual Private Server",
-    name: "VPS R16 4CORE",
-    price: "Rp 8.000",
-    image: "https://i.ibb.co/0yQ2z3B/vps.png",
-    description: "VPS hemat untuk kebutuhan ringan dan testing.",
-  },
-  {
-    category: "Virtual Private Server",
-    name: "VPS R16 8CORE",
-    price: "Rp 8.000",
-    image: "https://i.ibb.co/0yQ2z3B/vps.png",
-    description: "VPS lebih kencang untuk kebutuhan menengah.",
-  },
-  {
-    category: "Pterodactyl",
-    name: "Pterodactyl Unlimited",
-    price: "Rp 10.000",
-    image: "https://i.ibb.co/7QpKsCX/ptero.png",
-    description: "Paket panel unlimited untuk kebutuhan game server.",
-  },
-  {
-    category: "Pterodactyl",
-    name: "Pterodactyl 9 GB",
-    price: "Rp 12.000",
-    image: "https://i.ibb.co/7QpKsCX/ptero.png",
-    description: "Panel Pterodactyl dengan resource 9 GB.",
-  },
-];
+// 🔥 typing animation hook
+const useTyping = (text, speed = 80) => {
+  const [displayed, setDisplayed] = useState("");
 
-const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
+  useEffect(() => {
+    let i = 0;
+
+    const interval = setInterval(() => {
+      setDisplayed((prev) => {
+        if (prev.length === text.length) {
+          i = 0;
+          return "";
+        }
+        return prev + text[i++];
+      });
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return displayed;
+};
 
 export default function App() {
-  const [activeCategory, setActiveCategory] = useState("Semua");
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const [paidCount, setPaidCount] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
 
-  const [session, setSession] = useState(null);
-  const [showAdmin, setShowAdmin] = useState(false);
-  const [adminEmail, setAdminEmail] = useState("");
-  const [adminPassword, setAdminPassword] = useState("");
-  const [orders, setOrders] = useState([]);
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [customerName, setCustomerName] = useState("");
   const [customerWhatsapp, setCustomerWhatsapp] = useState("");
   const [customerNote, setCustomerNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const [displayText, setDisplayText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
+  // 🔥 typing text
+  const vpsText = useTyping("VIRTUAL PRIVATE SERVER");
+  const pteroText = useTyping("PTERODACTYL");
 
-  const fullText = "Premium Account & Game Server Provider ✨";
-
-  const productsRef = useRef(null);
-
-  useEffect(() => {
-    let mounted = true;
-
-    supabase.auth.getSession().then(({ data }) => {
-      if (mounted) setSession(data.session ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
-      setSession(currentSession ?? null);
-    });
-
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    let index = 0;
-    let deleting = false;
-
-    const typingInterval = setInterval(() => {
-      if (!deleting) {
-        setDisplayText(fullText.slice(0, index + 1));
-        index++;
-
-        if (index === fullText.length) {
-          deleting = true;
-        }
-      } else {
-        setDisplayText(fullText.slice(0, index - 1));
-        index--;
-
-        if (index === 0) {
-          deleting = false;
-        }
-      }
-    }, 90);
-
-    return () => clearInterval(typingInterval);
-  }, []);
-
-  useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 500);
-
-    return () => clearInterval(cursorInterval);
-  }, []);
-
+  // 🔥 ambil jumlah paid
   const fetchPaidCount = async () => {
-    const { count, error } = await supabase
+    const { count } = await supabase
       .from("orders")
-      .select("id", { count: "exact", head: true })
+      .select("*", { count: "exact", head: true })
       .eq("status", "paid");
-
-    if (error) {
-      console.log("fetchPaidCount error:", error.message);
-      return;
-    }
 
     setPaidCount(count || 0);
   };
 
-  const fetchOrders = async () => {
-    const { data, error } = await supabase
+  // 🔥 ambil statistik
+  const fetchStats = async () => {
+    const { count: total } = await supabase
       .from("orders")
-      .select("*")
-      .order("id", { ascending: false });
+      .select("*", { count: "exact", head: true });
 
-    if (error) {
-      console.log("fetchOrders error:", error.message);
-      return;
-    }
+    const { count: pending } = await supabase
+      .from("orders")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending");
 
-    setOrders(data || []);
+    setTotalOrders(total || 0);
+    setTotalPending(pending || 0);
   };
 
   useEffect(() => {
     fetchPaidCount();
+    fetchStats();
 
     const interval = setInterval(() => {
       fetchPaidCount();
+      fetchStats();
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (session) {
-      fetchOrders();
-    }
-  }, [session]);
-
-  const filteredProducts = useMemo(() => {
-    if (activeCategory === "Semua") return products;
-    return products.filter((item) => item.category === activeCategory);
-  }, [activeCategory]);
-
-  const groupedProducts = {
-    "Virtual Private Server": filteredProducts.filter(
-      (item) => item.category === "Virtual Private Server"
-    ),
-    Pterodactyl: filteredProducts.filter(
-      (item) => item.category === "Pterodactyl"
-    ),
-  };
-
-  const handleCategoryClick = (category) => {
-    setActiveCategory(category);
-    setMenuOpen(false);
-
-    setTimeout(() => {
-      const y =
-        productsRef.current?.getBoundingClientRect().top + window.scrollY - 20;
-
-      window.scrollTo({
-        top: y,
-        behavior: "smooth",
-      });
-    }, 150);
-  };
-
-  const handleAdminLogin = async (e) => {
-    e.preventDefault();
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email: adminEmail,
-      password: adminPassword,
-    });
-
-    if (error) {
-      alert("Login admin gagal: " + error.message);
-      return;
-    }
-
-    await fetchOrders();
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setShowAdmin(false);
-  };
-
+  // 🔥 create order
   const handleCreateOrder = async () => {
     if (!selectedProduct) return;
 
-    if (!customerName.trim() || !customerWhatsapp.trim()) {
-      alert("Nama dan nomor WhatsApp wajib diisi.");
+    if (!customerName || !customerWhatsapp) {
+      alert("Isi nama & WhatsApp dulu.");
       return;
     }
 
     setSubmitting(true);
 
-    const { error } = await supabase.from("orders").insert({
-      product_name: selectedProduct.name,
-      price: selectedProduct.price,
-      customer_name: customerName,
-      customer_whatsapp: customerWhatsapp,
-      note: customerNote,
-      status: "pending",
-    });
+    const { error } = await supabase.from("orders").insert([
+      {
+        product_name: selectedProduct.name,
+        price: selectedProduct.price,
+        customer_name: customerName,
+        customer_whatsapp: customerWhatsapp,
+        note: customerNote,
+        status: "pending",
+      },
+    ]);
 
     setSubmitting(false);
 
     if (error) {
-      alert("Gagal simpan order: " + error.message);
+      alert("Error: " + error.message);
       return;
     }
 
-    const waMessage = `Halo, saya ingin order ${selectedProduct.name}
+    const text = `Order ${selectedProduct.name}
 Nama: ${customerName}
-No WhatsApp: ${customerWhatsapp}
-Catatan: ${customerNote || "-"}`;
+WA: ${customerWhatsapp}
+Note: ${customerNote || "-"}`;
 
     window.open(
-      `https://wa.me/60166173129?text=${encodeURIComponent(waMessage)}`,
-      "_blank"
+      `https://wa.me/60166173129?text=${encodeURIComponent(text)}`
     );
 
+    alert("Order masuk!");
+
+    setSelectedProduct(null);
     setCustomerName("");
     setCustomerWhatsapp("");
     setCustomerNote("");
-    setSelectedProduct(null);
-
-    alert("Order berhasil dikirim.");
   };
 
-  const markAsPaid = async (id) => {
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: "paid" })
-      .eq("id", id);
-
-    if (error) {
-      alert("Gagal update status: " + error.message);
-      return;
-    }
-
-    await fetchOrders();
-    await fetchPaidCount();
-  };
-
-  const markAsCancelled = async (id) => {
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: "cancelled" })
-      .eq("id", id);
-
-    if (error) {
-      alert("Gagal update status: " + error.message);
-      return;
-    }
-
-    await fetchOrders();
-    await fetchPaidCount();
-  };
-
-  const Card = ({ item }) => (
-    <div
-      className={`rounded-[28px] border p-4 shadow-sm ${
-        darkMode
-          ? "border-slate-700 bg-slate-800"
-          : "border-slate-200 bg-white"
-      }`}
-    >
-      <div
-        className={`rounded-[24px] border p-4 ${
-          darkMode
-            ? "border-slate-700 bg-slate-900"
-            : "border-slate-200 bg-slate-50"
-        }`}
-      >
-        <div className="flex h-[120px] items-center justify-center">
-          <img
-            src={item.image}
-            alt={item.name}
-            className="h-full object-contain"
-          />
-        </div>
-      </div>
-
-      <div className="pt-4">
-        <h3
-          className={`text-lg font-extrabold leading-tight ${
-            darkMode ? "text-white" : "text-slate-900"
-          }`}
-        >
-          {item.name}
-        </h3>
-
-        <p className="mt-2 font-extrabold text-sky-500">{item.price}</p>
-
-        <button
-          onClick={() => setSelectedProduct(item)}
-          className="mt-3 w-full rounded-xl bg-sky-100 py-2 font-bold text-sky-600"
-        >
-          Detail
-        </button>
-      </div>
-    </div>
-  );
-
-  const Section = ({ title, data }) => {
-    if (!data.length) return null;
-
-    return (
-      <>
-        <h2 className="mt-8 mb-3 text-sm font-extrabold uppercase tracking-widest text-sky-600">
-          {title}
-        </h2>
-
-        <div className="grid grid-cols-2 gap-4">
-          {data.map((item, i) => (
-            <Card key={i} item={item} />
-          ))}
-        </div>
-      </>
-    );
-  };
+  const products = [
+    { name: "VPS R16 4 CORE", price: "Rp 8.000" },
+    { name: "VPS R16 8 CORE", price: "Rp 8.000" },
+    { name: "Pterodactyl Unlimited", price: "Rp 10.000" },
+    { name: "Pterodactyl 9GB", price: "Rp 5.000" },
+  ];
 
   return (
-    <div className={darkMode ? "dark" : ""}>
-      <div
-        className={`min-h-screen overflow-x-hidden ${
-          darkMode ? "bg-slate-950 text-white" : "bg-[#f5f7fb] text-slate-900"
-        }`}
-      >
-        <div className="mx-auto max-w-md px-4 py-5">
-          <div
-            className={`flex items-center justify-between rounded-3xl p-4 shadow ${
-              darkMode ? "bg-slate-900" : "bg-white"
-            }`}
-          >
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="text-xl"
-              aria-label="Open Menu"
-            >
-              ☰
-            </button>
+    <div className="p-4">
+      {/* HEADER */}
+      <div className="bg-blue-500 text-white p-4 rounded-xl">
+        <h1 className="text-xl font-bold">Muinshop Cik 🚀</h1>
 
-            <h1 className="text-sm font-extrabold">MUINSHOP CIK</h1>
-
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white"
-              aria-label="Toggle Dark Mode"
-            >
-              {darkMode ? "☀️" : "🌙"}
-            </button>
-          </div>
-
-          <div className="mt-6 rounded-3xl bg-gradient-to-br from-sky-500 to-purple-500 p-6 text-white shadow-lg">
-            <h2 className="text-2xl font-extrabold">Muinshop Cik</h2>
-
-            <p className="mt-2 min-h-[24px] text-sm font-medium text-white/95">
-              {displayText}
-              <span className={`${showCursor ? "opacity-100" : "opacity-0"}`}>
-                |
-              </span>
-            </p>
-
-            <div className="mt-4 flex justify-between">
-              <div className="rounded-full bg-white/20 px-4 py-2 text-xs">
-                ✔ {paidCount} Transaksi Berhasil
-              </div>
-              <span className="text-5xl opacity-20">⚡</span>
-            </div>
-          </div>
-
-          <div className="mt-6 flex gap-2 overflow-x-auto">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => handleCategoryClick(c)}
-                className={`rounded-full px-4 py-2 text-sm font-bold ${
-                  activeCategory === c
-                    ? "bg-sky-500 text-white"
-                    : darkMode
-                    ? "border border-slate-700 bg-slate-900 text-white"
-                    : "border bg-white text-slate-900"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
-          <div ref={productsRef}>
-            <Section
-              title="Virtual Private Server"
-              data={groupedProducts["Virtual Private Server"]}
-            />
-            <Section
-              title="Pterodactyl"
-              data={groupedProducts["Pterodactyl"]}
-            />
-          </div>
+        <div className="grid grid-cols-2 gap-2 mt-3">
+          <div>✔ {paidCount} Berhasil</div>
+          <div>📦 {totalOrders} Order</div>
+          <div className="col-span-2">⏳ {totalPending} Pending</div>
         </div>
-
-        {menuOpen && (
-          <div className="fixed inset-0 z-50 flex">
-            <div
-              className="absolute inset-0 bg-black/40"
-              onClick={() => setMenuOpen(false)}
-            />
-
-            <div
-              className={`relative h-full w-[280px] p-5 shadow-xl ${
-                darkMode ? "bg-slate-900 text-white" : "bg-white text-slate-900"
-              }`}
-            >
-              <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-lg font-extrabold">Menu</h2>
-                <button
-                  onClick={() => setMenuOpen(false)}
-                  className="text-xl"
-                  aria-label="Close Menu"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="space-y-3">
-                <button
-                  onClick={() => handleCategoryClick("Semua")}
-                  className="w-full rounded-xl bg-sky-500 px-4 py-3 text-left font-bold text-white"
-                >
-                  Semua Produk
-                </button>
-
-                <button
-                  onClick={() => handleCategoryClick("Virtual Private Server")}
-                  className={`w-full rounded-xl px-4 py-3 text-left font-bold ${
-                    darkMode
-                      ? "bg-slate-800 text-white"
-                      : "bg-slate-100 text-slate-900"
-                  }`}
-                >
-                  Virtual Private Server
-                </button>
-
-                <button
-                  onClick={() => handleCategoryClick("Pterodactyl")}
-                  className={`w-full rounded-xl px-4 py-3 text-left font-bold ${
-                    darkMode
-                      ? "bg-slate-800 text-white"
-                      : "bg-slate-100 text-slate-900"
-                  }`}
-                >
-                  Pterodactyl
-                </button>
-
-                {!session ? (
-                  <button
-                    onClick={() => {
-                      setShowAdmin(true);
-                      setMenuOpen(false);
-                    }}
-                    className="w-full rounded-xl bg-amber-500 px-4 py-3 text-left font-bold text-white"
-                  >
-                    Login Admin
-                  </button>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        setShowAdmin(true);
-                        setMenuOpen(false);
-                      }}
-                      className="w-full rounded-xl bg-amber-500 px-4 py-3 text-left font-bold text-white"
-                    >
-                      Panel Admin
-                    </button>
-
-                    <button
-                      onClick={handleLogout}
-                      className="w-full rounded-xl bg-rose-500 px-4 py-3 text-left font-bold text-white"
-                    >
-                      Logout Admin
-                    </button>
-                  </>
-                )}
-
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    window.open("https://wa.me/60166173129", "_blank");
-                  }}
-                  className="w-full rounded-xl bg-green-500 px-4 py-3 text-left font-bold text-white"
-                >
-                  Chat WhatsApp
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {selectedProduct && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div
-              className={`w-full max-w-sm rounded-3xl p-5 ${
-                darkMode ? "bg-slate-900 text-white" : "bg-white text-slate-900"
-              }`}
-            >
-              <img
-                src={selectedProduct.image}
-                alt={selectedProduct.name}
-                className="mx-auto h-28 object-contain"
-              />
-
-              <h3 className="mt-4 text-xl font-extrabold">
-                {selectedProduct.name}
-              </h3>
-
-              <p className="mt-2 font-bold text-sky-500">
-                {selectedProduct.price}
-              </p>
-
-              <p className="mt-3 text-sm opacity-80">
-                {selectedProduct.description}
-              </p>
-
-              <input
-                type="text"
-                placeholder="Nama kamu"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-                className="mt-4 w-full rounded-xl border px-4 py-3 text-slate-900"
-              />
-
-              <input
-                type="text"
-                placeholder="Nomor WhatsApp kamu"
-                value={customerWhatsapp}
-                onChange={(e) => setCustomerWhatsapp(e.target.value)}
-                className="mt-3 w-full rounded-xl border px-4 py-3 text-slate-900"
-              />
-
-              <textarea
-                placeholder="Catatan tambahan"
-                value={customerNote}
-                onChange={(e) => setCustomerNote(e.target.value)}
-                className="mt-3 w-full rounded-xl border px-4 py-3 text-slate-900"
-                rows={3}
-              />
-
-              <button
-                onClick={handleCreateOrder}
-                disabled={submitting}
-                className="mt-5 w-full rounded-xl bg-sky-500 py-3 font-bold text-white disabled:opacity-60"
-              >
-                {submitting ? "Mengirim..." : "Order via WhatsApp"}
-              </button>
-
-              <button
-                onClick={() => setSelectedProduct(null)}
-                className="mt-3 w-full rounded-xl bg-slate-200 py-3 font-bold text-slate-800"
-              >
-                Tutup
-              </button>
-            </div>
-          </div>
-        )}
-
-        {showAdmin && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4">
-            <div
-              className={`max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl p-5 ${
-                darkMode ? "bg-slate-900 text-white" : "bg-white text-slate-900"
-              }`}
-            >
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl font-extrabold">
-                  {session ? "Panel Admin" : "Login Admin"}
-                </h2>
-                <button onClick={() => setShowAdmin(false)} className="text-xl">
-                  ✕
-                </button>
-              </div>
-
-              {!session ? (
-                <form onSubmit={handleAdminLogin}>
-                  <input
-                    type="email"
-                    placeholder="Email admin"
-                    value={adminEmail}
-                    onChange={(e) => setAdminEmail(e.target.value)}
-                    className="mt-2 w-full rounded-xl border px-4 py-3 text-slate-900"
-                  />
-
-                  <input
-                    type="password"
-                    placeholder="Password admin"
-                    value={adminPassword}
-                    onChange={(e) => setAdminPassword(e.target.value)}
-                    className="mt-3 w-full rounded-xl border px-4 py-3 text-slate-900"
-                  />
-
-                  <button
-                    type="submit"
-                    className="mt-4 w-full rounded-xl bg-sky-500 py-3 font-bold text-white"
-                  >
-                    Login
-                  </button>
-                </form>
-              ) : (
-                <div className="space-y-4">
-                  {orders.length === 0 ? (
-                    <div className="rounded-2xl bg-slate-100 p-4 text-slate-800">
-                      Belum ada order.
-                    </div>
-                  ) : (
-                    orders.map((order) => (
-                      <div
-                        key={order.id}
-                        className={`rounded-2xl border p-4 ${
-                          darkMode
-                            ? "border-slate-700 bg-slate-800"
-                            : "border-slate-200 bg-slate-50"
-                        }`}
-                      >
-                        <div className="font-extrabold">{order.product_name}</div>
-                        <div className="mt-1 text-sm">Harga: {order.price}</div>
-                        <div className="text-sm">Nama: {order.customer_name}</div>
-                        <div className="text-sm">
-                          WhatsApp: {order.customer_whatsapp}
-                        </div>
-                        <div className="text-sm">
-                          Catatan: {order.note || "-"}
-                        </div>
-                        <div className="mt-2 text-sm font-bold">
-                          Status: {order.status}
-                        </div>
-
-                        <div className="mt-3 flex gap-2">
-                          <button
-                            onClick={() => markAsPaid(order.id)}
-                            className="rounded-xl bg-green-500 px-4 py-2 text-sm font-bold text-white"
-                          >
-                            Tandai Berhasil
-                          </button>
-
-                          <button
-                            onClick={() => markAsCancelled(order.id)}
-                            className="rounded-xl bg-rose-500 px-4 py-2 text-sm font-bold text-white"
-                          >
-                            Batal
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* VPS */}
+      <h2 className="mt-6 font-bold text-blue-500">{vpsText}</h2>
+
+      {/* PRODUCT */}
+      <div className="grid grid-cols-2 gap-3 mt-3">
+        {products.map((p, i) => (
+          <div
+            key={i}
+            className="border p-3 rounded-lg"
+            onClick={() => setSelectedProduct(p)}
+          >
+            <h3 className="font-bold">{p.name}</h3>
+            <p className="text-blue-500">{p.price}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* PTERODACTYL */}
+      <h2 className="mt-6 font-bold text-blue-500">{pteroText}</h2>
+
+      {/* MODAL ORDER */}
+      {selectedProduct && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t">
+          <h3 className="font-bold">{selectedProduct.name}</h3>
+
+          <input
+            placeholder="Nama"
+            className="border p-2 w-full mt-2"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+          />
+
+          <input
+            placeholder="WhatsApp"
+            className="border p-2 w-full mt-2"
+            value={customerWhatsapp}
+            onChange={(e) => setCustomerWhatsapp(e.target.value)}
+          />
+
+          <textarea
+            placeholder="Catatan"
+            className="border p-2 w-full mt-2"
+            value={customerNote}
+            onChange={(e) => setCustomerNote(e.target.value)}
+          />
+
+          <button
+            onClick={handleCreateOrder}
+            className="bg-blue-500 text-white w-full p-2 mt-3 rounded"
+          >
+            {submitting ? "Mengirim..." : "Order"}
+          </button>
+
+          <button
+            onClick={() => setSelectedProduct(null)}
+            className="w-full p-2 mt-2 border rounded"
+          >
+            Tutup
+          </button>
+        </div>
+      )}
     </div>
   );
-                }
+}
