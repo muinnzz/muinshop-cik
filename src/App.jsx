@@ -53,6 +53,11 @@ export default function App() {
   const [customerNote, setCustomerNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const [displayText, setDisplayText] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  const fullText = "Premium Account & Game Server Provider ✨";
+
   const productsRef = useRef(null);
 
   useEffect(() => {
@@ -72,6 +77,39 @@ export default function App() {
       mounted = false;
       subscription.unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
+    let index = 0;
+    let deleting = false;
+
+    const typingInterval = setInterval(() => {
+      if (!deleting) {
+        setDisplayText(fullText.slice(0, index + 1));
+        index++;
+
+        if (index === fullText.length) {
+          deleting = true;
+        }
+      } else {
+        setDisplayText(fullText.slice(0, index - 1));
+        index--;
+
+        if (index === 0) {
+          deleting = false;
+        }
+      }
+    }, 90);
+
+    return () => clearInterval(typingInterval);
+  }, []);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 500);
+
+    return () => clearInterval(cursorInterval);
   }, []);
 
   const fetchPaidCount = async () => {
@@ -339,7 +377,13 @@ Catatan: ${customerNote || "-"}`;
 
           <div className="mt-6 rounded-3xl bg-gradient-to-br from-sky-500 to-purple-500 p-6 text-white shadow-lg">
             <h2 className="text-2xl font-extrabold">Muinshop Cik</h2>
-            <p className="text-sm">Premium Account &amp; Game Server Provider ✨</p>
+
+            <p className="mt-2 min-h-[24px] text-sm font-medium text-white/95">
+              {displayText}
+              <span className={`${showCursor ? "opacity-100" : "opacity-0"}`}>
+                |
+              </span>
+            </p>
 
             <div className="mt-4 flex justify-between">
               <div className="rounded-full bg-white/20 px-4 py-2 text-xs">
@@ -640,4 +684,4 @@ Catatan: ${customerNote || "-"}`;
       </div>
     </div>
   );
-}
+                }
