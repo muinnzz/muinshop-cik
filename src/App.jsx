@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "./supabase";
 
 const products = [
@@ -95,6 +95,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const [paidCount, setPaidCount] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -105,9 +106,37 @@ export default function App() {
   const [customerNote, setCustomerNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const [session, setSession] = useState(null);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [orders, setOrders] = useState([]);
+
+  const topRef = useRef(null);
+  const productsRef = useRef(null);
+
   const { displayed, showCursor } = useTypingLoop(
     "Premium Account & Game Server Provider ✨"
   );
+
+  useEffect(() => {
+    let mounted = true;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (mounted) setSession(data.session ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+      setSession(currentSession ?? null);
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const fetchStats = async () => {
     const { count: total } = await supabase
@@ -129,15 +158,30 @@ export default function App() {
     setTotalPending(pending || 0);
   };
 
+  const fetchOrders = async () => {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) {
+      console.log("fetchOrders error:", error.message);
+      return;
+    }
+
+    setOrders(data || []);
+  };
+
   useEffect(() => {
     fetchStats();
 
     const interval = setInterval(() => {
       fetchStats();
+      if (session) fetchOrders();
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [session]);
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === "Semua") return products;
@@ -151,6 +195,21 @@ export default function App() {
     Pterodactyl: filteredProducts.filter(
       (item) => item.category === "Pterodactyl"
     ),
+  };
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setMenuOpen(false);
+
+    setTimeout(() => {
+      const y =
+        productsRef.current?.getBoundingClientRect().top + window.scrollY - 12;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }, 150);
   };
 
   const handleCreateOrder = async () => {
@@ -198,11 +257,90 @@ Catatan: ${customerNote || "-"}`;
 
     alert("Order berhasil dihantar.");
     fetchStats();
+    if (session) fetchOrders();
+  };
+
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: adminEmail,
+      password: adminPassword,
+    });
+
+    if (error) {
+      alert("Login admin gagal: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setShowAdmin(false);
+  };
+
+  const markAsPaid = async (id) => {
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: "paid" })
+      .eq("id", id);
+
+    if (error) {
+      alert("Gagal update status: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+    await fetchStats();
+  };
+
+  const markAsPending = async (id) => {
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: "pending" })
+      .eq("id", id);
+
+    if (error) {
+      alert("Gagal update status: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+    await fetchStats();
+  };
+
+  const deleteOrder = async (id) => {
+    const confirmed = window.confirm("Hapus order ini?");
+    if (!confirmed) return;
+
+    const { error } = await supabase.from("orders").delete().eq("id", id);
+
+    if (error) {
+      alert("Gagal hapus order: " + error.message);
+      return;
+    }
+
+    await fetchOrders();
+    await fetchStats();
   };
 
   const ProductCard = ({ item }) => (
-    <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="rounded-[22px] border border-slate-200 bg-slate-50 p-4">
+    <div
+      className={`rounded-[28px] border p-4 shadow-sm ${
+        darkMode
+          ? "border-slate-700 bg-slate-900"
+          : "border-slate-200 bg-white"
+      }`}
+    >
+      <div
+        className={`rounded-[22px] border p-4 ${
+          darkMode
+            ? "border-slate-700 bg-slate-800"
+            : "border-slate-200 bg-slate-50"
+        }`}
+      >
         <div className="relative flex h-[115px] items-center justify-center overflow-hidden rounded-xl bg-white">
           <span className="absolute left-3 top-3 rounded-full bg-rose-400 px-4 py-1 text-xs font-bold text-white">
             SOLD OUT
@@ -216,7 +354,11 @@ Catatan: ${customerNote || "-"}`;
       </div>
 
       <div className="pt-5">
-        <h3 className="min-h-[56px] text-[18px] font-extrabold leading-tight text-slate-800">
+        <h3
+          className={`min-h-[56px] text-[18px] font-extrabold leading-tight ${
+            darkMode ? "text-white" : "text-slate-800"
+          }`}
+        >
           {item.name}
         </h3>
 
@@ -253,14 +395,24 @@ Catatan: ${customerNote || "-"}`;
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f6fb] text-slate-900">
-      <div className="mx-auto max-w-md px-4 py-5">
+    <div
+      className={`min-h-screen ${
+        darkMode ? "bg-slate-950 text-white" : "bg-[#f4f6fb] text-slate-900"
+      }`}
+    >
+      <div ref={topRef} className="mx-auto max-w-md px-4 py-5">
         {/* Navbar */}
-        <div className="rounded-[32px] border border-white/80 bg-white px-5 py-4 shadow-sm">
+        <div
+          className={`rounded-[32px] border px-5 py-4 shadow-sm ${
+            darkMode
+              ? "border-slate-800 bg-slate-900"
+              : "border-white/80 bg-white"
+          }`}
+        >
           <div className="flex items-center justify-between">
             <button
               onClick={() => setMenuOpen(true)}
-              className="rounded-full p-2 text-slate-700"
+              className="rounded-full p-2 text-slate-700 dark:text-white"
             >
               <svg
                 className="h-7 w-7"
@@ -277,15 +429,20 @@ Catatan: ${customerNote || "-"}`;
               </svg>
             </button>
 
-            <h1 className="text-[18px] font-extrabold uppercase tracking-[0.14em] text-slate-800">
+            <h1
+              className={`text-[18px] font-extrabold uppercase tracking-[0.14em] ${
+                darkMode ? "text-white" : "text-slate-800"
+              }`}
+            >
               MUIN SHOP CIK
             </h1>
 
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-md">
-              <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M21 15.5A8.5 8.5 0 0 1 8.5 3a.75.75 0 0 0-.83 1.08 7 7 0 1 0 8.25 8.25A.75.75 0 0 0 21 15.5Z" />
-              </svg>
-            </div>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-md"
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
           </div>
         </div>
 
@@ -325,13 +482,15 @@ Catatan: ${customerNote || "-"}`;
 
         {/* Tabs */}
         <div className="mt-8 flex gap-3 overflow-x-auto pb-2">
-          {categories.map((item, index) => (
+          {categories.map((item) => (
             <button
               key={item}
-              onClick={() => setActiveCategory(item)}
+              onClick={() => handleCategoryClick(item)}
               className={`whitespace-nowrap rounded-full border px-6 py-4 text-lg font-bold ${
                 activeCategory === item
                   ? "border-sky-500 bg-sky-500 text-white shadow-md"
+                  : darkMode
+                  ? "border-slate-700 bg-slate-900 text-white"
                   : "border-slate-200 bg-white text-slate-700"
               }`}
             >
@@ -341,16 +500,21 @@ Catatan: ${customerNote || "-"}`;
         </div>
 
         {/* Content */}
-        <Section
-          title="Virtual Private Server"
-          data={groupedProducts["Virtual Private Server"]}
-        />
-        <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
+        <div ref={productsRef}>
+          <Section
+            title="Virtual Private Server"
+            data={groupedProducts["Virtual Private Server"]}
+          />
+          <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
+        </div>
 
         {/* Floating */}
-        <div className="fixed bottom-6 right-6 z-30 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-3xl text-white shadow-lg">
+        <button
+          onClick={() => window.open("https://wa.me/60166173129", "_blank")}
+          className="fixed bottom-6 right-6 z-30 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-3xl text-white shadow-lg"
+        >
           🎧
-        </div>
+        </button>
       </div>
 
       {/* Sidebar */}
@@ -377,12 +541,24 @@ Catatan: ${customerNote || "-"}`;
             </div>
 
             <div className="space-y-5">
-              <button className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-6 py-5 text-left text-2xl font-extrabold text-slate-800">
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  topRef.current?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="flex w-full items-center gap-4 rounded-[24px] bg-slate-100 px-6 py-5 text-left text-2xl font-extrabold text-slate-800"
+              >
                 <span>🏠</span>
                 <span>Dashboard API</span>
               </button>
 
-              <button className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-6 py-5 text-left text-2xl font-extrabold text-slate-800">
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  alert("Bahagian panduan belum disambungkan lagi.");
+                }}
+                className="flex w-full items-center justify-between rounded-[24px] border-2 border-dashed border-sky-400 px-6 py-5 text-left text-2xl font-extrabold text-slate-800"
+              >
                 <div className="flex items-center gap-4">
                   <span>📘</span>
                   <span>Panduan</span>
@@ -392,10 +568,47 @@ Catatan: ${customerNote || "-"}`;
                 </span>
               </button>
 
-              <button className="flex w-full items-center gap-4 rounded-[24px] px-6 py-5 text-left text-2xl font-extrabold text-slate-800">
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  productsRef.current?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="flex w-full items-center gap-4 rounded-[24px] px-6 py-5 text-left text-2xl font-extrabold text-slate-800"
+              >
                 <span>👜</span>
                 <span>Produk Terjual</span>
               </button>
+
+              {!session ? (
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setShowAdmin(true);
+                  }}
+                  className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-2xl font-extrabold text-white"
+                >
+                  Login Admin
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setShowAdmin(true);
+                    }}
+                    className="w-full rounded-[24px] bg-amber-500 px-6 py-5 text-left text-2xl font-extrabold text-white"
+                  >
+                    Panel Admin
+                  </button>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full rounded-[24px] bg-rose-500 px-6 py-5 text-left text-2xl font-extrabold text-white"
+                  >
+                    Logout Admin
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -460,6 +673,98 @@ Catatan: ${customerNote || "-"}`;
           </div>
         </div>
       )}
+
+      {/* Admin Panel */}
+      {showAdmin && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[28px] bg-white p-5 text-slate-900">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-extrabold">
+                {session ? "Panel Admin" : "Login Admin"}
+              </h2>
+              <button onClick={() => setShowAdmin(false)} className="text-xl">
+                ✕
+              </button>
+            </div>
+
+            {!session ? (
+              <form onSubmit={handleAdminLogin}>
+                <input
+                  type="email"
+                  placeholder="Email admin"
+                  value={adminEmail}
+                  onChange={(e) => setAdminEmail(e.target.value)}
+                  className="mt-2 w-full rounded-xl border px-4 py-3"
+                />
+
+                <input
+                  type="password"
+                  placeholder="Password admin"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="mt-3 w-full rounded-xl border px-4 py-3"
+                />
+
+                <button
+                  type="submit"
+                  className="mt-4 w-full rounded-xl bg-sky-500 py-3 font-bold text-white"
+                >
+                  Login
+                </button>
+              </form>
+            ) : (
+              <div className="space-y-4">
+                {orders.length === 0 ? (
+                  <div className="rounded-2xl bg-slate-100 p-4">
+                    Belum ada order.
+                  </div>
+                ) : (
+                  orders.map((order) => (
+                    <div
+                      key={order.id}
+                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                    >
+                      <div className="font-extrabold">{order.product_name}</div>
+                      <div className="mt-1 text-sm">Harga: {order.price}</div>
+                      <div className="text-sm">Nama: {order.customer_name}</div>
+                      <div className="text-sm">
+                        WhatsApp: {order.customer_whatsapp}
+                      </div>
+                      <div className="text-sm">Catatan: {order.note || "-"}</div>
+                      <div className="mt-2 text-sm font-bold">
+                        Status: {order.status}
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button
+                          onClick={() => markAsPaid(order.id)}
+                          className="rounded-xl bg-green-500 px-4 py-2 text-sm font-bold text-white"
+                        >
+                          Tandai Berhasil
+                        </button>
+
+                        <button
+                          onClick={() => markAsPending(order.id)}
+                          className="rounded-xl bg-yellow-500 px-4 py-2 text-sm font-bold text-white"
+                        >
+                          Pending
+                        </button>
+
+                        <button
+                          onClick={() => deleteOrder(order.id)}
+                          className="rounded-xl bg-rose-500 px-4 py-2 text-sm font-bold text-white"
+                        >
+                          Hapus
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+          }
