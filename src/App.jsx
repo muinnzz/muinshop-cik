@@ -13,6 +13,7 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS hemat untuk kebutuhan ringan dan testing.",
     badge: "Best Seller",
+    featured: true,
     features: [
       "Cocok untuk testing dan bot ringan",
       "Aktivasi cepat setelah pembayaran",
@@ -26,6 +27,7 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS lebih kencang untuk kebutuhan menengah.",
     badge: "Populer",
+    featured: false,
     features: [
       "Performa lebih stabil",
       "Cocok untuk kebutuhan menengah",
@@ -39,6 +41,7 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Paket panel unlimited untuk kebutuhan game server.",
     badge: "Premium",
+    featured: true,
     features: [
       "Resource besar untuk game server",
       "Pengiriman cepat setelah pembayaran",
@@ -52,6 +55,7 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Panel Pterodactyl dengan resource 9 GB.",
     badge: "Termurah",
+    featured: false,
     features: [
       "Harga hemat",
       "Cocok untuk kebutuhan dasar",
@@ -112,7 +116,7 @@ const apiFeatures = [
     desc: "Chatbot pintar berbasis AI untuk menjawab pertanyaan secara instan.",
     icon: "bot",
     detail:
-      "Bagian AI cocok buat chatbot, auto-reply, generator teks, prompt tools, dan integrasi workflow otomatis.",
+      "Bagian AI cocok untuk chatbot, auto-reply, content helper, dan automasi alur kerja sederhana sampai kompleks.",
   },
   {
     title: "Social Media Downloader",
@@ -126,44 +130,31 @@ const apiFeatures = [
     desc: "Lookup informasi publik dari akun atau target secara cepat.",
     icon: "spy",
     detail:
-      "Cocok untuk tools metadata, username checker, public profile lookup, dan utilitas pencarian lain.",
-  },
-];
-
-const apiStats = [
-  { label: "Endpoints", value: "128+" },
-  { label: "Requests", value: "24.8K" },
-  { label: "Uptime", value: "99.9%" },
-];
-
-const apiTools = [
-  {
-    title: "Get Started",
-    desc: "Buka info singkat penggunaan API.",
-    action: "info",
-  },
-  {
-    title: "Main Features",
-    desc: "Loncat ke daftar fitur utama.",
-    action: "features",
-  },
-  {
-    title: "Music Widget",
-    desc: "Kontrol widget music player.",
-    action: "music",
+      "Cocok untuk metadata lookup, username checker, public profile finder, dan tools utilitas lain.",
   },
 ];
 
 const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
-
-const parsePriceToNumber = (price) => {
-  return Number(String(price).replace(/[^\d]/g, ""));
-};
+const tracks = ["Muinzz API Music", "Night Drive", "Sky Beat", "Cloud Signal"];
 
 const statusStyles = {
   paid: "border-emerald-200 bg-emerald-50 text-emerald-700",
   pending: "border-amber-200 bg-amber-50 text-amber-700",
   failed: "border-rose-200 bg-rose-50 text-rose-700",
+};
+
+const parsePriceToNumber = (price) => Number(String(price).replace(/[^\d]/g, ""));
+
+const formatRupiah = (value) => {
+  if (value === null || value === undefined || value === "") return "-";
+  return `Rp ${Number(value).toLocaleString("id-ID")}`;
+};
+
+const formatWhatsapp = (value) => {
+  const digits = String(value).replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("0")) return `62${digits.slice(1)}`;
+  return digits;
 };
 
 function IconMenu() {
@@ -379,6 +370,35 @@ function IconInfo() {
   );
 }
 
+function IconSearch() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m20 20-3.5-3.5" />
+    </svg>
+  );
+}
+
+function IconSparkles() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 15l0.8 2.2L22 18l-2.2 0.8L19 21l-0.8-2.2L16 18l2.2-0.8L19 15Z" />
+    </svg>
+  );
+}
+
+function TooltipPill({ text }) {
+  return (
+    <span
+      title={text}
+      className="inline-flex cursor-help rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-bold text-slate-500"
+    >
+      ?
+    </span>
+  );
+}
+
 function Toast({ toast, onClose }) {
   useEffect(() => {
     if (!toast) return;
@@ -428,20 +448,23 @@ function SkeletonProduct() {
   );
 }
 
-function SectionTitle({ eyebrow, title, darkMode = false }) {
+function SectionTitle({ eyebrow, title, darkMode = false, right = null }) {
   return (
-    <div className="mb-4">
-      {eyebrow ? (
-        <div className="mb-2 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-sky-500" />
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-sky-600">
-            {eyebrow}
-          </p>
-        </div>
-      ) : null}
-      <h2 className={`text-[16px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-        {title}
-      </h2>
+    <div className="mb-4 flex items-end justify-between gap-3">
+      <div>
+        {eyebrow ? (
+          <div className="mb-2 flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-sky-500" />
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-sky-600">
+              {eyebrow}
+            </p>
+          </div>
+        ) : null}
+        <h2 className={`text-[16px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+          {title}
+        </h2>
+      </div>
+      {right}
     </div>
   );
 }
@@ -450,7 +473,7 @@ function FeatureCard({ icon, title, desc, iconColor, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-[26px] border border-slate-100 bg-[#f8fbff] p-4 text-left transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(14,165,233,0.08)]"
+      className="w-full rounded-[26px] border border-slate-100 bg-[#f8fbff] p-4 text-left transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(14,165,233,0.08)] active:scale-[0.99]"
     >
       <div className="flex gap-4">
         <div
@@ -468,6 +491,50 @@ function FeatureCard({ icon, title, desc, iconColor, onClick }) {
   );
 }
 
+function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
+  return (
+    <div className="fixed bottom-3 left-1/2 z-40 w-[92%] max-w-sm -translate-x-1/2 rounded-[24px] border border-white/80 bg-white/95 p-2 shadow-[0_14px_30px_rgba(15,23,42,0.12)] backdrop-blur-md">
+      <div className="grid grid-cols-4 gap-2">
+        <button
+          onClick={onHome}
+          className={`flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold transition ${
+            currentPage === "shop" ? "bg-sky-500 text-white" : "text-slate-600 hover:bg-slate-100"
+          }`}
+        >
+          <IconHome />
+          <span>Home</span>
+        </button>
+
+        <button
+          onClick={onApi}
+          className={`flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold transition ${
+            currentPage === "api" ? "bg-sky-500 text-white" : "text-slate-600 hover:bg-slate-100"
+          }`}
+        >
+          <IconApiPage />
+          <span>API</span>
+        </button>
+
+        <button
+          onClick={onProducts}
+          className="flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold text-slate-600 transition hover:bg-slate-100"
+        >
+          <IconBag />
+          <span>Produk</span>
+        </button>
+
+        <button
+          onClick={onAdmin}
+          className="flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold text-slate-600 transition hover:bg-slate-100"
+        >
+          <IconLogin />
+          <span>Admin</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function ApiPage({
   onBack,
   onOpenMenu,
@@ -482,14 +549,15 @@ function ApiPage({
   currentTrack,
   apiFeaturesRef,
   musicRef,
+  progress,
 }) {
   return (
-    <div className="mx-auto max-w-sm px-3 pb-8">
+    <div className="mx-auto max-w-sm animate-[fadeIn_.28s_ease] px-3 pb-28">
       <div className="mt-4 rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
         <div className="flex items-center justify-between">
           <button
             onClick={onOpenMenu}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)]"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)] transition active:scale-95"
           >
             <IconMenu />
           </button>
@@ -503,7 +571,7 @@ function ApiPage({
 
           <button
             onClick={onBack}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)]"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)] transition active:scale-95"
           >
             <IconHome />
           </button>
@@ -517,38 +585,21 @@ function ApiPage({
 
         <h2 className="mt-4 text-[28px] font-extrabold leading-tight">{API_BRAND}</h2>
         <p className="mt-2 text-[13px] leading-6 text-white/90">
-          Showcase API yang lebih halus, lebih rapi, dan sekarang tombol-tombolnya tidak cuma acting.
+          Showcase API yang lebih halus, lebih rapi, dan tombolnya sekarang benar-benar kerja.
         </p>
 
         <div className="mt-5 grid grid-cols-3 gap-3">
-          {apiStats.map((item) => (
-            <div
-              key={item.label}
-              className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md"
-            >
-              <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">
-                {item.label}
-              </p>
-              <p className="mt-2 text-[15px] font-extrabold">{item.value}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-[20px] border border-white/20 bg-white/15 px-4 py-3 backdrop-blur-md">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/75">
-              Clock
-            </p>
-            <p className="mt-1 text-[18px] font-extrabold">{currentTime}</p>
+          <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">Clock</p>
+            <p className="mt-2 text-[15px] font-extrabold">{currentTime}</p>
           </div>
-
-          <div className="rounded-[20px] border border-white/20 bg-white/15 px-4 py-3 backdrop-blur-md">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/75">
-              Status
-            </p>
-            <p className="mt-1 text-[18px] font-extrabold">
-              {isPlaying ? "Active" : "Idle"}
-            </p>
+          <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">Player</p>
+            <p className="mt-2 text-[15px] font-extrabold">{isPlaying ? "ON" : "OFF"}</p>
+          </div>
+          <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">Status</p>
+            <p className="mt-2 text-[15px] font-extrabold">LIVE</p>
           </div>
         </div>
 
@@ -571,28 +622,57 @@ function ApiPage({
         </div>
       </div>
 
-      <section className="mt-6 grid grid-cols-1 gap-3">
-        {apiTools.map((item) => (
-          <button
-            key={item.title}
-            onClick={() => {
-              if (item.action === "info") onOpenInfo();
-              if (item.action === "features") onExploreApis();
-              if (item.action === "music") onMusicFocus();
-            }}
-            className="rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-[14px] font-extrabold text-slate-800">{item.title}</h3>
-                <p className="mt-1 text-[12px] leading-6 text-slate-500">{item.desc}</p>
-              </div>
-              <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-                Open
-              </div>
+      <section className="mt-6 space-y-3">
+        <button
+          onClick={onOpenInfo}
+          className="w-full rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 active:scale-[0.99]"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="text-[14px] font-extrabold text-slate-800">Get Started</h3>
+              <p className="mt-1 text-[12px] leading-6 text-slate-500">
+                Buka info singkat penggunaan API.
+              </p>
             </div>
-          </button>
-        ))}
+            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
+              Open
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={onExploreApis}
+          className="w-full rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 active:scale-[0.99]"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="text-[14px] font-extrabold text-slate-800">Main Features</h3>
+              <p className="mt-1 text-[12px] leading-6 text-slate-500">
+                Loncat ke daftar fitur utama.
+              </p>
+            </div>
+            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
+              Go
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={onMusicFocus}
+          className="w-full rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 active:scale-[0.99]"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="text-[14px] font-extrabold text-slate-800">Music Widget</h3>
+              <p className="mt-1 text-[12px] leading-6 text-slate-500">
+                Kontrol widget music player.
+              </p>
+            </div>
+            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
+              Play
+            </div>
+          </div>
+        </button>
       </section>
 
       <section
@@ -687,14 +767,14 @@ function ApiPage({
             <div className="flex items-center gap-2">
               <button
                 onClick={onTogglePlay}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_22px_rgba(14,165,233,0.24)]"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_22px_rgba(14,165,233,0.24)] transition active:scale-95"
               >
                 {isPlaying ? <IconPause /> : <IconPlay />}
               </button>
 
               <button
                 onClick={onNextTrack}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_22px_rgba(167,139,250,0.22)]"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_22px_rgba(167,139,250,0.22)] transition active:scale-95"
               >
                 <IconNext />
               </button>
@@ -703,9 +783,8 @@ function ApiPage({
 
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-white">
             <div
-              className={`h-full rounded-full bg-sky-500 transition-all duration-500 ${
-                isPlaying ? "w-[68%]" : "w-[28%]"
-              }`}
+              className="h-full rounded-full bg-sky-500 transition-all duration-700"
+              style={{ width: `${progress}%` }}
             />
           </div>
         </div>
@@ -750,13 +829,17 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
+  const [musicProgress, setMusicProgress] = useState(18);
 
-  const tracks = ["Muinzz API Music", "Night Drive", "Sky Beat", "Cloud Signal"];
+  const [orderLookupId, setOrderLookupId] = useState("");
+  const [orderLookupLoading, setOrderLookupLoading] = useState(false);
+  const [orderLookupResult, setOrderLookupResult] = useState(null);
 
   const topRef = useRef(null);
   const productsRef = useRef(null);
   const apiFeaturesRef = useRef(null);
   const musicRef = useRef(null);
+  const customerNameRef = useRef(null);
 
   const showToast = (message, type = "info") => {
     setToast({ message, type });
@@ -774,6 +857,23 @@ export default function App() {
     const timer = setInterval(updateClock, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    let progressTimer;
+
+    if (isPlaying) {
+      progressTimer = setInterval(() => {
+        setMusicProgress((prev) => {
+          if (prev >= 100) return 0;
+          return prev + 2;
+        });
+      }, 600);
+    }
+
+    return () => {
+      if (progressTimer) clearInterval(progressTimer);
+    };
+  }, [isPlaying]);
 
   useEffect(() => {
     let mounted = true;
@@ -806,6 +906,14 @@ export default function App() {
       setShowSuccessPage(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setTimeout(() => {
+        customerNameRef.current?.focus();
+      }, 150);
+    }
+  }, [selectedProduct]);
 
   const clearSuccessQuery = () => {
     const url = new URL(window.location.href);
@@ -857,9 +965,7 @@ export default function App() {
 
   useEffect(() => {
     fetchStats();
-    if (session) {
-      fetchOrders();
-    }
+    if (session) fetchOrders();
   }, [session]);
 
   const refreshData = async ({ withOrders = false } = {}) => {
@@ -873,6 +979,10 @@ export default function App() {
     if (activeCategory === "Semua") return products;
     return products.filter((item) => item.category === activeCategory);
   }, [activeCategory]);
+
+  const featuredProducts = useMemo(() => {
+    return products.filter((item) => item.featured);
+  }, []);
 
   const groupedProducts = {
     "Virtual Private Server": filteredProducts.filter(
@@ -911,7 +1021,7 @@ export default function App() {
     if (!selectedProduct) return;
 
     if (!customerName.trim() || !customerWhatsapp.trim()) {
-      showToast("Isi nama dan WhatsApp dulu.", "error");
+      showToast("Isi nama dan WhatsApp aktif dulu ya.", "error");
       return;
     }
 
@@ -925,9 +1035,9 @@ export default function App() {
         order_id: orderId,
         product_name: selectedProduct.name,
         price: amount,
-        customer_name: customerName,
-        customer_whatsapp: customerWhatsapp,
-        note: customerNote,
+        customer_name: customerName.trim(),
+        customer_whatsapp: formatWhatsapp(customerWhatsapp),
+        note: customerNote.trim(),
         status: "pending",
       },
     ]);
@@ -935,12 +1045,12 @@ export default function App() {
     setSubmitting(false);
 
     if (error) {
-      showToast("Gagal simpan order: " + error.message, "error");
+      showToast("Gagal simpan order. Coba cek koneksi lalu ulangi lagi.", "error");
       return;
     }
 
     await refreshData({ withOrders: true });
-    showToast("Mengarahkan ke pembayaran...", "success");
+    showToast("Order berhasil dibuat. Mengarah ke pembayaran...", "success");
 
     const redirectUrl = `${window.location.origin}?payment=success&order_id=${encodeURIComponent(
       orderId
@@ -964,7 +1074,7 @@ export default function App() {
     });
 
     if (error) {
-      showToast("Login admin gagal: " + error.message, "error");
+      showToast("Login admin gagal. Cek email atau password lalu coba lagi.", "error");
       return;
     }
 
@@ -987,7 +1097,7 @@ export default function App() {
       .eq("id", id);
 
     if (error) {
-      showToast("Gagal update status: " + error.message, "error");
+      showToast("Gagal update status order.", "error");
       return;
     }
 
@@ -1002,7 +1112,7 @@ export default function App() {
       .eq("id", id);
 
     if (error) {
-      showToast("Gagal update status: " + error.message, "error");
+      showToast("Gagal update status order.", "error");
       return;
     }
 
@@ -1017,12 +1127,43 @@ export default function App() {
     const { error } = await supabase.from("orders").delete().eq("id", id);
 
     if (error) {
-      showToast("Gagal hapus order: " + error.message, "error");
+      showToast("Gagal hapus order.", "error");
       return;
     }
 
     await refreshData({ withOrders: true });
     showToast("Order berhasil dihapus.", "success");
+  };
+
+  const handleLookupOrder = async () => {
+    if (!orderLookupId.trim()) {
+      showToast("Masukkan order ID dulu.", "error");
+      return;
+    }
+
+    setOrderLookupLoading(true);
+    setOrderLookupResult(null);
+
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("order_id", orderLookupId.trim())
+      .maybeSingle();
+
+    setOrderLookupLoading(false);
+
+    if (error) {
+      showToast("Gagal cek order. Coba lagi sebentar.", "error");
+      return;
+    }
+
+    if (!data) {
+      showToast("Order ID tidak ditemukan.", "error");
+      return;
+    }
+
+    setOrderLookupResult(data);
+    showToast("Order ditemukan.", "success");
   };
 
   const togglePlay = () => {
@@ -1032,6 +1173,7 @@ export default function App() {
 
   const nextTrack = () => {
     setTrackIndex((prev) => (prev + 1) % tracks.length);
+    setMusicProgress(12);
     setIsPlaying(true);
     showToast("Track diganti.", "success");
   };
@@ -1042,7 +1184,7 @@ export default function App() {
 
     setTimeout(() => {
       ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 180);
+    }, 200);
   };
 
   const ProductCard = ({ item }) => (
@@ -1055,7 +1197,17 @@ export default function App() {
     >
       <div className="p-3.5">
         <div className="mb-3 flex items-center justify-between">
-          <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
+          <span
+            className={`rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide ${
+              item.badge === "Best Seller"
+                ? "bg-orange-50 text-orange-600"
+                : item.badge === "Premium"
+                ? "bg-violet-50 text-violet-600"
+                : item.badge === "Populer"
+                ? "bg-sky-50 text-sky-600"
+                : "bg-emerald-50 text-emerald-600"
+            }`}
+          >
             {item.badge}
           </span>
           <span className="text-[10px] font-semibold text-slate-400">
@@ -1100,9 +1252,10 @@ export default function App() {
 
           <button
             onClick={() => setSelectedProduct(item)}
+            title="Buka detail produk dan checkout"
             className="mt-4 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
           >
-            Beli Sekarang
+            Checkout Sekarang
           </button>
         </div>
       </div>
@@ -1196,9 +1349,10 @@ export default function App() {
           currentTrack={tracks[trackIndex]}
           apiFeaturesRef={apiFeaturesRef}
           musicRef={musicRef}
+          progress={musicProgress}
         />
       ) : (
-        <div className="mx-auto max-w-sm px-3 pb-8">
+        <div className="mx-auto max-w-sm animate-[fadeIn_.28s_ease] px-3 pb-28">
           <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-[0_18px_36px_rgba(59,130,246,0.24)]">
             <div className="relative">
               <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
@@ -1209,7 +1363,14 @@ export default function App() {
                   Trusted Service
                 </div>
 
-                <h2 className="mt-4 text-[28px] font-extrabold leading-tight tracking-tight">
+                <div className="mt-4 flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/85">
+                    Live Support Active
+                  </span>
+                </div>
+
+                <h2 className="mt-3 text-[28px] font-extrabold leading-tight tracking-tight">
                   {BRAND}
                 </h2>
                 <p className="mt-2 max-w-[250px] text-[13px] leading-6 text-white/90">
@@ -1232,14 +1393,14 @@ export default function App() {
                     onClick={() =>
                       productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
                     }
-                    className="rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_10px_20px_rgba(255,255,255,0.18)]"
+                    className="rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_10px_20px_rgba(255,255,255,0.18)] transition hover:scale-[1.01] active:scale-[0.98]"
                   >
-                    Lihat Produk
+                    Mulai Belanja
                   </button>
 
                   <button
                     onClick={openGuideWithLoading}
-                    className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white"
+                    className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white transition active:scale-[0.98]"
                   >
                     Panduan
                   </button>
@@ -1276,6 +1437,48 @@ export default function App() {
               </div>
             </div>
           </div>
+
+          <section className="mt-8">
+            <SectionTitle eyebrow="Produk Unggulan" title="Pilihan terbaik buat langsung checkout" darkMode={darkMode} />
+            <div className="space-y-3">
+              {featuredProducts.slice(0, 2).map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => setSelectedProduct(item)}
+                  className={`w-full rounded-[24px] border p-4 text-left transition hover:-translate-y-1 active:scale-[0.99] ${
+                    darkMode
+                      ? "border-slate-800 bg-slate-900"
+                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-slate-50">
+                      <img src={item.image} alt={item.name} className="h-10 object-contain" />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className={`truncate text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                          {item.name}
+                        </h3>
+                        <span className="rounded-full bg-orange-50 px-2 py-0.5 text-[9px] font-bold text-orange-600">
+                          {item.badge}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[11px] text-slate-400">{item.description}</p>
+                    </div>
+
+                    <div className="text-right">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                        Mulai
+                      </div>
+                      <div className="mt-1 text-[14px] font-extrabold text-sky-600">{item.price}</div>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
 
           <section className="mt-8">
             <SectionTitle eyebrow="Why Choose Us" title="Layanan yang cepat dan aman" darkMode={darkMode} />
@@ -1318,7 +1521,12 @@ export default function App() {
           </section>
 
           <section className="mt-8">
-            <SectionTitle eyebrow="Category" title="Pilih produk yang kamu cari" darkMode={darkMode} />
+            <SectionTitle
+              eyebrow="Catalog"
+              title="Pilih produk yang kamu cari"
+              darkMode={darkMode}
+              right={<TooltipPill text="Klik kategori untuk loncat ke produk yang sesuai." />}
+            />
 
             <div className="flex gap-2.5 overflow-x-auto pb-2">
               {categories.map((item) => (
@@ -1358,6 +1566,70 @@ export default function App() {
               </>
             )}
           </div>
+
+          <section className="mt-10">
+            <SectionTitle
+              eyebrow="Order Lookup"
+              title="Cek status order kamu"
+              darkMode={darkMode}
+              right={<TooltipPill text="Masukkan Order ID dari halaman pembayaran berhasil." />}
+            />
+
+            <div
+              className={`rounded-[24px] border p-4 ${
+                darkMode
+                  ? "border-slate-800 bg-slate-900"
+                  : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+              }`}
+            >
+              <div className="flex gap-2">
+                <input
+                  value={orderLookupId}
+                  onChange={(e) => setOrderLookupId(e.target.value.toUpperCase())}
+                  placeholder="Contoh: ORDER-123456789"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+                />
+                <button
+                  onClick={handleLookupOrder}
+                  disabled={orderLookupLoading}
+                  className="rounded-2xl bg-sky-500 px-4 text-white transition active:scale-95 disabled:opacity-60"
+                >
+                  <IconSearch />
+                </button>
+              </div>
+
+              {orderLookupLoading ? (
+                <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-[12px] text-slate-500">
+                  Mencari order...
+                </div>
+              ) : orderLookupResult ? (
+                <div className="mt-4 rounded-2xl bg-slate-50 p-4">
+                  <div className="text-[13px] font-extrabold text-slate-800">
+                    {orderLookupResult.product_name}
+                  </div>
+                  <div className="mt-2 space-y-1 text-[12px] text-slate-600">
+                    <div>Order ID: {orderLookupResult.order_id}</div>
+                    <div>Nama: {orderLookupResult.customer_name}</div>
+                    <div>Harga: {formatRupiah(orderLookupResult.price)}</div>
+                  </div>
+                  <div className="mt-3">
+                    <span
+                      className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
+                        statusStyles[orderLookupResult.status] ||
+                        "border-slate-200 bg-slate-100 text-slate-700"
+                      }`}
+                    >
+                      {orderLookupResult.status}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-[12px] text-slate-500">
+                  Belum ada data order yang dicek.
+                </div>
+              )}
+            </div>
+          </section>
 
           <section className="mt-10">
             <SectionTitle eyebrow="Reviews" title="Testimoni Pengguna" darkMode={darkMode} />
@@ -1423,7 +1695,7 @@ export default function App() {
 
               <button
                 onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)] transition active:scale-95"
               >
                 <IconWhatsApp />
               </button>
@@ -1449,566 +1721,25 @@ export default function App() {
 
       <button
         onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-        className="fixed bottom-5 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_22px_rgba(34,197,94,0.35)] transition-all duration-300 hover:scale-105 active:scale-95"
+        className="fixed bottom-24 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_22px_rgba(34,197,94,0.35)] transition-all duration-300 hover:scale-105 active:scale-95"
       >
         <IconWhatsApp />
       </button>
 
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          <div
-            className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
-            onClick={() => setMenuOpen(false)}
-          />
-
-          <div className="relative h-full w-[84%] max-w-[340px] overflow-y-auto rounded-r-[28px] bg-white p-5 shadow-2xl">
-            <div className="mb-7 rounded-[24px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-md">
-                  <span className="text-lg font-extrabold">M</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-extrabold">{BRAND}</h3>
-                  <p className="text-xs text-white/80">Premium Digital Service</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                  Navigasi
-                </p>
-
-                <div className="space-y-3">
-                  <button
-                    onClick={() => {
-                      setCurrentPage("shop");
-                      setMenuOpen(false);
-                      setTimeout(() => {
-                        topRef.current?.scrollIntoView({ behavior: "smooth" });
-                      }, 100);
-                    }}
-                    className={`flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold transition-all duration-200 active:scale-[0.98] ${
-                      currentPage === "shop"
-                        ? "bg-slate-100 text-slate-800"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`}
-                  >
-                    <IconHome />
-                    <span>Beranda Shop</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setCurrentPage("api");
-                      setMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    className={`flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold transition-all duration-200 active:scale-[0.98] ${
-                      currentPage === "api"
-                        ? "bg-sky-500 text-white"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`}
-                  >
-                    <IconApiPage />
-                    <span>Laman API</span>
-                  </button>
-
-                  <button
-                    onClick={openGuideWithLoading}
-                    className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
-                  >
-                    <div className="flex items-center gap-3">
-                      <IconBook />
-                      <span>Panduan</span>
-                    </div>
-                    <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
-                      WAJIB
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setCurrentPage("shop");
-                      setMenuOpen(false);
-                      setTimeout(() => {
-                        productsRef.current?.scrollIntoView({ behavior: "smooth" });
-                      }, 120);
-                    }}
-                    className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-700 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
-                  >
-                    <IconBag />
-                    <span>Produk Terjual</span>
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                  Shortcut API
-                </p>
-
-                <div className="space-y-3">
-                  <button
-                    onClick={() => openApiPageAndScroll(apiFeaturesRef)}
-                    className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-700 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
-                  >
-                    <IconLayers />
-                    <span>Main Features</span>
-                  </button>
-
-                  <button
-                    onClick={() => openApiPageAndScroll(musicRef)}
-                    className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-700 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
-                  >
-                    <IconInfo />
-                    <span>Music Widget</span>
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                  Admin
-                </p>
-
-                {!session ? (
-                  <button
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setShowAdmin(true);
-                    }}
-                    className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                  >
-                    <IconLogin />
-                    <span>Login Admin</span>
-                  </button>
-                ) : (
-                  <div className="space-y-3">
-                    <button
-                      onClick={() => {
-                        setMenuOpen(false);
-                        setShowAdmin(true);
-                      }}
-                      className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                    >
-                      <IconLogin />
-                      <span>Panel Admin</span>
-                    </button>
-
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                    >
-                      <IconLogout />
-                      <span>Logout Admin</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-7 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                {BRAND}
-              </p>
-              <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                Fitur lama tetap utuh, tampilan baru ikut naik kelas, dan halaman API sekarang sudah lebih hidup.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {selectedProduct && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
-            <div className="mx-auto mb-4 flex h-[88px] w-[88px] items-center justify-center rounded-[20px] bg-slate-50">
-              <img
-                src={selectedProduct.image}
-                alt={selectedProduct.name}
-                onError={(e) => {
-                  e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
-                }}
-                className="h-[68px] object-contain"
-              />
-            </div>
-
-            <div className="text-center">
-              <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
-                {selectedProduct.badge}
-              </span>
-            </div>
-
-            <h3 className="mt-4 text-center text-[16px] font-extrabold">
-              {selectedProduct.name}
-            </h3>
-
-            <p className="mt-2 text-center text-[22px] font-extrabold text-sky-600">
-              {selectedProduct.price}
-            </p>
-
-            <p className="mt-3 text-center text-[12px] leading-6 text-slate-500">
-              {selectedProduct.description}
-            </p>
-
-            <div className="mt-4 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
-              <div className="mb-3 text-[12px] font-extrabold text-slate-700">Keunggulan Produk</div>
-              <div className="space-y-2.5">
-                {selectedProduct.features.map((feature) => (
-                  <div key={feature} className="flex items-start gap-2 text-[12px] text-slate-600">
-                    <div className="mt-0.5 text-sky-500">
-                      <IconCheckCircle />
-                    </div>
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <input
-              placeholder="Nama"
-              className="mt-4 w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-            />
-
-            <input
-              placeholder="WhatsApp"
-              className="mt-3 w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
-              value={customerWhatsapp}
-              onChange={(e) => setCustomerWhatsapp(e.target.value)}
-            />
-
-            <textarea
-              placeholder="Catatan"
-              className="mt-3 w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
-              rows={3}
-              value={customerNote}
-              onChange={(e) => setCustomerNote(e.target.value)}
-            />
-
-            <button
-              onClick={handleCreateOrder}
-              disabled={submitting}
-              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 disabled:opacity-60 active:scale-[0.98]"
-            >
-              {submitting ? "Memproses..." : "Lanjutkan Pembayaran"}
-            </button>
-
-            <button
-              onClick={() => setSelectedProduct(null)}
-              className="mt-3 w-full rounded-2xl bg-slate-200 py-3 text-[12px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-300 active:scale-[0.98]"
-            >
-              Tutup
-            </button>
-          </div>
-        </div>
-      )}
-
-      {showAdmin && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[16px] font-extrabold">
-                {session ? "Panel Admin" : "Login Admin"}
-              </h2>
-              <button onClick={() => setShowAdmin(false)} className="text-lg">
-                ✕
-              </button>
-            </div>
-
-            {!session ? (
-              <form onSubmit={handleAdminLogin}>
-                <input
-                  type="email"
-                  placeholder="Email admin"
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border px-4 py-3 text-[13px]"
-                />
-
-                <input
-                  type="password"
-                  placeholder="Password admin"
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
-                  className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px]"
-                />
-
-                <button
-                  type="submit"
-                  className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
-                >
-                  Login
-                </button>
-              </form>
-            ) : (
-              <div className="space-y-4">
-                {ordersLoading ? (
-                  <>
-                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="h-4 w-40 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
-                    </div>
-                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="h-4 w-40 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
-                    </div>
-                  </>
-                ) : orders.length === 0 ? (
-                  <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sky-100 text-sky-500">
-                      <IconBag />
-                    </div>
-                    <div className="mt-3 text-[14px] font-bold text-slate-700">Belum ada order</div>
-                    <p className="mt-1 text-[12px] text-slate-500">Order yang masuk akan tampil di sini.</p>
-                  </div>
-                ) : (
-                  orders.map((order) => (
-                    <div
-                      key={order.id}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                    >
-                      <div className="font-extrabold">{order.product_name}</div>
-                      <div className="mt-1 text-[12px]">Harga: {order.price}</div>
-                      <div className="text-[12px]">Nama: {order.customer_name}</div>
-                      <div className="text-[12px]">WhatsApp: {order.customer_whatsapp}</div>
-                      <div className="text-[12px]">Catatan: {order.note || "-"}</div>
-                      <div className="text-[12px]">Order ID: {order.order_id || "-"}</div>
-
-                      <div className="mt-3">
-                        <span
-                          className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
-                            statusStyles[order.status] ||
-                            "border-slate-200 bg-slate-100 text-slate-700"
-                          }`}
-                        >
-                          {order.status}
-                        </span>
-                      </div>
-
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        <button
-                          onClick={() => markAsPaid(order.id)}
-                          className="rounded-xl bg-green-500 px-4 py-2 text-[11px] font-bold text-white"
-                        >
-                          Tandai Berhasil
-                        </button>
-
-                        <button
-                          onClick={() => markAsPending(order.id)}
-                          className="rounded-xl bg-yellow-500 px-4 py-2 text-[11px] font-bold text-white"
-                        >
-                          Pending
-                        </button>
-
-                        <button
-                          onClick={() => deleteOrder(order.id)}
-                          className="rounded-xl bg-rose-500 px-4 py-2 text-[11px] font-bold text-white"
-                        >
-                          Hapus
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {guideLoading && (
-        <div className="fixed inset-0 z-[79] flex items-center justify-center bg-[#eef3fb]">
-          <div className="text-center">
-            <div className="mb-4 flex items-center justify-center gap-3">
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:0ms]"></span>
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:200ms]"></span>
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:400ms]"></span>
-            </div>
-            <h2 className="text-[16px] font-extrabold tracking-[0.2em] text-slate-800">
-              {BRAND}
-            </h2>
-          </div>
-        </div>
-      )}
-
-      {showGuide && (
-        <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
-          <div className="mx-auto max-w-md">
-            <button
-              onClick={() => setShowGuide(false)}
-              className="mb-4 rounded-xl bg-white px-4 py-2 text-[12px] font-bold text-slate-700 shadow"
-            >
-              ← Kembali
-            </button>
-
-            <div className="mb-6 text-center">
-              <h1 className="text-3xl font-extrabold text-sky-600">{BRAND}</h1>
-              <div className="mt-2 text-slate-400">-------------</div>
-            </div>
-
-            <div className="overflow-hidden rounded-[24px] bg-white shadow-sm">
-              <div className="border-b bg-slate-50 px-6 py-5">
-                <h2 className="text-[18px] font-extrabold text-slate-800">🛒 PANDUAN CHECKOUT</h2>
-              </div>
-
-              <div className="space-y-6 px-6 py-6 text-slate-600">
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    1
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Isi <span className="font-bold text-slate-700">Nama & WhatsApp</span> aktif untuk pengiriman data produk.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    2
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Klik tombol pembayaran dan <span className="font-bold text-slate-700">Scan QRIS</span> yang muncul.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    3
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Tunggu sistem <span className="font-bold text-slate-700">Pakasir</span> memproses pembayaran anda.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    4
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Setelah transaksi selesai, anda akan diarahkan kembali ke website.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 rounded-[24px] border border-orange-200 bg-orange-50 px-6 py-5 shadow-sm">
-              <h3 className="text-[18px] font-extrabold text-orange-600">⚠️ PENTING: JANGAN REFRESH!</h3>
-              <p className="mt-3 text-[13px] leading-7 text-orange-700">
-                Dilarang menutup atau memuat ulang halaman saat proses transaksi. Jika ada kendala, hubungi CS segera.
-              </p>
-            </div>
-
-            <button
-              onClick={() => setShowGuide(false)}
-              className="mt-6 w-full rounded-[22px] bg-sky-600 px-6 py-4 text-[14px] font-extrabold text-white shadow"
-            >
-              SAYA MENGERTI, LANJUTKAN ✅
-            </button>
-          </div>
-        </div>
-      )}
-
-      {showSuccessPage && (
-        <div className="fixed inset-0 z-[130] overflow-y-auto bg-[#eef3fb] px-4 py-8">
-          <div className="mx-auto max-w-md">
-            <div className="rounded-[28px] bg-white p-6 text-center shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-              <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                <svg className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-
-              <h2 className="mt-5 text-[22px] font-extrabold text-slate-800">Pembayaran Berhasil</h2>
-              <p className="mt-2 text-[12px] leading-6 text-slate-500">
-                Transaksi kamu sudah diproses. Simpan order ID ini untuk cek status atau hubungi admin.
-              </p>
-
-              <div className="mt-5 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  Order ID
-                </div>
-                <div className="mt-2 text-[14px] font-extrabold text-slate-800">
-                  {successOrderId || "-"}
-                </div>
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-3">
-                <button
-                  onClick={() => {
-                    setShowSuccessPage(false);
-                    clearSuccessQuery();
-                  }}
-                  className="rounded-2xl bg-sky-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white"
-                >
-                  Ke Beranda
-                </button>
-
-                <button
-                  onClick={() =>
-                    window.open(
-                      `https://wa.me/60166173129?text=${encodeURIComponent(
-                        `Halo admin, saya sudah bayar. Order ID: ${successOrderId}`
-                      )}`,
-                      "_blank"
-                    )
-                  }
-                  className="rounded-2xl bg-emerald-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white"
-                >
-                  Hubungi Admin
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showApiInfo && (
-        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-sm rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
-            <h3 className="text-[16px] font-extrabold">{API_BRAND}</h3>
-            <p className="mt-3 text-[13px] leading-6 text-slate-600">
-              Halaman API ini sekarang fokus buat showcase tools, fitur, widget, dan interaksi kecil yang lebih halus tanpa ngerusak halaman shop utama.
-            </p>
-
-            <div className="mt-4 rounded-[18px] bg-slate-50 p-4 text-[12px] leading-6 text-slate-500">
-              Kamu bisa pakai halaman ini buat:
-              <br />• landing API
-              <br />• promosi fitur tools
-              <br />• quick action section
-              <br />• endpoint showcase
-            </div>
-
-            <button
-              onClick={() => setShowApiInfo(false)}
-              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
-            >
-              Tutup
-            </button>
-          </div>
-        </div>
-      )}
-
-      {selectedApiFeature && (
-        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-sm rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
-            <h3 className="text-[16px] font-extrabold">{selectedApiFeature.title}</h3>
-            <p className="mt-3 text-[13px] leading-6 text-slate-600">{selectedApiFeature.detail}</p>
-
-            <button
-              onClick={() => setSelectedApiFeature(null)}
-              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
-            >
-              Tutup
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-    }
-    
+      <BottomNav
+        currentPage={currentPage}
+        onHome={() => {
+          setCurrentPage("shop");
+          setTimeout(() => {
+            topRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }}
+        onApi={() => {
+          setCurrentPage("api");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        onProducts={() => {
+          setCurrentPage("shop");
+          setTimeout(() => {
+            productsRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 120
