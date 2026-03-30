@@ -109,16 +109,22 @@ const apiFeatures = [
     title: "Artificial Intelligence",
     desc: "Chatbot pintar berbasis AI untuk menjawab pertanyaan dengan cepat.",
     icon: "bot",
+    detail:
+      "Fitur AI ini bisa dipakai untuk chatbot, auto-reply, generator teks, dan berbagai kebutuhan otomatisasi berbasis prompt.",
   },
   {
     title: "Social Media Downloader",
-    desc: "Unduh video dan foto dari berbagai platform tanpa watermark.",
+    desc: "Unduh video dan foto dari berbagai platform tanpa ribet.",
     icon: "download",
+    detail:
+      "Downloader bisa diarahkan ke endpoint TikTok, Instagram, YouTube, atau platform lain yang kamu sediakan di backend API.",
   },
   {
     title: "Stalker Tools",
-    desc: "Fitur analitik profil dan info publik dengan tampilan ringkas.",
+    desc: "Ambil informasi publik dari profil atau akun target dengan cepat.",
     icon: "spy",
+    detail:
+      "Bagian ini cocok untuk tools lookup publik, metadata, cek username, atau utilitas profil lain yang memang kamu izinkan.",
   },
 ];
 
@@ -145,7 +151,7 @@ function IconMenu() {
 
 function IconHome() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" />
     </svg>
   );
@@ -153,7 +159,7 @@ function IconHome() {
 
 function IconBook() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 19a2 2 0 0 0 2 2h12V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14Z" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h6M8 11h8M8 15h5" />
     </svg>
@@ -162,7 +168,7 @@ function IconBook() {
 
 function IconBag() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8Z" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 8V6a3 3 0 1 1 6 0v2" />
     </svg>
@@ -171,7 +177,7 @@ function IconBag() {
 
 function IconLogin() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M10 17l5-5-5-5" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H4" />
@@ -181,7 +187,7 @@ function IconLogin() {
 
 function IconLogout() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 17l5-5-5-5" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H9" />
@@ -217,7 +223,7 @@ function IconHeadset() {
 
 function IconCheckCircle() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" />
       <circle cx="12" cy="12" r="9" />
     </svg>
@@ -242,7 +248,7 @@ function IconStar() {
 
 function IconApiPage() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h8M6 12h12M8 18h8" />
       <circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none" />
       <circle cx="20" cy="12" r="1.5" fill="currentColor" stroke="none" />
@@ -290,7 +296,7 @@ function IconSpy() {
 
 function IconLocation() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" />
       <circle cx="12" cy="10" r="2.2" />
     </svg>
@@ -299,7 +305,7 @@ function IconLocation() {
 
 function IconDrop() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 3s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9Z" />
     </svg>
   );
@@ -307,7 +313,7 @@ function IconDrop() {
 
 function IconWind() {
   return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h10a2 2 0 1 0-2-2" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h14a2 2 0 1 1-2 2" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16h8" />
@@ -323,10 +329,27 @@ function IconPlay() {
   );
 }
 
+function IconPause() {
+  return (
+    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+      <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+    </svg>
+  );
+}
+
 function IconNext() {
   return (
     <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
       <path d="M6 5v14l8-7-8-7Zm10 0h2v14h-2z" />
+    </svg>
+  );
+}
+
+function IconInfo() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6M12 7h.01" />
     </svg>
   );
 }
@@ -348,10 +371,10 @@ function Toast({ toast, onClose }) {
       : "bg-slate-800";
 
   return (
-    <div className="fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease]">
-      <div className={`rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}>
-        {toast.message}
-      </div>
+    <div
+      className={`fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}
+    >
+      {toast.message}
     </div>
   );
 }
@@ -367,24 +390,13 @@ function SkeletonStat() {
 
 function SkeletonProduct() {
   return (
-    <div className="animate-pulse overflow-hidden rounded-[26px] border border-white/70 bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
-      <div className="rounded-[20px] border border-slate-200 bg-slate-50 p-3">
-        <div className="h-[96px] rounded-[16px] bg-slate-200" />
+    <div className="animate-pulse overflow-hidden rounded-[24px] border border-white/70 bg-white p-3 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+      <div className="rounded-[18px] border border-slate-200 bg-slate-50 p-2.5">
+        <div className="h-[84px] rounded-[14px] bg-slate-200" />
       </div>
-      <div className="mt-4 h-3 w-20 rounded bg-slate-200" />
-      <div className="mt-2 h-4 w-28 rounded bg-slate-200" />
+      <div className="mt-3 h-3 w-20 rounded bg-slate-200" />
+      <div className="mt-2 h-4 w-24 rounded bg-slate-200" />
       <div className="mt-3 h-10 rounded-2xl bg-slate-200" />
-    </div>
-  );
-}
-
-function SectionTitle({ title }) {
-  return (
-    <div className="mb-4 flex items-center gap-2">
-      <div className="h-2 w-2 rounded-full bg-sky-500" />
-      <h2 className="text-sm font-extrabold uppercase tracking-[0.18em] text-sky-600">
-        {title}
-      </h2>
     </div>
   );
 }
@@ -393,10 +405,12 @@ function FeatureCard({ icon, title, desc, iconColor, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-[26px] border border-cyan-100 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-[0.985]"
+      className="w-full rounded-[24px] bg-[#f2f6f9] p-4 text-left transition duration-300 hover:-translate-y-1"
     >
       <div className="flex gap-4">
-        <div className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[24px] bg-slate-50 ${iconColor}`}>
+        <div
+          className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[22px] bg-white ${iconColor}`}
+        >
           {icon}
         </div>
 
@@ -409,135 +423,105 @@ function FeatureCard({ icon, title, desc, iconColor, onClick }) {
   );
 }
 
-function ApiPage({ onBack, onShowToast }) {
-  const [clock, setClock] = useState("--:--");
-  const [playState, setPlayState] = useState("play");
-  const [featureIndex, setFeatureIndex] = useState(0);
-
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      setClock(
-        now.toLocaleTimeString("id-ID", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      );
-    };
-
-    updateClock();
-    const interval = setInterval(updateClock, 1000 * 30);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleExplore = () => {
-    onShowToast("Menampilkan fitur API utama.", "success");
-    document.getElementById("api-main-features")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
-  const handlePlay = () => {
-    setPlayState((prev) => (prev === "play" ? "pause" : "play"));
-    onShowToast(
-      playState === "play" ? "Music preview dijalankan." : "Music preview dihentikan.",
-      "info"
-    );
-  };
-
-  const handleNext = () => {
-    setFeatureIndex((prev) => (prev + 1) % apiFeatures.length);
-    onShowToast(`Berpindah ke ${apiFeatures[(featureIndex + 1) % apiFeatures.length].title}.`, "success");
-  };
-
+function ApiPage({
+  onBack,
+  onOpenMenu,
+  apiFeaturesRef,
+  onExploreApis,
+  onOpenInfo,
+  onOpenFeature,
+  currentTime,
+  isPlaying,
+  onTogglePlay,
+  onNextTrack,
+  currentTrack,
+}) {
   return (
-    <div className="mx-auto max-w-sm px-3 pb-8 pt-4">
-      <div className="rounded-[28px] border border-white/80 bg-white/90 p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] backdrop-blur-md">
+    <div className="mx-auto max-w-sm px-3 pb-8">
+      <div className="mt-4 rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
         <div className="flex items-center justify-between">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.25)]">
-            <IconApiPage />
-          </div>
+          <button
+            onClick={onOpenMenu}
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.30)]"
+          >
+            <IconMenu />
+          </button>
 
           <div className="text-center">
-            <h1 className="text-[15px] font-extrabold uppercase tracking-[0.14em] text-sky-600">
-              Muinzz API
-            </h1>
-            <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-400">
+            <h1 className="text-[15px] font-extrabold text-sky-500">Muinzz Api</h1>
+            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
               Api Showcase
             </p>
           </div>
 
           <button
             onClick={onBack}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.25)] transition-all duration-300 hover:scale-[1.03] active:scale-95"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.30)]"
           >
             <IconHome />
           </button>
         </div>
       </div>
 
-      <section className="mt-8 overflow-hidden rounded-[32px] bg-gradient-to-br from-sky-500 via-cyan-500 to-blue-600 p-5 text-white shadow-[0_20px_40px_rgba(14,165,233,0.26)]">
-        <div className="relative">
-          <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-white/10 blur-3xl" />
-          <div className="absolute bottom-0 left-0 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+      <div className="mt-7 overflow-hidden rounded-[34px] bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 p-5 text-white shadow-[0_20px_36px_rgba(14,165,233,0.26)]">
+        <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/90">
+          Smart Tools
+        </div>
 
-          <div className="relative">
-            <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]">
-              Smart Tools
-            </div>
+        <h2 className="mt-5 text-[30px] font-extrabold leading-tight">Muinzz API</h2>
+        <p className="mt-3 text-[13px] leading-8 text-white/90">
+          Halaman showcase API dengan tampilan lebih halus, interaktif, dan tetap nyambung sama vibe utama website kamu.
+        </p>
 
-            <h2 className="mt-3 text-[28px] font-extrabold leading-tight">Muinzz API</h2>
-            <p className="mt-2 text-[13px] leading-6 text-white/90">
-              Halaman showcase API dengan tampilan lebih halus, interaktif, dan tetap nyambung sama vibe utama website kamu.
-            </p>
+        <div className="mt-6 grid grid-cols-3 gap-3">
+          <div className="rounded-[24px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
+            <p className="text-[10px] font-bold uppercase text-white/75">Clock</p>
+            <p className="mt-2 text-[16px] font-extrabold">{currentTime}</p>
+          </div>
 
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              <div className="rounded-[22px] border border-white/15 bg-white/15 px-3 py-3 text-center backdrop-blur-md">
-                <p className="text-[10px] font-bold uppercase text-white/75">Clock</p>
-                <p className="mt-2 text-[16px] font-extrabold">{clock}</p>
-              </div>
+          <div className="rounded-[24px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
+            <p className="text-[10px] font-bold uppercase text-white/75">Power</p>
+            <p className="mt-2 text-[16px] font-extrabold">32%</p>
+          </div>
 
-              <div className="rounded-[22px] border border-white/15 bg-white/15 px-3 py-3 text-center backdrop-blur-md">
-                <p className="text-[10px] font-bold uppercase text-white/75">Power</p>
-                <p className="mt-2 text-[16px] font-extrabold">32%</p>
-              </div>
-
-              <div className="rounded-[22px] border border-white/15 bg-white/15 px-3 py-3 text-center backdrop-blur-md">
-                <p className="text-[10px] font-bold uppercase text-white/75">Total</p>
-                <p className="mt-2 text-[16px] font-extrabold">300</p>
-              </div>
-            </div>
-
-            <div className="mt-5 flex gap-3">
-              <button
-                onClick={handleExplore}
-                className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2.5 text-[12px] font-extrabold text-sky-600 transition-all duration-300 hover:scale-[1.02] active:scale-[0.97]"
-              >
-                <IconLayers />
-                <span>Explore APIs</span>
-              </button>
-
-              <button
-                onClick={() => onShowToast("Bagian API siap dipakai sebagai halaman showcase.", "success")}
-                className="inline-flex items-center gap-2 rounded-2xl border border-white/35 px-4 py-2.5 text-[12px] font-extrabold text-white transition-all duration-300 hover:bg-white/10 active:scale-[0.97]"
-              >
-                <IconBook />
-                <span>Info</span>
-              </button>
-            </div>
+          <div className="rounded-[24px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
+            <p className="text-[10px] font-bold uppercase text-white/75">Total</p>
+            <p className="mt-2 text-[16px] font-extrabold">300</p>
           </div>
         </div>
-      </section>
+
+        <div className="mt-6 flex gap-3">
+          <button
+            onClick={onExploreApis}
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-4 text-[13px] font-extrabold text-sky-600 shadow-[0_12px_24px_rgba(255,255,255,0.16)] transition hover:scale-[1.01] active:scale-[0.98]"
+          >
+            <IconLayers />
+            <span>Explore APIs</span>
+          </button>
+
+          <button
+            onClick={onOpenInfo}
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-4 text-[13px] font-extrabold text-white transition active:scale-[0.98]"
+          >
+            <IconInfo />
+            <span>Info</span>
+          </button>
+        </div>
+      </div>
 
       <section
-        id="api-main-features"
-        className="mt-8 rounded-[30px] border border-cyan-100 bg-gradient-to-b from-sky-50 to-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.04)]"
+        ref={apiFeaturesRef}
+        className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
       >
-        <SectionTitle title="Main Features" />
+        <div className="mb-5 flex items-center gap-2 text-slate-800">
+          <div className="h-3 w-3 rounded-full bg-sky-500" />
+          <h3 className="text-[14px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+            Main Features
+          </h3>
+        </div>
 
         <div className="space-y-4">
-          {apiFeatures.map((item, index) => (
+          {apiFeatures.map((item) => (
             <FeatureCard
               key={item.title}
               icon={
@@ -558,17 +542,19 @@ function ApiPage({ onBack, onShowToast }) {
                   ? "text-cyan-500"
                   : "text-rose-400"
               }
-              onClick={() => {
-                setFeatureIndex(index);
-                onShowToast(`${item.title} dipilih.`, "success");
-              }}
+              onClick={() => onOpenFeature(item)}
             />
           ))}
         </div>
       </section>
 
-      <section className="mt-8 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
-        <SectionTitle title="Weather Info" />
+      <section className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+        <div className="mb-4 flex items-center gap-2 text-slate-500">
+          <IconLocation />
+          <h3 className="text-[12px] font-extrabold uppercase tracking-[0.18em]">
+            Weather Info
+          </h3>
+        </div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-start gap-4">
@@ -613,50 +599,27 @@ function ApiPage({ onBack, onShowToast }) {
             </div>
 
             <div>
-              <div className="text-[14px] font-extrabold text-sky-500">Music Player</div>
-              <div className="text-[12px] text-slate-400">
-                {apiFeatures[featureIndex].title}
+              <div className="text-[14px] font-extrabold text-sky-500">
+                {isPlaying ? "Now Playing" : "Music Player"}
               </div>
+              <div className="text-[12px] text-slate-400">{currentTrack}</div>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={handlePlay}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_24px_rgba(14,165,233,0.25)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.96]"
+              onClick={onTogglePlay}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_24px_rgba(14,165,233,0.25)]"
             >
-              <IconPlay />
+              {isPlaying ? <IconPause /> : <IconPlay />}
             </button>
             <button
-              onClick={handleNext}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_24px_rgba(167,139,250,0.25)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.96]"
+              onClick={onNextTrack}
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_24px_rgba(167,139,250,0.25)]"
             >
               <IconNext />
             </button>
           </div>
-        </div>
-      </section>
-
-      <section className="mt-8 rounded-[28px] bg-sky-500 p-5 text-center text-white shadow-[0_16px_34px_rgba(14,165,233,0.22)]">
-        <h3 className="text-[18px] font-extrabold">Siap eksplor fitur API?</h3>
-        <p className="mt-2 text-[12px] leading-6 text-white/85">
-          Showcase ini sekarang sudah lebih hidup, tombol berfungsi, dan tampilannya lebih mulus.
-        </p>
-
-        <div className="mt-4 flex justify-center gap-3">
-          <button
-            onClick={handleExplore}
-            className="rounded-2xl bg-white px-4 py-2.5 text-[12px] font-extrabold text-sky-600 transition-all duration-300 hover:scale-[1.02] active:scale-[0.97]"
-          >
-            Lihat Features
-          </button>
-
-          <button
-            onClick={onBack}
-            className="rounded-2xl border border-white/35 px-4 py-2.5 text-[12px] font-extrabold text-white transition-all duration-300 hover:bg-white/10 active:scale-[0.97]"
-          >
-            Kembali ke Shop
-          </button>
         </div>
       </section>
     </div>
@@ -693,12 +656,36 @@ export default function App() {
   const [showSuccessPage, setShowSuccessPage] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState("");
 
+  const [showApiInfo, setShowApiInfo] = useState(false);
+  const [selectedApiFeature, setSelectedApiFeature] = useState(null);
+
+  const [currentTime, setCurrentTime] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const tracks = ["Muinzz API Music", "Night Drive", "Sky Beat", "Cloud Signal"];
+  const [trackIndex, setTrackIndex] = useState(0);
+
   const topRef = useRef(null);
   const productsRef = useRef(null);
+  const apiFeaturesRef = useRef(null);
+
+  const currentTrack = tracks[trackIndex];
 
   const showToast = (message, type = "info") => {
     setToast({ message, type });
   };
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      setCurrentTime(`${hh}:${mm}`);
+    };
+
+    updateClock();
+    const timer = setInterval(updateClock, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -828,7 +815,7 @@ export default function App() {
     setTimeout(() => {
       setGuideLoading(false);
       setShowGuide(true);
-    }, 1300);
+    }, 900);
   };
 
   const handleCreateOrder = async () => {
@@ -905,7 +892,10 @@ export default function App() {
   };
 
   const markAsPaid = async (id) => {
-    const { error } = await supabase.from("orders").update({ status: "paid" }).eq("id", id);
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: "paid" })
+      .eq("id", id);
 
     if (error) {
       showToast("Gagal update status: " + error.message, "error");
@@ -946,17 +936,33 @@ export default function App() {
     showToast("Order berhasil dihapus.", "success");
   };
 
+  const togglePlay = () => {
+    setIsPlaying((prev) => !prev);
+    showToast(isPlaying ? "Music dijeda." : "Music diputar.", "info");
+  };
+
+  const nextTrack = () => {
+    setTrackIndex((prev) => (prev + 1) % tracks.length);
+    setIsPlaying(true);
+    showToast("Pindah track.", "success");
+  };
+
+  const scrollToApiFeatures = () => {
+    apiFeaturesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    showToast("Menuju fitur API.", "info");
+  };
+
   const ProductCard = ({ item }) => (
     <div
-      className={`group overflow-hidden rounded-[26px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(15,23,42,0.08)] active:scale-[0.985] ${
+      className={`group overflow-hidden rounded-[24px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)] active:scale-[0.985] ${
         darkMode
           ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]"
           : "border-white/70 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.05)]"
       }`}
     >
-      <div className="p-4">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="rounded-full bg-gradient-to-r from-sky-500 to-blue-500 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-white">
+      <div className="p-3">
+        <div className="mb-2.5 flex items-center justify-between">
+          <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
             {item.badge}
           </span>
           <span className="text-[10px] font-semibold text-slate-400">
@@ -965,43 +971,43 @@ export default function App() {
         </div>
 
         <div
-          className={`rounded-[20px] border p-3 ${
+          className={`rounded-[18px] border p-2.5 ${
             darkMode ? "border-slate-700 bg-slate-800" : "border-slate-200 bg-slate-50"
           }`}
         >
-          <div className="flex h-[96px] items-center justify-center overflow-hidden rounded-[16px] bg-white">
+          <div className="flex h-[82px] items-center justify-center overflow-hidden rounded-[14px] bg-white">
             <img
               src={item.image}
               alt={item.name}
               onError={(e) => {
                 e.currentTarget.src = "https://via.placeholder.com/140x100?text=No+Image";
               }}
-              className="h-full object-contain transition-transform duration-300 group-hover:scale-110"
+              className="h-full object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-3">
           <h3
-            className={`min-h-[40px] text-[14px] font-extrabold leading-tight ${
+            className={`min-h-[34px] text-[13px] font-extrabold leading-tight ${
               darkMode ? "text-white" : "text-slate-800"
             }`}
           >
             {item.name}
           </h3>
 
-          <p className="mt-1.5 text-[11px] leading-5 text-slate-400">{item.description}</p>
+          <p className="mt-1 text-[11px] leading-5 text-slate-400">{item.description}</p>
 
-          <div className="mt-4">
+          <div className="mt-3">
             <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
               Harga mulai
             </div>
-            <p className="mt-1 text-[17px] font-extrabold text-sky-600">{item.price}</p>
+            <p className="mt-1 text-[16px] font-extrabold text-sky-600">{item.price}</p>
           </div>
 
           <button
             onClick={() => setSelectedProduct(item)}
-            className="mt-4 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-300 hover:scale-[1.01] hover:bg-sky-600 active:scale-[0.96]"
+            className="mt-3.5 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
           >
             Beli Sekarang
           </button>
@@ -1014,8 +1020,14 @@ export default function App() {
     if (!data.length) return null;
 
     return (
-      <section className="mt-8 animate-[fadeIn_.28s_ease]">
-        <SectionTitle title={title} />
+      <section className="mt-8">
+        <div className="mb-4 flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-sky-500" />
+          <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+            {title}
+          </h2>
+        </div>
+
         <div className="grid grid-cols-2 gap-3.5">
           {data.map((item, index) => (
             <ProductCard key={index} item={item} />
@@ -1033,7 +1045,11 @@ export default function App() {
     >
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      <div className={`sticky top-0 z-40 backdrop-blur-md ${darkMode ? "bg-slate-950/80" : "bg-[#eef3fb]/80"}`}>
+      <div
+        className={`sticky top-0 z-40 backdrop-blur-md ${
+          darkMode ? "bg-slate-950/80" : "bg-[#eef3fb]/80"
+        }`}
+      >
         <div ref={topRef} className="mx-auto max-w-sm px-3 pt-3">
           <div
             className={`rounded-[24px] border px-4 py-3 ${
@@ -1080,151 +1096,153 @@ export default function App() {
             setCurrentPage("shop");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          onShowToast={showToast}
+          onOpenMenu={() => setMenuOpen(true)}
+          apiFeaturesRef={apiFeaturesRef}
+          onExploreApis={scrollToApiFeatures}
+          onOpenInfo={() => setShowApiInfo(true)}
+          onOpenFeature={(item) => setSelectedApiFeature(item)}
+          currentTime={currentTime}
+          isPlaying={isPlaying}
+          onTogglePlay={togglePlay}
+          onNextTrack={nextTrack}
+          currentTrack={currentTrack}
         />
       ) : (
         <div className="mx-auto max-w-sm px-3 pb-6">
-          <section className="mt-4 relative overflow-hidden rounded-[32px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-[0_20px_40px_rgba(59,130,246,0.35)] animate-[fadeIn_.28s_ease]">
-            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
-
+          <div className="mt-4 overflow-hidden rounded-[28px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_16px_34px_rgba(59,130,246,0.25)]">
             <div className="relative">
-              <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]">
-                Trusted Digital Store
-              </span>
+              <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+              <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
 
-              <h2 className="mt-3 text-[26px] font-extrabold leading-tight tracking-tight">
-                {BRAND}
-              </h2>
+              <div className="relative">
+                <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
+                  Trusted Service
+                </div>
 
-              <p className="mt-2 max-w-[240px] text-[13px] leading-6 text-white/90">
-                Premium account, panel, dan server provider yang simpel, cepat, dan enak dipakai.
-              </p>
+                <h2 className="mt-3 text-[24px] font-extrabold leading-tight tracking-tight">
+                  {BRAND}
+                </h2>
+                <p className="mt-2 max-w-[235px] text-[13px] leading-6 text-white/90">
+                  Premium account, panel, dan server provider yang simpel, cepat, dan enak dipakai.
+                </p>
 
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-                {promoItems.map((item) => (
-                  <div
-                    key={item}
-                    className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
+                <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+                  {promoItems.map((item) => (
+                    <div
+                      key={item}
+                      className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 flex gap-3">
+                  <button
+                    onClick={() =>
+                      productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }
+                    className="rounded-full bg-white px-5 py-3 text-[13px] font-extrabold text-sky-600"
                   >
-                    {item}
-                  </div>
-                ))}
-              </div>
+                    Lihat Produk
+                  </button>
+                  <button
+                    onClick={openGuideWithLoading}
+                    className="rounded-full border border-white/30 bg-white/10 px-5 py-3 text-[13px] font-extrabold text-white"
+                  >
+                    Panduan
+                  </button>
+                </div>
 
-              <div className="mt-5 flex gap-3">
-                <button
-                  onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })}
-                  className="rounded-2xl bg-white px-4 py-2.5 text-[12px] font-extrabold text-sky-600 transition-all duration-300 hover:scale-[1.02] active:scale-[0.97]"
-                >
-                  Lihat Produk
-                </button>
-
-                <button
-                  onClick={openGuideWithLoading}
-                  className="rounded-2xl border border-white/35 px-4 py-2.5 text-[12px] font-extrabold text-white transition-all duration-300 hover:bg-white/10 active:scale-[0.97]"
-                >
-                  Panduan
-                </button>
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-2.5">
-                {statsLoading ? (
-                  <>
-                    <SkeletonStat />
-                    <SkeletonStat />
-                    <div className="col-span-2">
+                <div className="mt-4 grid grid-cols-2 gap-2.5">
+                  {statsLoading ? (
+                    <>
                       <SkeletonStat />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                      <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
-                      <div className="mt-1 text-base font-extrabold">{paidCount}</div>
-                    </div>
+                      <SkeletonStat />
+                      <div className="col-span-2">
+                        <SkeletonStat />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                        <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
+                        <div className="mt-1 text-base font-extrabold">{paidCount}</div>
+                      </div>
 
-                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                      <div className="text-[10px] text-white/80">Total Order</div>
-                      <div className="mt-1 text-base font-extrabold">{totalOrders}</div>
-                    </div>
+                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                        <div className="text-[10px] text-white/80">Total Order</div>
+                        <div className="mt-1 text-base font-extrabold">{totalOrders}</div>
+                      </div>
 
-                    <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                      <div className="text-[10px] text-white/80">Pending</div>
-                      <div className="mt-1 text-base font-extrabold">{totalPending}</div>
-                    </div>
-                  </>
-                )}
+                      <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                        <div className="text-[10px] text-white/80">Pending</div>
+                        <div className="mt-1 text-base font-extrabold">{totalPending}</div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </section>
+          </div>
 
-          <section className="mt-8 animate-[fadeIn_.28s_ease]">
-            <div className="grid grid-cols-3 gap-2.5">
-              {trustItems.map((item) => {
-                const icon =
-                  item.icon === "shield" ? (
-                    <IconShield />
-                  ) : item.icon === "bolt" ? (
-                    <IconBolt />
-                  ) : (
-                    <IconHeadset />
-                  );
-
-                return (
-                  <div
-                    key={item.title}
-                    className={`rounded-[22px] border p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                      darkMode
-                        ? "border-slate-800 bg-slate-900"
-                        : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                    }`}
-                  >
-                    <div className="mb-2 text-sky-500">{icon}</div>
-                    <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-                      {item.title}
-                    </h3>
-                    <p className="mt-1.5 text-[10px] leading-5 text-slate-400">{item.desc}</p>
-                  </div>
+          <div className="mt-6 grid grid-cols-3 gap-2.5">
+            {trustItems.map((item) => {
+              const icon =
+                item.icon === "shield" ? (
+                  <IconShield />
+                ) : item.icon === "bolt" ? (
+                  <IconBolt />
+                ) : (
+                  <IconHeadset />
                 );
-              })}
-            </div>
-          </section>
 
-          <section className="mt-8 animate-[fadeIn_.28s_ease]">
-            <SectionTitle title="Kategori Produk" />
-            <div className="flex gap-2.5 overflow-x-auto pb-2">
-              {categories.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => handleCategoryClick(item)}
-                  className={`whitespace-nowrap rounded-full border px-4 py-2 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
-                    activeCategory === item
-                      ? "border-sky-500 bg-sky-500 text-white shadow-md"
-                      : darkMode
-                      ? "border-slate-700 bg-slate-900 text-white"
-                      : "border-white/70 bg-white text-slate-700 shadow-sm"
+              return (
+                <div
+                  key={item.title}
+                  className={`rounded-[20px] border p-3 transition-all duration-300 hover:-translate-y-1 ${
+                    darkMode
+                      ? "border-slate-800 bg-slate-900"
+                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
                   }`}
                 >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </section>
+                  <div className="mb-2 text-sky-500">{icon}</div>
+                  <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-1.5 text-[10px] leading-5 text-slate-400">{item.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2">
+            {categories.map((item) => (
+              <button
+                key={item}
+                onClick={() => handleCategoryClick(item)}
+                className={`whitespace-nowrap rounded-full border px-4 py-2 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
+                  activeCategory === item
+                    ? "border-sky-500 bg-sky-500 text-white shadow-md"
+                    : darkMode
+                    ? "border-slate-700 bg-slate-900 text-white"
+                    : "border-white/70 bg-white text-slate-700 shadow-sm"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
 
           <div ref={productsRef}>
-            <section className="mt-8 animate-[fadeIn_.28s_ease]">
-              <SectionTitle title="Produk Populer" />
-              <div className="grid grid-cols-2 gap-3.5">
-                {products.slice(0, 2).map((item, index) => (
-                  <ProductCard key={index} item={item} />
-                ))}
-              </div>
-            </section>
-
             {statsLoading ? (
               <section className="mt-8">
-                <SectionTitle title="Virtual Private Server" />
+                <div className="mb-4 flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-sky-500" />
+                  <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+                    Virtual Private Server
+                  </h2>
+                </div>
                 <div className="grid grid-cols-2 gap-3.5">
                   <SkeletonProduct />
                   <SkeletonProduct />
@@ -1232,20 +1250,28 @@ export default function App() {
               </section>
             ) : (
               <>
-                <Section title="Virtual Private Server" data={groupedProducts["Virtual Private Server"]} />
+                <Section
+                  title="Virtual Private Server"
+                  data={groupedProducts["Virtual Private Server"]}
+                />
                 <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
               </>
             )}
           </div>
 
-          <section className="mt-8 animate-[fadeIn_.28s_ease]">
-            <SectionTitle title="Testimoni Pengguna" />
+          <section className="mt-8">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-sky-500" />
+              <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+                Testimoni Pengguna
+              </h2>
+            </div>
 
             <div className="space-y-3">
               {testimonials.map((item) => (
                 <div
                   key={item.name}
-                  className={`rounded-[24px] border p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+                  className={`rounded-[22px] border p-4 ${
                     darkMode
                       ? "border-slate-800 bg-slate-900"
                       : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
@@ -1275,22 +1301,8 @@ export default function App() {
             </div>
           </section>
 
-          <section className="mt-10 rounded-[28px] bg-sky-500 p-5 text-center text-white shadow-[0_16px_34px_rgba(14,165,233,0.22)] animate-[fadeIn_.28s_ease]">
-            <h3 className="text-[18px] font-extrabold">Siap mulai sekarang?</h3>
-            <p className="mt-2 text-[12px] leading-6 text-white/85">
-              Order cepat, proses instan, tampilan lebih rapi, dan alur belinya jelas.
-            </p>
-
-            <button
-              onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })}
-              className="mt-4 rounded-2xl bg-white px-5 py-2.5 text-[12px] font-extrabold text-sky-600 transition-all duration-300 hover:scale-[1.02] active:scale-[0.97]"
-            >
-              Mulai Order
-            </button>
-          </section>
-
           <footer
-            className={`mt-8 rounded-[24px] border px-4 py-5 animate-[fadeIn_.28s_ease] ${
+            className={`mt-8 rounded-[24px] border px-4 py-5 ${
               darkMode
                 ? "border-slate-800 bg-slate-900"
                 : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
@@ -1308,7 +1320,7 @@ export default function App() {
 
               <button
                 onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.96]"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)]"
               >
                 <IconWhatsApp />
               </button>
@@ -1316,11 +1328,15 @@ export default function App() {
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
               <div>
-                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Layanan</div>
+                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
+                  Layanan
+                </div>
                 <div className="mt-1">Setiap hari</div>
               </div>
               <div>
-                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Support</div>
+                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
+                  Support
+                </div>
                 <div className="mt-1">Fast respon admin</div>
               </div>
             </div>
@@ -1341,10 +1357,13 @@ export default function App() {
 
       {menuOpen && (
         <div className="fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px]" onClick={() => setMenuOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
+            onClick={() => setMenuOpen(false)}
+          />
 
-          <div className="relative h-full w-[82%] max-w-[340px] animate-[slideInLeft_.22s_ease] rounded-r-[28px] bg-white p-5 shadow-2xl">
-            <div className="mb-7 rounded-[24px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
+          <div className="relative h-full w-[82%] max-w-[340px] overflow-y-auto rounded-r-[28px] bg-white p-5 shadow-2xl">
+            <div className="mb-7 rounded-[22px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-md">
                   <span className="text-lg font-extrabold">M</span>
@@ -1356,84 +1375,73 @@ export default function App() {
               </div>
             </div>
 
-            <div className="mb-4">
-              <div className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                Navigasi
-              </div>
+            <div className="space-y-3.5">
+              <button
+                onClick={() => {
+                  setCurrentPage("shop");
+                  setMenuOpen(false);
+                  setTimeout(() => {
+                    topRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] bg-slate-100 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-200 active:scale-[0.98]"
+              >
+                <IconHome />
+                <span>Beranda Shop</span>
+              </button>
 
-              <div className="space-y-2.5">
+              <button
+                onClick={() => {
+                  setCurrentPage("api");
+                  setMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+              >
+                <IconApiPage />
+                <span>Laman API</span>
+              </button>
+
+              <button
+                onClick={openGuideWithLoading}
+                className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
+              >
+                <div className="flex items-center gap-3">
+                  <IconBook />
+                  <span>Panduan</span>
+                </div>
+                <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
+                  WAJIB
+                </span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setCurrentPage("shop");
+                  setMenuOpen(false);
+                  setTimeout(() => {
+                    productsRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 120);
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+              >
+                <IconBag />
+                <span>Produk Terjual</span>
+              </button>
+
+              {!session ? (
                 <button
                   onClick={() => {
-                    setCurrentPage("shop");
                     setMenuOpen(false);
-                    setTimeout(() => {
-                      topRef.current?.scrollIntoView({ behavior: "smooth" });
-                    }, 100);
+                    setShowAdmin(true);
                   }}
-                  className={`flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold transition-all duration-200 active:scale-[0.98] ${
-                    currentPage === "shop"
-                      ? "bg-slate-100 text-slate-800"
-                      : "text-slate-800 hover:bg-slate-100"
-                  }`}
+                  className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
                 >
-                  <IconHome />
-                  <span>Beranda Shop</span>
+                  <IconLogin />
+                  <span>Login Admin</span>
                 </button>
-
-                <button
-                  onClick={() => {
-                    setCurrentPage("api");
-                    setMenuOpen(false);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className={`flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold transition-all duration-200 active:scale-[0.98] ${
-                    currentPage === "api"
-                      ? "bg-sky-500 text-white"
-                      : "text-slate-800 hover:bg-slate-100"
-                  }`}
-                >
-                  <IconApiPage />
-                  <span>Laman API</span>
-                </button>
-
-                <button
-                  onClick={openGuideWithLoading}
-                  className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
-                >
-                  <div className="flex items-center gap-3">
-                    <IconBook />
-                    <span>Panduan</span>
-                  </div>
-                  <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
-                    WAJIB
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setCurrentPage("shop");
-                    setMenuOpen(false);
-                    setTimeout(() => {
-                      productsRef.current?.scrollIntoView({ behavior: "smooth" });
-                    }, 120);
-                  }}
-                  className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-100 active:scale-[0.98]"
-                >
-                  <IconBag />
-                  <span>Produk Terjual</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="my-4 border-t border-slate-200" />
-
-            <div>
-              <div className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                Admin
-              </div>
-
-              <div className="space-y-2.5">
-                {!session ? (
+              ) : (
+                <>
                   <button
                     onClick={() => {
                       setMenuOpen(false);
@@ -1442,31 +1450,18 @@ export default function App() {
                     className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
                   >
                     <IconLogin />
-                    <span>Login Admin</span>
+                    <span>Panel Admin</span>
                   </button>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        setMenuOpen(false);
-                        setShowAdmin(true);
-                      }}
-                      className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                    >
-                      <IconLogin />
-                      <span>Panel Admin</span>
-                    </button>
 
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                    >
-                      <IconLogout />
-                      <span>Logout Admin</span>
-                    </button>
-                  </>
-                )}
-              </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                  >
+                    <IconLogout />
+                    <span>Logout Admin</span>
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="mt-7 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
@@ -1474,7 +1469,7 @@ export default function App() {
                 {BRAND}
               </p>
               <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                Fitur lama tetap aman, tampilan baru masuk, dan sidebar sekarang lebih rapi biar tidak terasa kayak file hasil kecelakaan.
+                Fitur lama tetap aman, tampilan baru masuk, dan halaman API sekarang gak sekadar ganteng doang tapi udah hidup.
               </p>
             </div>
           </div>
@@ -1483,15 +1478,15 @@ export default function App() {
 
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
-            <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-[18px] bg-slate-50">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[18px] bg-slate-50">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
                 onError={(e) => {
                   e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
                 }}
-                className="h-20 object-contain"
+                className="h-16 object-contain"
               />
             </div>
 
@@ -1501,7 +1496,9 @@ export default function App() {
               </span>
             </div>
 
-            <h3 className="mt-4 text-center text-[16px] font-extrabold">{selectedProduct.name}</h3>
+            <h3 className="mt-4 text-center text-[16px] font-extrabold">
+              {selectedProduct.name}
+            </h3>
 
             <p className="mt-2 text-center text-[20px] font-extrabold text-sky-600">
               {selectedProduct.price}
@@ -1512,7 +1509,9 @@ export default function App() {
             </p>
 
             <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50 p-4">
-              <div className="mb-3 text-[12px] font-extrabold text-slate-700">Keunggulan Produk</div>
+              <div className="mb-3 text-[12px] font-extrabold text-slate-700">
+                Keunggulan Produk
+              </div>
               <div className="space-y-2">
                 {selectedProduct.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-2 text-[12px] text-slate-600">
@@ -1550,14 +1549,14 @@ export default function App() {
             <button
               onClick={handleCreateOrder}
               disabled={submitting}
-              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-300 hover:scale-[1.01] hover:bg-sky-600 disabled:opacity-60 active:scale-[0.96]"
+              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 disabled:opacity-60 active:scale-[0.98]"
             >
               {submitting ? "Memproses..." : "Lanjutkan Pembayaran"}
             </button>
 
             <button
               onClick={() => setSelectedProduct(null)}
-              className="mt-3 w-full rounded-2xl bg-slate-200 py-3 text-[12px] font-bold text-slate-800 transition-all duration-300 hover:bg-slate-300 active:scale-[0.96]"
+              className="mt-3 w-full rounded-2xl bg-slate-200 py-3 text-[12px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-300 active:scale-[0.98]"
             >
               Tutup
             </button>
@@ -1567,9 +1566,11 @@ export default function App() {
 
       {showAdmin && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
-          <div className="max-h-[90vh] w-full max-w-lg animate-[modalIn_.22s_ease] overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[16px] font-extrabold">{session ? "Panel Admin" : "Login Admin"}</h2>
+              <h2 className="text-[16px] font-extrabold">
+                {session ? "Panel Admin" : "Login Admin"}
+              </h2>
               <button onClick={() => setShowAdmin(false)} className="text-lg">
                 ✕
               </button>
@@ -1595,7 +1596,7 @@ export default function App() {
 
                 <button
                   type="submit"
-                  className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.96]"
+                  className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
                 >
                   Login
                 </button>
@@ -1636,7 +1637,8 @@ export default function App() {
                       <div className="mt-3">
                         <span
                           className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
-                            statusStyles[order.status] || "border-slate-200 bg-slate-100 text-slate-700"
+                            statusStyles[order.status] ||
+                            "border-slate-200 bg-slate-100 text-slate-700"
                           }`}
                         >
                           {order.status}
@@ -1646,21 +1648,21 @@ export default function App() {
                       <div className="mt-3 flex flex-wrap gap-2">
                         <button
                           onClick={() => markAsPaid(order.id)}
-                          className="rounded-xl bg-green-500 px-4 py-2 text-[11px] font-bold text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.96]"
+                          className="rounded-xl bg-green-500 px-4 py-2 text-[11px] font-bold text-white"
                         >
                           Tandai Berhasil
                         </button>
 
                         <button
                           onClick={() => markAsPending(order.id)}
-                          className="rounded-xl bg-yellow-500 px-4 py-2 text-[11px] font-bold text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.96]"
+                          className="rounded-xl bg-yellow-500 px-4 py-2 text-[11px] font-bold text-white"
                         >
                           Pending
                         </button>
 
                         <button
                           onClick={() => deleteOrder(order.id)}
-                          className="rounded-xl bg-rose-500 px-4 py-2 text-[11px] font-bold text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.96]"
+                          className="rounded-xl bg-rose-500 px-4 py-2 text-[11px] font-bold text-white"
                         >
                           Hapus
                         </button>
@@ -1682,14 +1684,16 @@ export default function App() {
               <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:200ms]"></span>
               <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:400ms]"></span>
             </div>
-            <h2 className="text-[16px] font-extrabold tracking-[0.2em] text-slate-800">{BRAND}</h2>
+            <h2 className="text-[16px] font-extrabold tracking-[0.2em] text-slate-800">
+              {BRAND}
+            </h2>
           </div>
         </div>
       )}
 
       {showGuide && (
         <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
-          <div className="mx-auto max-w-md animate-[fadeIn_.22s_ease]">
+          <div className="mx-auto max-w-md">
             <button
               onClick={() => setShowGuide(false)}
               className="mb-4 rounded-xl bg-white px-4 py-2 text-[12px] font-bold text-slate-700 shadow"
@@ -1713,7 +1717,7 @@ export default function App() {
                     1
                   </div>
                   <p className="text-[13px] leading-7">
-                    Isi <span className="font-bold text-slate-700">Email & WhatsApp</span> aktif untuk pengiriman data produk.
+                    Isi <span className="font-bold text-slate-700">Nama & WhatsApp</span> aktif untuk pengiriman data produk.
                   </p>
                 </div>
 
@@ -1747,7 +1751,9 @@ export default function App() {
             </div>
 
             <div className="mt-6 rounded-[24px] border border-orange-200 bg-orange-50 px-6 py-5 shadow-sm">
-              <h3 className="text-[18px] font-extrabold text-orange-600">⚠️ PENTING: JANGAN REFRESH!</h3>
+              <h3 className="text-[18px] font-extrabold text-orange-600">
+                ⚠️ PENTING: JANGAN REFRESH!
+              </h3>
               <p className="mt-3 text-[13px] leading-7 text-orange-700">
                 Dilarang menutup atau memuat ulang halaman saat proses transaksi. Jika ada kendala, hubungi CS segera.
               </p>
@@ -1765,9 +1771,9 @@ export default function App() {
 
       {showSuccessPage && (
         <div className="fixed inset-0 z-[130] overflow-y-auto bg-[#eef3fb] px-4 py-8">
-          <div className="mx-auto max-w-md animate-[fadeIn_.25s_ease]">
+          <div className="mx-auto max-w-md">
             <div className="rounded-[28px] bg-white p-6 text-center shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-              <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+              <div className="mx-auto flex h-18 w-18 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <svg className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -1782,7 +1788,9 @@ export default function App() {
                 <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                   Order ID
                 </div>
-                <div className="mt-2 text-[14px] font-extrabold text-slate-800">{successOrderId || "-"}</div>
+                <div className="mt-2 text-[14px] font-extrabold text-slate-800">
+                  {successOrderId || "-"}
+                </div>
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-3">
@@ -1791,7 +1799,7 @@ export default function App() {
                     setShowSuccessPage(false);
                     clearSuccessQuery();
                   }}
-                  className="rounded-2xl bg-sky-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.96]"
+                  className="rounded-2xl bg-sky-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white"
                 >
                   Ke Beranda
                 </button>
@@ -1805,7 +1813,7 @@ export default function App() {
                       "_blank"
                     )
                   }
-                  className="rounded-2xl bg-emerald-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white transition-all duration-300 hover:scale-[1.01] active:scale-[0.96]"
+                  className="rounded-2xl bg-emerald-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white"
                 >
                   Hubungi Admin
                 </button>
@@ -1814,6 +1822,41 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {showApiInfo && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <h3 className="text-[16px] font-extrabold">Tentang Muinzz API</h3>
+            <p className="mt-3 text-[13px] leading-6 text-slate-600">
+              Halaman ini adalah showcase untuk tools API kamu. Sekarang tombol-tombol utamanya sudah hidup:
+              explore, info, feature detail, player, clock, dan navigasi.
+            </p>
+            <button
+              onClick={() => setShowApiInfo(false)}
+              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
+
+      {selectedApiFeature && (
+        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <h3 className="text-[16px] font-extrabold">{selectedApiFeature.title}</h3>
+            <p className="mt-3 text-[13px] leading-6 text-slate-600">
+              {selectedApiFeature.detail}
+            </p>
+            <button
+              onClick={() => setSelectedApiFeature(null)}
+              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-  }
+                           }
