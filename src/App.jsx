@@ -348,8 +348,7 @@ toast.type === "error"
 : "bg-slate-800";
 
 return (
-<div className="fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease]">
-<div className={rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}
+className={`fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease] rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}
 {toast.message}
 </div>
 </div>
