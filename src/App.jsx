@@ -3,15 +3,17 @@ import { supabase } from "./supabase";
 
 const BRAND = "Muinshop Cik";
 const API_BRAND = "Muinzz API";
+const WHATSAPP_NUMBER = "60166173129";
 const PAKASIR_SLUG = import.meta.env.VITE_PAKASIR_SLUG || "muin2";
 
 const products = [
   {
+    id: 1,
     category: "Virtual Private Server",
     name: "VPS R16 4 CORE",
     price: "Rp 8.000",
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
-    description: "VPS hemat untuk kebutuhan ringan dan testing.",
+    description: "VPS hemat untuk kebutuhan ringan, testing, dan bot kecil.",
     badge: "Best Seller",
     featured: true,
     features: [
@@ -21,11 +23,13 @@ const products = [
     ],
   },
   {
+    id: 2,
     category: "Virtual Private Server",
     name: "VPS R16 8 CORE",
-    price: "Rp 8.000",
+    price: "Rp 12.000",
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
-    description: "VPS lebih kencang untuk kebutuhan menengah.",
+    description:
+      "VPS lebih kencang untuk kebutuhan menengah dan workload lebih stabil.",
     badge: "Populer",
     featured: false,
     features: [
@@ -35,11 +39,13 @@ const products = [
     ],
   },
   {
+    id: 3,
     category: "Pterodactyl",
     name: "Pterodactyl Unlimited",
     price: "Rp 10.000",
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-    description: "Paket panel unlimited untuk kebutuhan game server.",
+    description:
+      "Panel unlimited untuk kebutuhan game server yang lebih fleksibel.",
     badge: "Premium",
     featured: true,
     features: [
@@ -49,11 +55,13 @@ const products = [
     ],
   },
   {
+    id: 4,
     category: "Pterodactyl",
     name: "Pterodactyl 9GB",
     price: "Rp 5.000",
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-    description: "Panel Pterodactyl dengan resource 9 GB.",
+    description:
+      "Panel Pterodactyl 9 GB dengan harga hemat untuk kebutuhan dasar.",
     badge: "Termurah",
     featured: false,
     features: [
@@ -68,23 +76,23 @@ const promoItems = [
   "Proses otomatis 24 jam",
   "Pembayaran QRIS cepat",
   "Support fast respon",
-  "Produk ready",
+  "Produk ready kirim",
 ];
 
 const trustItems = [
   {
     title: "Transaksi Aman",
-    desc: "Pembayaran cepat dan aman lewat QRIS.",
+    desc: "Pembayaran dibungkus flow yang lebih rapi dan mudah dipahami.",
     icon: "shield",
   },
   {
     title: "Proses Cepat",
-    desc: "Order diproses dengan sistem yang rapi.",
+    desc: "Order masuk diproses cepat tanpa bikin user nunggu lama.",
     icon: "bolt",
   },
   {
     title: "Support Aktif",
-    desc: "Bisa langsung hubungi admin kalau butuh bantuan.",
+    desc: "Kalau ada kendala, admin tetap gampang dihubungi.",
     icon: "headset",
   },
 ];
@@ -116,7 +124,7 @@ const apiFeatures = [
     desc: "Chatbot pintar berbasis AI untuk menjawab pertanyaan secara instan.",
     icon: "bot",
     detail:
-      "Bagian AI cocok untuk chatbot, auto-reply, content helper, dan automasi alur kerja sederhana sampai kompleks.",
+      "Cocok untuk chatbot, auto-reply, content helper, dan automasi alur kerja sederhana sampai kompleks.",
   },
   {
     title: "Social Media Downloader",
@@ -370,24 +378,6 @@ function IconInfo() {
   );
 }
 
-function IconSearch() {
-  return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <circle cx="11" cy="11" r="7" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="m20 20-3.5-3.5" />
-    </svg>
-  );
-}
-
-function IconSparkles() {
-  return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 15l0.8 2.2L22 18l-2.2 0.8L19 21l-0.8-2.2L16 18l2.2-0.8L19 15Z" />
-    </svg>
-  );
-}
-
 function TooltipPill({ text }) {
   return (
     <span
@@ -417,9 +407,7 @@ function Toast({ toast, onClose }) {
 
   return (
     <div className="fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2">
-      <div
-        className={`rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}
-      >
+      <div className={`rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}>
         {toast.message}
       </div>
     </div>
@@ -634,9 +622,7 @@ function ApiPage({
                 Buka info singkat penggunaan API.
               </p>
             </div>
-            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-              Open
-            </div>
+            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">Open</div>
           </div>
         </button>
 
@@ -651,9 +637,7 @@ function ApiPage({
                 Loncat ke daftar fitur utama.
               </p>
             </div>
-            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-              Go
-            </div>
+            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">Go</div>
           </div>
         </button>
 
@@ -664,13 +648,9 @@ function ApiPage({
           <div className="flex items-start justify-between gap-3">
             <div>
               <h3 className="text-[14px] font-extrabold text-slate-800">Music Widget</h3>
-              <p className="mt-1 text-[12px] leading-6 text-slate-500">
-                Kontrol widget music player.
-              </p>
+              <p className="mt-1 text-[12px] leading-6 text-slate-500">Kontrol widget music player.</p>
             </div>
-            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-              Play
-            </div>
+            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">Play</div>
           </div>
         </button>
       </section>
@@ -753,15 +733,9 @@ function ApiPage({
         <div className="rounded-[24px] bg-gradient-to-br from-sky-50 via-cyan-50 to-violet-50 p-4">
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                Now Playing
-              </p>
-              <div className="mt-1 truncate text-[15px] font-extrabold text-sky-600">
-                {currentTrack}
-              </div>
-              <div className="mt-1 text-[12px] text-slate-500">
-                {isPlaying ? "Sedang diputar" : "Sedang dijeda"}
-              </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Now Playing</p>
+              <div className="mt-1 truncate text-[15px] font-extrabold text-sky-600">{currentTrack}</div>
+              <div className="mt-1 text-[12px] text-slate-500">{isPlaying ? "Sedang diputar" : "Sedang dijeda"}</div>
             </div>
 
             <div className="flex items-center gap-2">
@@ -782,10 +756,7 @@ function ApiPage({
           </div>
 
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-white">
-            <div
-              className="h-full rounded-full bg-sky-500 transition-all duration-700"
-              style={{ width: `${progress}%` }}
-            />
+            <div className="h-full rounded-full bg-sky-500 transition-all duration-700" style={{ width: `${progress}%` }} />
           </div>
         </div>
       </section>
@@ -839,49 +810,20 @@ export default function App() {
   const productsRef = useRef(null);
   const apiFeaturesRef = useRef(null);
   const musicRef = useRef(null);
-  const customerNameRef = useRef(null);
+  const lookupInputRef = useRef(null);
+  const nameInputRef = useRef(null);
+
+  const currentTrack = tracks[trackIndex];
 
   const showToast = (message, type = "info") => {
     setToast({ message, type });
   };
 
   useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      const hh = String(now.getHours()).padStart(2, "0");
-      const mm = String(now.getMinutes()).padStart(2, "0");
-      setCurrentTime(`${hh}:${mm}`);
-    };
-
-    updateClock();
-    const timer = setInterval(updateClock, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    let progressTimer;
-
-    if (isPlaying) {
-      progressTimer = setInterval(() => {
-        setMusicProgress((prev) => {
-          if (prev >= 100) return 0;
-          return prev + 2;
-        });
-      }, 600);
-    }
-
-    return () => {
-      if (progressTimer) clearInterval(progressTimer);
-    };
-  }, [isPlaying]);
-
-  useEffect(() => {
     let mounted = true;
 
     supabase.auth.getSession().then(({ data }) => {
-      if (mounted) {
-        setSession(data.session ?? null);
-      }
+      if (mounted) setSession(data.session ?? null);
     });
 
     const {
@@ -908,12 +850,39 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (selectedProduct) {
-      setTimeout(() => {
-        customerNameRef.current?.focus();
-      }, 150);
+    const clock = () => {
+      const now = new Date();
+      setCurrentTime(
+        now.toLocaleTimeString("id-ID", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
+    };
+
+    clock();
+    const timer = setInterval(clock, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setMusicProgress((prev) => {
+        if (prev >= 100) return 0;
+        return prev + 4;
+      });
+    }, 700);
+
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (showGuide) return;
+    if (selectedProduct && nameInputRef.current) {
+      setTimeout(() => nameInputRef.current?.focus(), 100);
     }
-  }, [selectedProduct]);
+  }, [selectedProduct, showGuide]);
 
   const clearSuccessQuery = () => {
     const url = new URL(window.location.href);
@@ -970,19 +939,13 @@ export default function App() {
 
   const refreshData = async ({ withOrders = false } = {}) => {
     await fetchStats();
-    if (withOrders && session) {
-      await fetchOrders();
-    }
+    if (withOrders && session) await fetchOrders();
   };
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === "Semua") return products;
     return products.filter((item) => item.category === activeCategory);
   }, [activeCategory]);
-
-  const featuredProducts = useMemo(() => {
-    return products.filter((item) => item.featured);
-  }, []);
 
   const groupedProducts = {
     "Virtual Private Server": filteredProducts.filter(
@@ -997,9 +960,7 @@ export default function App() {
     setMenuOpen(false);
 
     setTimeout(() => {
-      const y =
-        (productsRef.current?.getBoundingClientRect().top || 0) + window.scrollY - 88;
-
+      const y = productsRef.current?.getBoundingClientRect().top + window.scrollY - 88;
       window.scrollTo({
         top: y,
         behavior: "smooth",
@@ -1014,14 +975,14 @@ export default function App() {
     setTimeout(() => {
       setGuideLoading(false);
       setShowGuide(true);
-    }, 900);
+    }, 1000);
   };
 
   const handleCreateOrder = async () => {
     if (!selectedProduct) return;
 
     if (!customerName.trim() || !customerWhatsapp.trim()) {
-      showToast("Isi nama dan WhatsApp aktif dulu ya.", "error");
+      showToast("Isi nama dan WhatsApp dulu.", "error");
       return;
     }
 
@@ -1035,9 +996,9 @@ export default function App() {
         order_id: orderId,
         product_name: selectedProduct.name,
         price: amount,
-        customer_name: customerName.trim(),
-        customer_whatsapp: formatWhatsapp(customerWhatsapp),
-        note: customerNote.trim(),
+        customer_name: customerName,
+        customer_whatsapp: customerWhatsapp,
+        note: customerNote,
         status: "pending",
       },
     ]);
@@ -1045,12 +1006,12 @@ export default function App() {
     setSubmitting(false);
 
     if (error) {
-      showToast("Gagal simpan order. Coba cek koneksi lalu ulangi lagi.", "error");
+      showToast("Gagal simpan order: " + error.message, "error");
       return;
     }
 
     await refreshData({ withOrders: true });
-    showToast("Order berhasil dibuat. Mengarah ke pembayaran...", "success");
+    showToast("Mengarahkan ke pembayaran...", "success");
 
     const redirectUrl = `${window.location.origin}?payment=success&order_id=${encodeURIComponent(
       orderId
@@ -1074,7 +1035,7 @@ export default function App() {
     });
 
     if (error) {
-      showToast("Login admin gagal. Cek email atau password lalu coba lagi.", "error");
+      showToast("Login admin gagal: " + error.message, "error");
       return;
     }
 
@@ -1097,7 +1058,7 @@ export default function App() {
       .eq("id", id);
 
     if (error) {
-      showToast("Gagal update status order.", "error");
+      showToast("Gagal update status: " + error.message, "error");
       return;
     }
 
@@ -1112,7 +1073,7 @@ export default function App() {
       .eq("id", id);
 
     if (error) {
-      showToast("Gagal update status order.", "error");
+      showToast("Gagal update status: " + error.message, "error");
       return;
     }
 
@@ -1127,7 +1088,7 @@ export default function App() {
     const { error } = await supabase.from("orders").delete().eq("id", id);
 
     if (error) {
-      showToast("Gagal hapus order.", "error");
+      showToast("Gagal hapus order: " + error.message, "error");
       return;
     }
 
@@ -1153,7 +1114,7 @@ export default function App() {
     setOrderLookupLoading(false);
 
     if (error) {
-      showToast("Gagal cek order. Coba lagi sebentar.", "error");
+      showToast("Gagal cek order: " + error.message, "error");
       return;
     }
 
@@ -1163,51 +1124,26 @@ export default function App() {
     }
 
     setOrderLookupResult(data);
-    showToast("Order ditemukan.", "success");
-  };
-
-  const togglePlay = () => {
-    setIsPlaying((prev) => !prev);
-    showToast(isPlaying ? "Music dijeda." : "Music diputar.", "info");
-  };
-
-  const nextTrack = () => {
-    setTrackIndex((prev) => (prev + 1) % tracks.length);
-    setMusicProgress(12);
-    setIsPlaying(true);
-    showToast("Track diganti.", "success");
-  };
-
-  const openApiPageAndScroll = (ref) => {
-    setCurrentPage("api");
-    setMenuOpen(false);
-
-    setTimeout(() => {
-      ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 200);
+    showToast("Order berhasil ditemukan.", "success");
   };
 
   const ProductCard = ({ item }) => (
     <div
-      className={`group overflow-hidden rounded-[26px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)] active:scale-[0.985] ${
+      className={`group relative overflow-hidden rounded-[24px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)] active:scale-[0.985] ${
         darkMode
           ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]"
           : "border-white/70 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.05)]"
       }`}
     >
-      <div className="p-3.5">
-        <div className="mb-3 flex items-center justify-between">
-          <span
-            className={`rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide ${
-              item.badge === "Best Seller"
-                ? "bg-orange-50 text-orange-600"
-                : item.badge === "Premium"
-                ? "bg-violet-50 text-violet-600"
-                : item.badge === "Populer"
-                ? "bg-sky-50 text-sky-600"
-                : "bg-emerald-50 text-emerald-600"
-            }`}
-          >
+      {item.featured && (
+        <div className="absolute right-3 top-3 z-10 rounded-full bg-yellow-400 px-2.5 py-1 text-[10px] font-black text-black shadow">
+          HOT
+        </div>
+      )}
+
+      <div className="p-3">
+        <div className="mb-2.5 flex items-center justify-between">
+          <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
             {item.badge}
           </span>
           <span className="text-[10px] font-semibold text-slate-400">
@@ -1216,11 +1152,11 @@ export default function App() {
         </div>
 
         <div
-          className={`rounded-[20px] border p-3 ${
+          className={`rounded-[18px] border p-2.5 ${
             darkMode ? "border-slate-700 bg-slate-800" : "border-slate-200 bg-slate-50"
           }`}
         >
-          <div className="flex h-[92px] items-center justify-center overflow-hidden rounded-[16px] bg-white">
+          <div className="flex h-[82px] items-center justify-center overflow-hidden rounded-[14px] bg-white">
             <img
               src={item.image}
               alt={item.name}
@@ -1234,7 +1170,7 @@ export default function App() {
 
         <div className="pt-3">
           <h3
-            className={`min-h-[36px] text-[13px] font-extrabold leading-tight ${
+            className={`min-h-[34px] text-[13px] font-extrabold leading-tight ${
               darkMode ? "text-white" : "text-slate-800"
             }`}
           >
@@ -1247,15 +1183,15 @@ export default function App() {
             <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
               Harga mulai
             </div>
-            <p className="mt-1 text-[17px] font-extrabold text-sky-600">{item.price}</p>
+            <p className="mt-1 text-[16px] font-extrabold text-sky-600">{item.price}</p>
           </div>
 
           <button
+            title="Buka detail produk"
             onClick={() => setSelectedProduct(item)}
-            title="Buka detail produk dan checkout"
-            className="mt-4 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
+            className="mt-3.5 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
           >
-            Checkout Sekarang
+            Beli Sekarang ⚡
           </button>
         </div>
       </div>
@@ -1266,12 +1202,17 @@ export default function App() {
     if (!data.length) return null;
 
     return (
-      <section className="mt-10">
-        <SectionTitle eyebrow="Catalog" title={title} darkMode={darkMode} />
+      <section className="mt-8">
+        <SectionTitle
+          eyebrow="Kategori"
+          title={title}
+          darkMode={darkMode}
+          right={<TooltipPill text={`Menampilkan produk ${title}`} />}
+        />
 
         <div className="grid grid-cols-2 gap-3.5">
-          {data.map((item, index) => (
-            <ProductCard key={index} item={item} />
+          {data.map((item) => (
+            <ProductCard key={item.id} item={item} />
           ))}
         </div>
       </section>
@@ -1280,7 +1221,7 @@ export default function App() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
+      className={`min-h-screen transition-all duration-500 ${
         darkMode ? "bg-slate-950 text-white" : "bg-[#eef3fb] text-slate-900"
       }`}
     >
@@ -1293,7 +1234,7 @@ export default function App() {
       >
         <div ref={topRef} className="mx-auto max-w-sm px-3 pt-3">
           <div
-            className={`rounded-[26px] border px-4 py-3 ${
+            className={`rounded-[24px] border px-4 py-3 ${
               darkMode
                 ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]"
                 : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.05)]"
@@ -1331,159 +1272,104 @@ export default function App() {
         </div>
       </div>
 
-      {currentPage === "api" ? (
-        <ApiPage
-          onBack={() => {
-            setCurrentPage("shop");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          onOpenMenu={() => setMenuOpen(true)}
-          onExploreApis={() => apiFeaturesRef.current?.scrollIntoView({ behavior: "smooth" })}
-          onOpenInfo={() => setShowApiInfo(true)}
-          onOpenFeature={(item) => setSelectedApiFeature(item)}
-          onMusicFocus={() => musicRef.current?.scrollIntoView({ behavior: "smooth" })}
-          currentTime={currentTime}
-          isPlaying={isPlaying}
-          onTogglePlay={togglePlay}
-          onNextTrack={nextTrack}
-          currentTrack={tracks[trackIndex]}
-          apiFeaturesRef={apiFeaturesRef}
-          musicRef={musicRef}
-          progress={musicProgress}
-        />
-      ) : (
-        <div className="mx-auto max-w-sm animate-[fadeIn_.28s_ease] px-3 pb-28">
-          <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-[0_18px_36px_rgba(59,130,246,0.24)]">
-            <div className="relative">
-              <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
-              <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
-
+      <div className="animate-[fadeIn_.35s_ease]">
+        {currentPage === "api" ? (
+          <ApiPage
+            onBack={() => {
+              setCurrentPage("shop");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            onOpenMenu={() => setMenuOpen(true)}
+            onExploreApis={() => {
+              apiFeaturesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+              showToast("Loncat ke fitur API.", "success");
+            }}
+            onOpenInfo={() => setShowApiInfo(true)}
+            onOpenFeature={(item) => setSelectedApiFeature(item)}
+            onMusicFocus={() => {
+              musicRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+              showToast("Scroll ke music widget.", "success");
+            }}
+            currentTime={currentTime}
+            isPlaying={isPlaying}
+            onTogglePlay={() => {
+              setIsPlaying((prev) => !prev);
+              showToast(isPlaying ? "Music dijeda." : "Music diputar.", "success");
+            }}
+            onNextTrack={() => {
+              setTrackIndex((prev) => (prev + 1) % tracks.length);
+              setMusicProgress(8);
+              showToast("Track diganti.", "success");
+            }}
+            currentTrack={currentTrack}
+            apiFeaturesRef={apiFeaturesRef}
+            musicRef={musicRef}
+            progress={musicProgress}
+          />
+        ) : (
+          <div className="mx-auto max-w-sm px-3 pb-28">
+            <div className="mt-4 overflow-hidden rounded-[28px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_16px_34px_rgba(59,130,246,0.25)]">
               <div className="relative">
-                <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
-                  Trusted Service
-                </div>
+                <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+                <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
 
-                <div className="mt-4 flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/85">
-                    Live Support Active
-                  </span>
-                </div>
+                <div className="relative">
+                  <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
+                    Trusted Service
+                  </div>
 
-                <h2 className="mt-3 text-[28px] font-extrabold leading-tight tracking-tight">
-                  {BRAND}
-                </h2>
-                <p className="mt-2 max-w-[250px] text-[13px] leading-6 text-white/90">
-                  Premium account, panel, dan server provider yang simpel, cepat, dan enak dipakai.
-                </p>
+                  <h2 className="mt-3 text-[24px] font-extrabold leading-tight tracking-tight">
+                    {BRAND}
+                  </h2>
+                  <p className="mt-2 max-w-[235px] text-[13px] leading-6 text-white/90">
+                    Premium account, panel, dan server provider yang simpel, cepat,
+                    dan enak dipakai.
+                  </p>
 
-                <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-                  {promoItems.map((item) => (
-                    <div
-                      key={item}
-                      className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
+                  <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+                    {promoItems.map((item) => (
+                      <div
+                        key={item}
+                        className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
 
-                <div className="mt-5 flex gap-3">
-                  <button
-                    onClick={() =>
-                      productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-                    }
-                    className="rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_10px_20px_rgba(255,255,255,0.18)] transition hover:scale-[1.01] active:scale-[0.98]"
-                  >
-                    Mulai Belanja
-                  </button>
-
-                  <button
-                    onClick={openGuideWithLoading}
-                    className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white transition active:scale-[0.98]"
-                  >
-                    Panduan
-                  </button>
-                </div>
-
-                <div className="mt-5 grid grid-cols-2 gap-2.5">
-                  {statsLoading ? (
-                    <>
-                      <SkeletonStat />
-                      <SkeletonStat />
-                      <div className="col-span-2">
+                  <div className="mt-4 grid grid-cols-2 gap-2.5">
+                    {statsLoading ? (
+                      <>
                         <SkeletonStat />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-                        <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
-                        <div className="mt-1 text-[18px] font-extrabold">{paidCount}</div>
-                      </div>
+                        <SkeletonStat />
+                        <div className="col-span-2">
+                          <SkeletonStat />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                          <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
+                          <div className="mt-1 text-base font-extrabold">{paidCount}</div>
+                        </div>
 
-                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-                        <div className="text-[10px] text-white/80">Total Order</div>
-                        <div className="mt-1 text-[18px] font-extrabold">{totalOrders}</div>
-                      </div>
+                        <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                          <div className="text-[10px] text-white/80">Total Order</div>
+                          <div className="mt-1 text-base font-extrabold">{totalOrders}</div>
+                        </div>
 
-                      <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-                        <div className="text-[10px] text-white/80">Pending</div>
-                        <div className="mt-1 text-[18px] font-extrabold">{totalPending}</div>
-                      </div>
-                    </>
-                  )}
+                        <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                          <div className="text-[10px] text-white/80">Pending</div>
+                          <div className="mt-1 text-base font-extrabold">{totalPending}</div>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <section className="mt-8">
-            <SectionTitle eyebrow="Produk Unggulan" title="Pilihan terbaik buat langsung checkout" darkMode={darkMode} />
-            <div className="space-y-3">
-              {featuredProducts.slice(0, 2).map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => setSelectedProduct(item)}
-                  className={`w-full rounded-[24px] border p-4 text-left transition hover:-translate-y-1 active:scale-[0.99] ${
-                    darkMode
-                      ? "border-slate-800 bg-slate-900"
-                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-slate-50">
-                      <img src={item.image} alt={item.name} className="h-10 object-contain" />
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className={`truncate text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-                          {item.name}
-                        </h3>
-                        <span className="rounded-full bg-orange-50 px-2 py-0.5 text-[9px] font-bold text-orange-600">
-                          {item.badge}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-[11px] text-slate-400">{item.description}</p>
-                    </div>
-
-                    <div className="text-right">
-                      <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                        Mulai
-                      </div>
-                      <div className="mt-1 text-[14px] font-extrabold text-sky-600">{item.price}</div>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="mt-8">
-            <SectionTitle eyebrow="Why Choose Us" title="Layanan yang cepat dan aman" darkMode={darkMode} />
-
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="mt-6 grid grid-cols-3 gap-2.5">
               {trustItems.map((item) => {
                 const icon =
                   item.icon === "shield" ? (
@@ -1497,15 +1383,13 @@ export default function App() {
                 return (
                   <div
                     key={item.title}
-                    className={`rounded-[22px] border p-3.5 transition-all duration-300 hover:-translate-y-1 ${
+                    className={`rounded-[20px] border p-3 transition-all duration-300 hover:-translate-y-1 ${
                       darkMode
                         ? "border-slate-800 bg-slate-900"
                         : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
                     }`}
                   >
-                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-500">
-                      {icon}
-                    </div>
+                    <div className="mb-2 text-sky-500">{icon}</div>
                     <h3
                       className={`text-[12px] font-extrabold ${
                         darkMode ? "text-white" : "text-slate-800"
@@ -1518,100 +1402,37 @@ export default function App() {
                 );
               })}
             </div>
-          </section>
 
-          <section className="mt-8">
-            <SectionTitle
-              eyebrow="Catalog"
-              title="Pilih produk yang kamu cari"
-              darkMode={darkMode}
-              right={<TooltipPill text="Klik kategori untuk loncat ke produk yang sesuai." />}
-            />
+            <section className="mt-8 rounded-[24px] border border-white/80 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+              <SectionTitle
+                eyebrow="Order Tracking"
+                title="Cek Status Order"
+                right={<TooltipPill text="Masukkan order ID untuk cek status transaksi." />}
+              />
 
-            <div className="flex gap-2.5 overflow-x-auto pb-2">
-              {categories.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => handleCategoryClick(item)}
-                  className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
-                    activeCategory === item
-                      ? "border-sky-500 bg-sky-500 text-white shadow-md"
-                      : darkMode
-                      ? "border-slate-700 bg-slate-900 text-white"
-                      : "border-white/70 bg-white text-slate-700 shadow-sm"
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <div ref={productsRef}>
-            {statsLoading ? (
-              <section className="mt-8">
-                <SectionTitle eyebrow="Catalog" title="Virtual Private Server" darkMode={darkMode} />
-                <div className="grid grid-cols-2 gap-3.5">
-                  <SkeletonProduct />
-                  <SkeletonProduct />
-                </div>
-              </section>
-            ) : (
-              <>
-                <Section
-                  title="Virtual Private Server"
-                  data={groupedProducts["Virtual Private Server"]}
-                />
-                <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
-              </>
-            )}
-          </div>
-
-          <section className="mt-10">
-            <SectionTitle
-              eyebrow="Order Lookup"
-              title="Cek status order kamu"
-              darkMode={darkMode}
-              right={<TooltipPill text="Masukkan Order ID dari halaman pembayaran berhasil." />}
-            />
-
-            <div
-              className={`rounded-[24px] border p-4 ${
-                darkMode
-                  ? "border-slate-800 bg-slate-900"
-                  : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-              }`}
-            >
               <div className="flex gap-2">
                 <input
+                  ref={lookupInputRef}
                   value={orderLookupId}
-                  onChange={(e) => setOrderLookupId(e.target.value.toUpperCase())}
+                  onChange={(e) => setOrderLookupId(e.target.value)}
                   placeholder="Contoh: ORDER-123456789"
                   className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
                 />
                 <button
                   onClick={handleLookupOrder}
                   disabled={orderLookupLoading}
-                  className="rounded-2xl bg-sky-500 px-4 text-white transition active:scale-95 disabled:opacity-60"
+                  className="rounded-2xl bg-sky-500 px-4 py-3 text-[12px] font-extrabold text-white transition hover:bg-sky-600 disabled:opacity-60"
                 >
-                  <IconSearch />
+                  {orderLookupLoading ? "Cek..." : "Cek"}
                 </button>
               </div>
 
-              {orderLookupLoading ? (
-                <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-[12px] text-slate-500">
-                  Mencari order...
-                </div>
-              ) : orderLookupResult ? (
-                <div className="mt-4 rounded-2xl bg-slate-50 p-4">
-                  <div className="text-[13px] font-extrabold text-slate-800">
-                    {orderLookupResult.product_name}
-                  </div>
-                  <div className="mt-2 space-y-1 text-[12px] text-slate-600">
-                    <div>Order ID: {orderLookupResult.order_id}</div>
-                    <div>Nama: {orderLookupResult.customer_name}</div>
-                    <div>Harga: {formatRupiah(orderLookupResult.price)}</div>
-                  </div>
+              {orderLookupResult ? (
+                <div className="mt-4 rounded-[20px] border border-slate-200 bg-slate-50 p-4 text-[12px] text-slate-600">
+                  <div className="font-extrabold text-slate-800">{orderLookupResult.product_name}</div>
+                  <div className="mt-1">Nama: {orderLookupResult.customer_name}</div>
+                  <div>Harga: {formatRupiah(orderLookupResult.price)}</div>
+                  <div>WhatsApp: {orderLookupResult.customer_whatsapp}</div>
                   <div className="mt-3">
                     <span
                       className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
@@ -1623,104 +1444,136 @@ export default function App() {
                     </span>
                   </div>
                 </div>
-              ) : (
-                <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-[12px] text-slate-500">
-                  Belum ada data order yang dicek.
-                </div>
-              )}
-            </div>
-          </section>
+              ) : null}
+            </section>
 
-          <section className="mt-10">
-            <SectionTitle eyebrow="Reviews" title="Testimoni Pengguna" darkMode={darkMode} />
-
-            <div className="space-y-3">
-              {testimonials.map((item) => (
-                <div
-                  key={item.name}
-                  className={`rounded-[24px] border p-4 ${
-                    darkMode
-                      ? "border-slate-800 bg-slate-900"
-                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+            <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2">
+              {categories.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => handleCategoryClick(item)}
+                  className={`whitespace-nowrap rounded-full border px-4 py-2 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
+                    activeCategory === item
+                      ? "border-sky-500 bg-sky-500 text-white shadow-md"
+                      : darkMode
+                      ? "border-slate-700 bg-slate-900 text-white"
+                      : "border-white/70 bg-white text-slate-700 shadow-sm"
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sm font-extrabold text-sky-600">
-                      {item.name.charAt(0)}
-                    </div>
-                    <div className="min-w-0">
-                      <h3
-                        className={`text-[13px] font-extrabold ${
-                          darkMode ? "text-white" : "text-slate-800"
-                        }`}
-                      >
-                        {item.name}
-                      </h3>
-                      <p className="text-[10px] text-slate-400">{item.role}</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex gap-1">
-                    {Array.from({ length: item.rating }).map((_, i) => (
-                      <IconStar key={i} />
-                    ))}
-                  </div>
-
-                  <p className="mt-3 text-[12px] leading-6 text-slate-500">{item.text}</p>
-                </div>
+                  {item}
+                </button>
               ))}
             </div>
-          </section>
 
-          <footer
-            className={`mt-10 rounded-[26px] border px-4 py-5 ${
-              darkMode
-                ? "border-slate-800 bg-slate-900"
-                : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <h3
-                  className={`text-[14px] font-extrabold ${
-                    darkMode ? "text-white" : "text-slate-800"
-                  }`}
+            <div ref={productsRef}>
+              {statsLoading ? (
+                <section className="mt-8">
+                  <SectionTitle eyebrow="Kategori" title="Virtual Private Server" darkMode={darkMode} />
+                  <div className="grid grid-cols-2 gap-3.5">
+                    <SkeletonProduct />
+                    <SkeletonProduct />
+                  </div>
+                </section>
+              ) : (
+                <>
+                  <Section title="Virtual Private Server" data={groupedProducts["Virtual Private Server"]} />
+                  <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
+                </>
+              )}
+            </div>
+
+            <section className="mt-8">
+              <SectionTitle eyebrow="Review" title="Testimoni Pengguna" darkMode={darkMode} />
+
+              <div className="space-y-3">
+                {testimonials.map((item) => (
+                  <div
+                    key={item.name}
+                    className={`rounded-[22px] border p-4 ${
+                      darkMode
+                        ? "border-slate-800 bg-slate-900"
+                        : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-xs font-extrabold text-sky-600">
+                        {item.name.charAt(0)}
+                      </div>
+                      <div className="min-w-0">
+                        <h3
+                          className={`text-[12px] font-extrabold ${
+                            darkMode ? "text-white" : "text-slate-800"
+                          }`}
+                        >
+                          {item.name}
+                        </h3>
+                        <p className="text-[10px] text-slate-400">{item.role}</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex gap-1">
+                      {Array.from({ length: item.rating }).map((_, i) => (
+                        <IconStar key={i} />
+                      ))}
+                    </div>
+
+                    <p className="mt-3 text-[12px] leading-6 text-slate-500">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <footer
+              className={`mt-8 rounded-[24px] border px-4 py-5 ${
+                darkMode
+                  ? "border-slate-800 bg-slate-900"
+                  : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <h3
+                    className={`text-[13px] font-extrabold ${
+                      darkMode ? "text-white" : "text-slate-800"
+                    }`}
+                  >
+                    {BRAND}
+                  </h3>
+                  <p className="mt-1 text-[11px] leading-5 text-slate-400">
+                    Store digital dengan proses cepat, aman, dan tampilan yang sekarang
+                    sudah lebih waras.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`, "_blank")}
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)]"
                 >
-                  {BRAND}
-                </h3>
-                <p className="mt-1 text-[11px] leading-5 text-slate-400">
-                  Store digital dengan proses cepat, aman, dan tampilan yang sekarang sudah lebih waras.
-                </p>
+                  <IconWhatsApp />
+                </button>
               </div>
 
-              <button
-                onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)] transition active:scale-95"
-              >
-                <IconWhatsApp />
-              </button>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
-              <div>
-                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Layanan</div>
-                <div className="mt-1">Setiap hari</div>
+              <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
+                <div>
+                  <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Layanan</div>
+                  <div className="mt-1">Setiap hari</div>
+                </div>
+                <div>
+                  <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Support</div>
+                  <div className="mt-1">Fast respon admin</div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Support</div>
-                <div className="mt-1">Fast respon admin</div>
-              </div>
-            </div>
 
-            <div className="mt-4 border-t border-slate-200 pt-3 text-center text-[10px] text-slate-400">
-              © 2026 {BRAND}. All rights reserved.
-            </div>
-          </footer>
-        </div>
-      )}
+              <div className="mt-4 border-t border-slate-200 pt-3 text-center text-[10px] text-slate-400">
+                © 2026 {BRAND}. All rights reserved.
+              </div>
+            </footer>
+          </div>
+        )}
+      </div>
 
       <button
-        onClick={() => window.open("https://wa.me/60166173129", "_blank")}
+        onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`, "_blank")}
         className="fixed bottom-24 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_22px_rgba(34,197,94,0.35)] transition-all duration-300 hover:scale-105 active:scale-95"
       >
         <IconWhatsApp />
@@ -1732,7 +1585,7 @@ export default function App() {
           setCurrentPage("shop");
           setTimeout(() => {
             topRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 100);
+          }, 80);
         }}
         onApi={() => {
           setCurrentPage("api");
@@ -1742,4 +1595,522 @@ export default function App() {
           setCurrentPage("shop");
           setTimeout(() => {
             productsRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 120
+          }, 80);
+        }}
+        onAdmin={() => setShowAdmin(true)}
+      />
+
+      {menuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div
+            className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
+            onClick={() => setMenuOpen(false)}
+          />
+
+          <div className="relative h-full w-[82%] max-w-[340px] animate-[slideInLeft_.22s_ease] rounded-r-[28px] bg-white p-5 shadow-2xl">
+            <div className="mb-7 rounded-[22px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-md">
+                  <span className="text-lg font-extrabold">M</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold">{BRAND}</h3>
+                  <p className="text-xs text-white/80">Premium Digital Service</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3.5">
+              <button
+                onClick={() => {
+                  setCurrentPage("shop");
+                  setMenuOpen(false);
+                  setTimeout(() => {
+                    topRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] bg-slate-100 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-200 active:scale-[0.98]"
+              >
+                <IconHome />
+                <span>Beranda Shop</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setCurrentPage("api");
+                  setMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] bg-sky-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+              >
+                <IconApiPage />
+                <span>Laman API</span>
+              </button>
+
+              <button
+                onClick={openGuideWithLoading}
+                className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
+              >
+                <div className="flex items-center gap-3">
+                  <IconBook />
+                  <span>Panduan</span>
+                </div>
+                <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
+                  WAJIB
+                </span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setCurrentPage("shop");
+                  setMenuOpen(false);
+                  setTimeout(() => {
+                    productsRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 120);
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+              >
+                <IconBag />
+                <span>Produk Terjual</span>
+              </button>
+
+              {!session ? (
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setShowAdmin(true);
+                  }}
+                  className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                >
+                  <IconLogin />
+                  <span>Login Admin</span>
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setShowAdmin(true);
+                    }}
+                    className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                  >
+                    <IconLogin />
+                    <span>Panel Admin</span>
+                  </button>
+
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                  >
+                    <IconLogout />
+                    <span>Logout Admin</span>
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className="mt-7 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                {BRAND}
+              </p>
+              <p className="mt-2 text-[11px] leading-5 text-slate-500">
+                Fitur lama tetap ada, fitur baru juga masuk. Jadi kali ini gak ada drama
+                website ngilang cuma gara-gara file diganti brutal.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedProduct && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
+          <div className="w-full max-w-sm animate-[fadeIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[18px] bg-slate-50">
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                onError={(e) => {
+                  e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
+                }}
+                className="h-16 object-contain"
+              />
+            </div>
+
+            <div className="text-center">
+              <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
+                {selectedProduct.badge}
+              </span>
+            </div>
+
+            <h3 className="mt-4 text-center text-[16px] font-extrabold">{selectedProduct.name}</h3>
+
+            <p className="mt-2 text-center text-[20px] font-extrabold text-sky-600">
+              {selectedProduct.price}
+            </p>
+
+            <p className="mt-3 text-center text-[12px] leading-6 text-slate-500">
+              {selectedProduct.description}
+            </p>
+
+            <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50 p-4">
+              <div className="mb-3 text-[12px] font-extrabold text-slate-700">Keunggulan Produk</div>
+              <div className="space-y-2">
+                {selectedProduct.features.map((feature) => (
+                  <div key={feature} className="flex items-start gap-2 text-[12px] text-slate-600">
+                    <div className="mt-0.5 text-sky-500">
+                      <IconCheckCircle />
+                    </div>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <input
+              ref={nameInputRef}
+              placeholder="Nama"
+              className="mt-4 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+
+            <input
+              placeholder="WhatsApp"
+              className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+              value={customerWhatsapp}
+              onChange={(e) => setCustomerWhatsapp(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleCreateOrder();
+              }}
+            />
+
+            <textarea
+              placeholder="Catatan"
+              className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+              rows={3}
+              value={customerNote}
+              onChange={(e) => setCustomerNote(e.target.value)}
+            />
+
+            <button
+              onClick={handleCreateOrder}
+              disabled={submitting}
+              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 disabled:opacity-60 active:scale-[0.98]"
+            >
+              {submitting ? "Memproses..." : "Lanjutkan Pembayaran"}
+            </button>
+
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="mt-3 w-full rounded-2xl bg-slate-200 py-3 text-[12px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-300 active:scale-[0.98]"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showAdmin && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
+          <div className="max-h-[90vh] w-full max-w-lg animate-[fadeIn_.22s_ease] overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-[16px] font-extrabold">{session ? "Panel Admin" : "Login Admin"}</h2>
+              <button onClick={() => setShowAdmin(false)} className="text-lg">
+                ✕
+              </button>
+            </div>
+
+            {!session ? (
+              <form onSubmit={handleAdminLogin}>
+                <input
+                  type="email"
+                  placeholder="Email admin"
+                  value={adminEmail}
+                  onChange={(e) => setAdminEmail(e.target.value)}
+                  className="mt-2 w-full rounded-2xl border px-4 py-3 text-[13px]"
+                />
+
+                <input
+                  type="password"
+                  placeholder="Password admin"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px]"
+                />
+
+                <button
+                  type="submit"
+                  className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
+                >
+                  Login
+                </button>
+              </form>
+            ) : (
+              <div className="space-y-4">
+                {ordersLoading ? (
+                  <>
+                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-4 w-40 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
+                    </div>
+                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-4 w-40 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
+                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
+                    </div>
+                  </>
+                ) : orders.length === 0 ? (
+                  <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                      <IconBag />
+                    </div>
+                    <div className="mt-3 text-[14px] font-bold text-slate-700">Belum ada order</div>
+                    <p className="mt-1 text-[12px] text-slate-500">Order yang masuk akan tampil di sini.</p>
+                  </div>
+                ) : (
+                  orders.map((order) => (
+                    <div key={order.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="font-extrabold">{order.product_name}</div>
+                      <div className="mt-1 text-[12px]">Harga: {formatRupiah(order.price)}</div>
+                      <div className="text-[12px]">Nama: {order.customer_name}</div>
+                      <div className="text-[12px]">WhatsApp: {order.customer_whatsapp}</div>
+                      <div className="text-[12px]">Catatan: {order.note || "-"}</div>
+                      <div className="text-[12px]">Order ID: {order.order_id || "-"}</div>
+
+                      <div className="mt-3">
+                        <span
+                          className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
+                            statusStyles[order.status] ||
+                            "border-slate-200 bg-slate-100 text-slate-700"
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button
+                          onClick={() => markAsPaid(order.id)}
+                          className="rounded-xl bg-green-500 px-4 py-2 text-[11px] font-bold text-white"
+                        >
+                          Tandai Berhasil
+                        </button>
+
+                        <button
+                          onClick={() => markAsPending(order.id)}
+                          className="rounded-xl bg-yellow-500 px-4 py-2 text-[11px] font-bold text-white"
+                        >
+                          Pending
+                        </button>
+
+                        <button
+                          onClick={() => deleteOrder(order.id)}
+                          className="rounded-xl bg-rose-500 px-4 py-2 text-[11px] font-bold text-white"
+                        >
+                          Hapus
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {guideLoading && (
+        <div className="fixed inset-0 z-[79] flex items-center justify-center bg-[#eef3fb]">
+          <div className="text-center">
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:0ms]" />
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:200ms]" />
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:400ms]" />
+            </div>
+            <h2 className="text-[16px] font-extrabold tracking-[0.2em] text-slate-800">{BRAND}</h2>
+          </div>
+        </div>
+      )}
+
+      {showGuide && (
+        <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
+          <div className="mx-auto max-w-md animate-[fadeIn_.22s_ease]">
+            <button
+              onClick={() => setShowGuide(false)}
+              className="mb-4 rounded-xl bg-white px-4 py-2 text-[12px] font-bold text-slate-700 shadow"
+            >
+              ← Kembali
+            </button>
+
+            <div className="mb-6 text-center">
+              <h1 className="text-3xl font-extrabold text-sky-600">{BRAND}</h1>
+              <div className="mt-2 text-slate-400">-------------</div>
+            </div>
+
+            <div className="overflow-hidden rounded-[24px] bg-white shadow-sm">
+              <div className="border-b bg-slate-50 px-6 py-5">
+                <h2 className="text-[18px] font-extrabold text-slate-800">🛒 PANDUAN CHECKOUT</h2>
+              </div>
+
+              <div className="space-y-6 px-6 py-6 text-slate-600">
+                <div className="flex gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
+                    1
+                  </div>
+                  <p className="text-[13px] leading-7">
+                    Isi <span className="font-bold text-slate-700">Nama & WhatsApp</span> aktif
+                    untuk pengiriman data produk.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
+                    2
+                  </div>
+                  <p className="text-[13px] leading-7">
+                    Klik tombol pembayaran dan <span className="font-bold text-slate-700">scan QRIS</span> yang muncul.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
+                    3
+                  </div>
+                  <p className="text-[13px] leading-7">
+                    Tunggu sistem <span className="font-bold text-slate-700">Pakasir</span> memproses pembayaran anda.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
+                    4
+                  </div>
+                  <p className="text-[13px] leading-7">
+                    Setelah transaksi selesai, anda akan diarahkan kembali ke website.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 rounded-[24px] border border-orange-200 bg-orange-50 px-6 py-5 shadow-sm">
+              <h3 className="text-[18px] font-extrabold text-orange-600">⚠️ PENTING: JANGAN REFRESH!</h3>
+              <p className="mt-3 text-[13px] leading-7 text-orange-700">
+                Dilarang menutup atau memuat ulang halaman saat proses transaksi.
+                Jika ada kendala, hubungi CS segera.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowGuide(false)}
+              className="mt-6 w-full rounded-[22px] bg-sky-600 px-6 py-4 text-[14px] font-extrabold text-white shadow"
+            >
+              SAYA MENGERTI, LANJUTKAN ✅
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showSuccessPage && (
+        <div className="fixed inset-0 z-[130] overflow-y-auto bg-[#eef3fb] px-4 py-8">
+          <div className="mx-auto max-w-md animate-[fadeIn_.25s_ease]">
+            <div className="rounded-[28px] bg-white p-6 text-center shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+              <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <svg className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+
+              <h2 className="mt-5 text-[22px] font-extrabold text-slate-800">Pembayaran Berhasil</h2>
+              <p className="mt-2 text-[12px] leading-6 text-slate-500">
+                Transaksi kamu sudah diproses. Simpan order ID ini untuk cek status atau hubungi admin.
+              </p>
+
+              <div className="mt-5 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  Order ID
+                </div>
+                <div className="mt-2 text-[14px] font-extrabold text-slate-800">
+                  {successOrderId || "-"}
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => {
+                    setShowSuccessPage(false);
+                    clearSuccessQuery();
+                  }}
+                  className="rounded-2xl bg-sky-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white"
+                >
+                  Ke Beranda
+                </button>
+
+                <button
+                  onClick={() =>
+                    window.open(
+                      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                        `Halo admin, saya sudah bayar. Order ID: ${successOrderId}`
+                      )}`,
+                      "_blank"
+                    )
+                  }
+                  className="rounded-2xl bg-emerald-500 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-white"
+                >
+                  Hubungi Admin
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showApiInfo && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/50 px-4">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h3 className="text-[16px] font-extrabold">Info API</h3>
+              <button onClick={() => setShowApiInfo(false)} className="text-lg">
+                ✕
+              </button>
+            </div>
+            <p className="mt-3 text-[12px] leading-6 text-slate-600">
+              Halaman API ini sekarang gak cuma pajangan. Tombol explore, info,
+              card fitur, dan music widget semuanya udah punya aksi yang jalan.
+              Jadi tidak lagi sekadar dekorasi, syukurlah.
+            </p>
+            <button
+              onClick={() => setShowApiInfo(false)}
+              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold text-white"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
+
+      {selectedApiFeature && (
+        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/50 px-4">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h3 className="text-[16px] font-extrabold">{selectedApiFeature.title}</h3>
+              <button onClick={() => setSelectedApiFeature(null)} className="text-lg">
+                ✕
+              </button>
+            </div>
+            <p className="mt-3 text-[12px] leading-6 text-slate-600">{selectedApiFeature.desc}</p>
+            <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50 p-4 text-[12px] leading-6 text-slate-600">
+              {selectedApiFeature.detail}
+            </div>
+            <button
+              onClick={() => setSelectedApiFeature(null)}
+              className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold text-white"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+  }
