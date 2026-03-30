@@ -9,6 +9,11 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS hemat untuk kebutuhan ringan dan testing.",
     badge: "Best Seller",
+    features: [
+      "Cocok untuk testing dan bot ringan",
+      "Aktivasi cepat setelah pembayaran",
+      "Support admin responsif",
+    ],
   },
   {
     category: "Virtual Private Server",
@@ -17,6 +22,11 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS lebih kencang untuk kebutuhan menengah.",
     badge: "Populer",
+    features: [
+      "Performa lebih stabil",
+      "Cocok untuk kebutuhan menengah",
+      "Proses cepat dan aman",
+    ],
   },
   {
     category: "Pterodactyl",
@@ -25,6 +35,11 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Paket panel unlimited untuk kebutuhan game server.",
     badge: "Premium",
+    features: [
+      "Resource besar untuk game server",
+      "Pengiriman cepat setelah pembayaran",
+      "Mudah digunakan",
+    ],
   },
   {
     category: "Pterodactyl",
@@ -33,6 +48,41 @@ const products = [
     image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
     description: "Panel Pterodactyl dengan resource 9 GB.",
     badge: "Murah",
+    features: [
+      "Harga hemat",
+      "Cocok untuk kebutuhan dasar",
+      "Setup cepat",
+    ],
+  },
+];
+
+const testimonials = [
+  {
+    name: "Rafi",
+    text: "Proses cepat dan langsung masuk. Cocok buat yang mau serba praktis.",
+  },
+  {
+    name: "Aldi",
+    text: "UI enak dipakai dan pembayaran gampang. Admin juga responsif.",
+  },
+  {
+    name: "Nando",
+    text: "Sudah beberapa kali order, aman dan prosesnya rapi.",
+  },
+];
+
+const trustItems = [
+  {
+    title: "Transaksi Aman",
+    desc: "Pembayaran langsung lewat QRIS dengan proses cepat.",
+  },
+  {
+    title: "Proses Otomatis",
+    desc: "Order masuk otomatis dan status bisa dipantau.",
+  },
+  {
+    title: "Support Aktif",
+    desc: "Jika ada kendala, admin siap bantu dengan cepat.",
   },
 ];
 
@@ -48,6 +98,103 @@ const statusStyles = {
   pending: "border-amber-200 bg-amber-50 text-amber-700",
   failed: "border-rose-200 bg-rose-50 text-rose-700",
 };
+
+function IconMenu() {
+  return (
+    <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  );
+}
+
+function IconHome() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" />
+    </svg>
+  );
+}
+
+function IconBook() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 19a2 2 0 0 0 2 2h12V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h6M8 11h8M8 15h5" />
+    </svg>
+  );
+}
+
+function IconBag() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 8V6a3 3 0 1 1 6 0v2" />
+    </svg>
+  );
+}
+
+function IconLogin() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10 17l5-5-5-5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H4" />
+    </svg>
+  );
+}
+
+function IconLogout() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 17l5-5-5-5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H9" />
+    </svg>
+  );
+}
+
+function IconShield() {
+  return (
+    <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m9.5 12 1.7 1.7L14.8 10" />
+    </svg>
+  );
+}
+
+function IconLightning() {
+  return (
+    <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" />
+    </svg>
+  );
+}
+
+function IconHeadset() {
+  return (
+    <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 13a8 8 0 1 1 16 0" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 13v4a2 2 0 0 0 2 2h2v-6H6a2 2 0 0 0-2 2Zm16 0v4a2 2 0 0 1-2 2h-2v-6h2a2 2 0 0 1 2 2Z" />
+    </svg>
+  );
+}
+
+function IconCheckCircle() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" />
+      <circle cx="12" cy="12" r="9" />
+    </svg>
+  );
+}
+
+function IconWhatsApp() {
+  return (
+    <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.5 0 .16 5.34.16 11.91c0 2.1.55 4.15 1.59 5.96L0 24l6.3-1.65a11.9 11.9 0 0 0 5.77 1.47h.01c6.57 0 11.91-5.34 11.91-11.91 0-3.18-1.24-6.16-3.47-8.43ZM12.08 21.8h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.38a9.86 9.86 0 0 1-1.52-5.25c0-5.46 4.44-9.9 9.91-9.9 2.64 0 5.12 1.03 6.99 2.91a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.89 9.9Zm5.43-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.39-1.46-.88-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.08-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.69.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z" />
+    </svg>
+  );
+}
 
 function Toast({ toast, onClose }) {
   useEffect(() => {
@@ -67,9 +214,7 @@ function Toast({ toast, onClose }) {
 
   return (
     <div className="fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 animate-[fadeIn_.25s_ease]">
-      <div
-        className={`rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-2xl ${tone}`}
-      >
+      <div className={`rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-2xl ${tone}`}>
         {toast.message}
       </div>
     </div>
@@ -124,6 +269,9 @@ export default function App() {
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
 
+  const [showSuccessPage, setShowSuccessPage] = useState(false);
+  const [successOrderId, setSuccessOrderId] = useState("");
+
   const topRef = useRef(null);
   const productsRef = useRef(null);
 
@@ -151,6 +299,24 @@ export default function App() {
       subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("order_id");
+    const payment = params.get("payment");
+
+    if (payment === "success" && orderId) {
+      setSuccessOrderId(orderId);
+      setShowSuccessPage(true);
+    }
+  }, []);
+
+  const clearSuccessQuery = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("payment");
+    url.searchParams.delete("order_id");
+    window.history.replaceState({}, "", url.pathname);
+  };
 
   const fetchStats = async () => {
     setStatsLoading(true);
@@ -193,7 +359,6 @@ export default function App() {
     setOrdersLoading(false);
   };
 
-  // TANPA POLLING
   useEffect(() => {
     fetchStats();
     if (session) {
@@ -282,11 +447,15 @@ export default function App() {
     await refreshData({ withOrders: true });
     showToast("Mengarahkan ke pembayaran...", "success");
 
+    const redirectUrl = `${window.location.origin}?payment=success&order_id=${encodeURIComponent(
+      orderId
+    )}`;
+
     const paymentUrl =
       `https://app.pakasir.com/pay/${PAKASIR_SLUG}/${amount}` +
       `?order_id=${encodeURIComponent(orderId)}` +
       `&qris_only=1` +
-      `&redirect=${encodeURIComponent(window.location.origin)}`;
+      `&redirect=${encodeURIComponent(redirectUrl)}`;
 
     window.location.href = paymentUrl;
   };
@@ -477,19 +646,7 @@ export default function App() {
                 onClick={() => setMenuOpen(true)}
                 className="rounded-full p-2 text-slate-700 transition-all duration-200 active:scale-95 dark:text-white"
               >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 7h16M4 12h16M4 17h16"
-                  />
-                </svg>
+                <IconMenu />
               </button>
 
               <div className="text-center">
@@ -577,6 +734,30 @@ export default function App() {
           </div>
         </div>
 
+        <div className="mt-8 grid grid-cols-3 gap-3">
+          {trustItems.map((item, index) => {
+            const icon =
+              index === 0 ? <IconShield /> : index === 1 ? <IconLightning /> : <IconHeadset />;
+
+            return (
+              <div
+                key={item.title}
+                className={`rounded-[24px] border p-4 transition-all duration-300 hover:-translate-y-1 ${
+                  darkMode
+                    ? "border-slate-800 bg-slate-900"
+                    : "border-white/80 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.05)]"
+                }`}
+              >
+                <div className="mb-3 text-sky-500">{icon}</div>
+                <h3 className={`text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[11px] leading-5 text-slate-400">{item.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+
         <div className="mt-7 flex gap-3 overflow-x-auto pb-2">
           {categories.map((item) => (
             <button
@@ -615,21 +796,51 @@ export default function App() {
                 title="Virtual Private Server"
                 data={groupedProducts["Virtual Private Server"]}
               />
-              <Section
-                title="Pterodactyl"
-                data={groupedProducts["Pterodactyl"]}
-              />
+              <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
             </>
           )}
         </div>
+
+        <section className="mt-10">
+          <div className="mb-5 flex items-center gap-2">
+            <div className="h-2.5 w-2.5 rounded-full bg-sky-500" />
+            <h2 className="text-[13px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+              Testimoni Pengguna
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {testimonials.map((item) => (
+              <div
+                key={item.name}
+                className={`rounded-[24px] border p-4 ${
+                  darkMode
+                    ? "border-slate-800 bg-slate-900"
+                    : "border-white/80 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.05)]"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sm font-extrabold text-sky-600">
+                    {item.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h3 className={`text-sm font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                      {item.name}
+                    </h3>
+                    <p className="text-[11px] text-slate-400">Pembeli terverifikasi</p>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-slate-500">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <button
           onClick={() => window.open("https://wa.me/60166173129", "_blank")}
           className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-2xl text-white shadow-[0_10px_25px_rgba(34,197,94,0.35)] transition-all duration-300 hover:scale-105 active:scale-95"
         >
-          <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.5 0 .16 5.34.16 11.91c0 2.1.55 4.15 1.59 5.96L0 24l6.3-1.65a11.9 11.9 0 0 0 5.77 1.47h.01c6.57 0 11.91-5.34 11.91-11.91 0-3.18-1.24-6.16-3.47-8.43ZM12.08 21.8h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.38a9.86 9.86 0 0 1-1.52-5.25c0-5.46 4.44-9.9 9.91-9.9 2.64 0 5.12 1.03 6.99 2.91a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.89 9.9Zm5.43-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.39-1.46-.88-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.08-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.69.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z" />
-          </svg>
+          <IconWhatsApp />
         </button>
       </div>
 
@@ -640,18 +851,16 @@ export default function App() {
             onClick={() => setMenuOpen(false)}
           />
 
-          <div className="relative h-full w-[82%] max-w-[360px] animate-[slideInLeft_.22s_ease] rounded-r-[30px] bg-white p-5 shadow-2xl">
-            <div className="mb-7 flex items-center gap-4">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                alt="avatar"
-                className="h-12 w-12 rounded-2xl object-cover"
-              />
-              <div>
-                <h3 className="text-xl font-extrabold text-slate-800">
-                  Muinshop Cik
-                </h3>
-                <p className="text-sm text-slate-400">Premium Digital Service</p>
+          <div className="relative h-full w-[82%] max-w-[360px] animate-[slideInLeft_.22s_ease] rounded-r-[32px] bg-white p-5 shadow-2xl">
+            <div className="mb-8 rounded-[24px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
+              <div className="flex items-center gap-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-md">
+                  <span className="text-xl font-extrabold">M</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-extrabold">Muinshop Cik</h3>
+                  <p className="text-sm text-white/80">Premium Digital Service</p>
+                </div>
               </div>
             </div>
 
@@ -661,18 +870,18 @@ export default function App() {
                   setMenuOpen(false);
                   topRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[22px] bg-slate-100 px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
+                className="flex w-full items-center gap-4 rounded-[22px] bg-slate-100 px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 hover:bg-slate-200 active:scale-[0.98]"
               >
-                <span>🏠</span>
+                <IconHome />
                 <span>Dashboard API</span>
               </button>
 
               <button
                 onClick={openGuideWithLoading}
-                className="flex w-full items-center justify-between rounded-[22px] border-2 border-dashed border-sky-400 px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
+                className="flex w-full items-center justify-between rounded-[22px] border-2 border-dashed border-sky-400 px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
               >
                 <div className="flex items-center gap-4">
-                  <span>📘</span>
+                  <IconBook />
                   <span>Panduan</span>
                 </div>
                 <span className="rounded-full bg-sky-400 px-3 py-1 text-[10px] font-bold text-white">
@@ -685,9 +894,9 @@ export default function App() {
                   setMenuOpen(false);
                   productsRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-4 rounded-[22px] px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 active:scale-[0.98]"
+                className="flex w-full items-center gap-4 rounded-[22px] px-5 py-4 text-left text-base font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
               >
-                <span>👜</span>
+                <IconBag />
                 <span>Produk Terjual</span>
               </button>
 
@@ -697,9 +906,10 @@ export default function App() {
                     setMenuOpen(false);
                     setShowAdmin(true);
                   }}
-                  className="w-full rounded-[22px] bg-amber-500 px-5 py-4 text-left text-base font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                  className="flex w-full items-center gap-4 rounded-[22px] bg-amber-500 px-5 py-4 text-left text-base font-bold text-white transition-all duration-200 active:scale-[0.98]"
                 >
-                  Login Admin
+                  <IconLogin />
+                  <span>Login Admin</span>
                 </button>
               ) : (
                 <>
@@ -708,19 +918,31 @@ export default function App() {
                       setMenuOpen(false);
                       setShowAdmin(true);
                     }}
-                    className="w-full rounded-[22px] bg-amber-500 px-5 py-4 text-left text-base font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                    className="flex w-full items-center gap-4 rounded-[22px] bg-amber-500 px-5 py-4 text-left text-base font-bold text-white transition-all duration-200 active:scale-[0.98]"
                   >
-                    Panel Admin
+                    <IconLogin />
+                    <span>Panel Admin</span>
                   </button>
 
                   <button
                     onClick={handleLogout}
-                    className="w-full rounded-[22px] bg-rose-500 px-5 py-4 text-left text-base font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                    className="flex w-full items-center gap-4 rounded-[22px] bg-rose-500 px-5 py-4 text-left text-base font-bold text-white transition-all duration-200 active:scale-[0.98]"
                   >
-                    Logout Admin
+                    <IconLogout />
+                    <span>Logout Admin</span>
                   </button>
                 </>
               )}
+            </div>
+
+            <div className="mt-8 rounded-[22px] border border-slate-200 bg-slate-50 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                Muinshop Cik
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Store digital dengan proses cepat, aman, dan tampilan yang sekarang
+                sudah lumayan beradab.
+              </p>
             </div>
           </div>
         </div>
@@ -728,7 +950,7 @@ export default function App() {
 
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[28px] bg-white p-5 text-slate-900 shadow-2xl">
             <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-[20px] bg-slate-50">
               <img
                 src={selectedProduct.image}
@@ -751,13 +973,29 @@ export default function App() {
               {selectedProduct.name}
             </h3>
 
-            <p className="mt-2 text-center text-[22px] font-extrabold text-sky-600">
+            <p className="mt-2 text-center text-[24px] font-extrabold text-sky-600">
               {selectedProduct.price}
             </p>
 
             <p className="mt-3 text-center text-sm leading-6 text-slate-500">
               {selectedProduct.description}
             </p>
+
+            <div className="mt-5 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
+              <div className="mb-3 text-sm font-extrabold text-slate-700">
+                Keunggulan Produk
+              </div>
+              <div className="space-y-2">
+                {selectedProduct.features.map((feature) => (
+                  <div key={feature} className="flex items-start gap-2 text-sm text-slate-600">
+                    <div className="mt-0.5 text-sky-500">
+                      <IconCheckCircle />
+                    </div>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <input
               placeholder="Nama"
@@ -853,12 +1091,15 @@ export default function App() {
                   </>
                 ) : orders.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-                    <div className="text-4xl">📦</div>
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sky-100 text-sky-500">
+                      <IconBag />
+                    </div>
                     <div className="mt-3 text-base font-bold text-slate-700">
                       Belum ada order
                     </div>
                     <p className="mt-1 text-sm text-slate-500">
-                      Order yang masuk akan tampil di sini.
+                      Order yang masuk akan tampil di sini dengan tampilan yang
+                      tidak menyedihkan.
                     </p>
                   </div>
                 ) : (
@@ -874,9 +1115,7 @@ export default function App() {
                         WhatsApp: {order.customer_whatsapp}
                       </div>
                       <div className="text-sm">Catatan: {order.note || "-"}</div>
-                      <div className="text-sm">
-                        Order ID: {order.order_id || "-"}
-                      </div>
+                      <div className="text-sm">Order ID: {order.order_id || "-"}</div>
 
                       <div className="mt-3">
                         <span
@@ -1021,6 +1260,62 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {showSuccessPage && (
+        <div className="fixed inset-0 z-[130] overflow-y-auto bg-[#eef3fb] px-4 py-8">
+          <div className="mx-auto max-w-md animate-[fadeIn_.25s_ease]">
+            <div className="rounded-[32px] bg-white p-6 text-center shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <svg className="h-10 w-10" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+
+              <h2 className="mt-5 text-2xl font-extrabold text-slate-800">
+                Pembayaran Berhasil
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Transaksi kamu sudah diproses. Simpan order ID ini untuk cek status atau hubungi admin.
+              </p>
+
+              <div className="mt-5 rounded-[22px] border border-slate-200 bg-slate-50 p-4">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  Order ID
+                </div>
+                <div className="mt-2 text-base font-extrabold text-slate-800">
+                  {successOrderId || "-"}
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => {
+                    setShowSuccessPage(false);
+                    clearSuccessQuery();
+                  }}
+                  className="rounded-2xl bg-sky-500 px-4 py-3 text-sm font-extrabold uppercase tracking-wide text-white"
+                >
+                  Ke Beranda
+                </button>
+
+                <button
+                  onClick={() =>
+                    window.open(
+                      `https://wa.me/60166173129?text=${encodeURIComponent(
+                        `Halo admin, saya sudah bayar. Order ID: ${successOrderId}`
+                      )}`,
+                      "_blank"
+                    )
+                  }
+                  className="rounded-2xl bg-emerald-500 px-4 py-3 text-sm font-extrabold uppercase tracking-wide text-white"
+                >
+                  Hubungi Admin
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-      }
+              }
