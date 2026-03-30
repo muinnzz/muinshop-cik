@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "./supabase";
 
 const BRAND = "Muinshop Cik";
+const API_BRAND = "Muinzz API";
+const PAKASIR_SLUG = import.meta.env.VITE_PAKASIR_SLUG || "muin2";
 
 const products = [
   {
@@ -107,29 +109,52 @@ const testimonials = [
 const apiFeatures = [
   {
     title: "Artificial Intelligence",
-    desc: "Chatbot pintar berbasis AI untuk menjawab pertanyaan dengan cepat.",
+    desc: "Chatbot pintar berbasis AI untuk menjawab pertanyaan secara instan.",
     icon: "bot",
     detail:
-      "Fitur AI ini bisa dipakai untuk chatbot, auto-reply, generator teks, dan berbagai kebutuhan otomatisasi berbasis prompt.",
+      "Bagian AI cocok buat chatbot, auto-reply, generator teks, prompt tools, dan integrasi workflow otomatis.",
   },
   {
     title: "Social Media Downloader",
-    desc: "Unduh video dan foto dari berbagai platform tanpa ribet.",
+    desc: "Unduh video dan foto dari berbagai platform dengan cepat.",
     icon: "download",
     detail:
-      "Downloader bisa diarahkan ke endpoint TikTok, Instagram, YouTube, atau platform lain yang kamu sediakan di backend API.",
+      "Bisa diarahkan ke endpoint downloader TikTok, Instagram, YouTube, dan platform lain sesuai backend kamu.",
   },
   {
     title: "Stalker Tools",
-    desc: "Ambil informasi publik dari profil atau akun target dengan cepat.",
+    desc: "Lookup informasi publik dari akun atau target secara cepat.",
     icon: "spy",
     detail:
-      "Bagian ini cocok untuk tools lookup publik, metadata, cek username, atau utilitas profil lain yang memang kamu izinkan.",
+      "Cocok untuk tools metadata, username checker, public profile lookup, dan utilitas pencarian lain.",
+  },
+];
+
+const apiStats = [
+  { label: "Endpoints", value: "128+" },
+  { label: "Requests", value: "24.8K" },
+  { label: "Uptime", value: "99.9%" },
+];
+
+const apiTools = [
+  {
+    title: "Get Started",
+    desc: "Buka info singkat penggunaan API.",
+    action: "info",
+  },
+  {
+    title: "Main Features",
+    desc: "Loncat ke daftar fitur utama.",
+    action: "features",
+  },
+  {
+    title: "Music Widget",
+    desc: "Kontrol widget music player.",
+    action: "music",
   },
 ];
 
 const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
-const PAKASIR_SLUG = import.meta.env.VITE_PAKASIR_SLUG || "muin2";
 
 const parsePriceToNumber = (price) => {
   return Number(String(price).replace(/[^\d]/g, ""));
@@ -151,7 +176,7 @@ function IconMenu() {
 
 function IconHome() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" />
     </svg>
   );
@@ -159,7 +184,7 @@ function IconHome() {
 
 function IconBook() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 19a2 2 0 0 0 2 2h12V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14Z" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h6M8 11h8M8 15h5" />
     </svg>
@@ -168,7 +193,7 @@ function IconBook() {
 
 function IconBag() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8Z" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 8V6a3 3 0 1 1 6 0v2" />
     </svg>
@@ -177,7 +202,7 @@ function IconBag() {
 
 function IconLogin() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M10 17l5-5-5-5" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H4" />
@@ -187,7 +212,7 @@ function IconLogin() {
 
 function IconLogout() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 17l5-5-5-5" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H9" />
@@ -223,7 +248,7 @@ function IconHeadset() {
 
 function IconCheckCircle() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" />
       <circle cx="12" cy="12" r="9" />
     </svg>
@@ -240,7 +265,7 @@ function IconWhatsApp() {
 
 function IconStar() {
   return (
-    <svg className="h-3.5 w-3.5 fill-amber-400 text-amber-400" viewBox="0 0 24 24">
+    <svg className="h-[14px] w-[14px] fill-amber-400 text-amber-400" viewBox="0 0 24 24">
       <path d="m12 3.6 2.53 5.13 5.66.82-4.1 4 0.97 5.64L12 16.53 6.94 19.2l0.97-5.64-4.1-4 5.66-.82L12 3.6Z" />
     </svg>
   );
@@ -248,7 +273,7 @@ function IconStar() {
 
 function IconApiPage() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h8M6 12h12M8 18h8" />
       <circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none" />
       <circle cx="20" cy="12" r="1.5" fill="currentColor" stroke="none" />
@@ -296,7 +321,7 @@ function IconSpy() {
 
 function IconLocation() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" />
       <circle cx="12" cy="10" r="2.2" />
     </svg>
@@ -305,7 +330,7 @@ function IconLocation() {
 
 function IconDrop() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 3s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9Z" />
     </svg>
   );
@@ -313,7 +338,7 @@ function IconDrop() {
 
 function IconWind() {
   return (
-    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h10a2 2 0 1 0-2-2" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h14a2 2 0 1 1-2 2" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16h8" />
@@ -371,10 +396,12 @@ function Toast({ toast, onClose }) {
       : "bg-slate-800";
 
   return (
-    <div
-      className={`fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2 rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}
-    >
-      {toast.message}
+    <div className="fixed left-1/2 top-4 z-[120] w-[92%] max-w-sm -translate-x-1/2">
+      <div
+        className={`rounded-2xl px-4 py-3 text-xs font-semibold text-white shadow-2xl ${tone}`}
+      >
+        {toast.message}
+      </div>
     </div>
   );
 }
@@ -401,22 +428,40 @@ function SkeletonProduct() {
   );
 }
 
+function SectionTitle({ eyebrow, title, darkMode = false }) {
+  return (
+    <div className="mb-4">
+      {eyebrow ? (
+        <div className="mb-2 flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-sky-500" />
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-sky-600">
+            {eyebrow}
+          </p>
+        </div>
+      ) : null}
+      <h2 className={`text-[16px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+        {title}
+      </h2>
+    </div>
+  );
+}
+
 function FeatureCard({ icon, title, desc, iconColor, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-[24px] bg-[#f2f6f9] p-4 text-left transition duration-300 hover:-translate-y-1"
+      className="w-full rounded-[26px] border border-slate-100 bg-[#f8fbff] p-4 text-left transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(14,165,233,0.08)]"
     >
       <div className="flex gap-4">
         <div
-          className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[22px] bg-white ${iconColor}`}
+          className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-[22px] bg-white shadow-sm ${iconColor}`}
         >
           {icon}
         </div>
 
         <div className="min-w-0">
           <h3 className="text-[14px] font-extrabold text-slate-800">{title}</h3>
-          <p className="mt-2 text-[12px] leading-7 text-slate-500">{desc}</p>
+          <p className="mt-2 text-[12px] leading-6 text-slate-500">{desc}</p>
         </div>
       </div>
     </button>
@@ -426,15 +471,17 @@ function FeatureCard({ icon, title, desc, iconColor, onClick }) {
 function ApiPage({
   onBack,
   onOpenMenu,
-  apiFeaturesRef,
   onExploreApis,
   onOpenInfo,
   onOpenFeature,
+  onMusicFocus,
   currentTime,
   isPlaying,
   onTogglePlay,
   onNextTrack,
   currentTrack,
+  apiFeaturesRef,
+  musicRef,
 }) {
   return (
     <div className="mx-auto max-w-sm px-3 pb-8">
@@ -442,58 +489,73 @@ function ApiPage({
         <div className="flex items-center justify-between">
           <button
             onClick={onOpenMenu}
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.30)]"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)]"
           >
             <IconMenu />
           </button>
 
           <div className="text-center">
-            <h1 className="text-[15px] font-extrabold text-sky-500">Muinzz Api</h1>
-            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <h1 className="text-[15px] font-extrabold text-sky-500">{API_BRAND}</h1>
+            <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-400">
               Api Showcase
             </p>
           </div>
 
           <button
             onClick={onBack}
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.30)]"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)]"
           >
             <IconHome />
           </button>
         </div>
       </div>
 
-      <div className="mt-7 overflow-hidden rounded-[34px] bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 p-5 text-white shadow-[0_20px_36px_rgba(14,165,233,0.26)]">
-        <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/90">
-          Smart Tools
+      <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 p-5 text-white shadow-[0_18px_36px_rgba(14,165,233,0.22)]">
+        <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/90">
+          Developer Tools
         </div>
 
-        <h2 className="mt-5 text-[30px] font-extrabold leading-tight">Muinzz API</h2>
-        <p className="mt-3 text-[13px] leading-8 text-white/90">
-          Halaman showcase API dengan tampilan lebih halus, interaktif, dan tetap nyambung sama vibe utama website kamu.
+        <h2 className="mt-4 text-[28px] font-extrabold leading-tight">{API_BRAND}</h2>
+        <p className="mt-2 text-[13px] leading-6 text-white/90">
+          Showcase API yang lebih halus, lebih rapi, dan sekarang tombol-tombolnya tidak cuma acting.
         </p>
 
-        <div className="mt-6 grid grid-cols-3 gap-3">
-          <div className="rounded-[24px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
-            <p className="text-[10px] font-bold uppercase text-white/75">Clock</p>
-            <p className="mt-2 text-[16px] font-extrabold">{currentTime}</p>
+        <div className="mt-5 grid grid-cols-3 gap-3">
+          {apiStats.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md"
+            >
+              <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">
+                {item.label}
+              </p>
+              <p className="mt-2 text-[15px] font-extrabold">{item.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="rounded-[20px] border border-white/20 bg-white/15 px-4 py-3 backdrop-blur-md">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/75">
+              Clock
+            </p>
+            <p className="mt-1 text-[18px] font-extrabold">{currentTime}</p>
           </div>
 
-          <div className="rounded-[24px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
-            <p className="text-[10px] font-bold uppercase text-white/75">Power</p>
-            <p className="mt-2 text-[16px] font-extrabold">32%</p>
-          </div>
-
-          <div className="rounded-[24px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
-            <p className="text-[10px] font-bold uppercase text-white/75">Total</p>
-            <p className="mt-2 text-[16px] font-extrabold">300</p>
+          <div className="rounded-[20px] border border-white/20 bg-white/15 px-4 py-3 backdrop-blur-md">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/75">
+              Status
+            </p>
+            <p className="mt-1 text-[18px] font-extrabold">
+              {isPlaying ? "Active" : "Idle"}
+            </p>
           </div>
         </div>
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-5 flex gap-3">
           <button
             onClick={onExploreApis}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-4 text-[13px] font-extrabold text-sky-600 shadow-[0_12px_24px_rgba(255,255,255,0.16)] transition hover:scale-[1.01] active:scale-[0.98]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_12px_22px_rgba(255,255,255,0.18)] transition hover:scale-[1.01] active:scale-[0.98]"
           >
             <IconLayers />
             <span>Explore APIs</span>
@@ -501,7 +563,7 @@ function ApiPage({
 
           <button
             onClick={onOpenInfo}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-4 text-[13px] font-extrabold text-white transition active:scale-[0.98]"
+            className="flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white transition active:scale-[0.98]"
           >
             <IconInfo />
             <span>Info</span>
@@ -509,16 +571,35 @@ function ApiPage({
         </div>
       </div>
 
+      <section className="mt-6 grid grid-cols-1 gap-3">
+        {apiTools.map((item) => (
+          <button
+            key={item.title}
+            onClick={() => {
+              if (item.action === "info") onOpenInfo();
+              if (item.action === "features") onExploreApis();
+              if (item.action === "music") onMusicFocus();
+            }}
+            className="rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-[14px] font-extrabold text-slate-800">{item.title}</h3>
+                <p className="mt-1 text-[12px] leading-6 text-slate-500">{item.desc}</p>
+              </div>
+              <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
+                Open
+              </div>
+            </div>
+          </button>
+        ))}
+      </section>
+
       <section
         ref={apiFeaturesRef}
         className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
       >
-        <div className="mb-5 flex items-center gap-2 text-slate-800">
-          <div className="h-3 w-3 rounded-full bg-sky-500" />
-          <h3 className="text-[14px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-            Main Features
-          </h3>
-        </div>
+        <SectionTitle eyebrow="Api Features" title="Main Features" />
 
         <div className="space-y-4">
           {apiFeatures.map((item) => (
@@ -549,17 +630,12 @@ function ApiPage({
       </section>
 
       <section className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
-        <div className="mb-4 flex items-center gap-2 text-slate-500">
-          <IconLocation />
-          <h3 className="text-[12px] font-extrabold uppercase tracking-[0.18em]">
-            Weather Info
-          </h3>
-        </div>
+        <SectionTitle eyebrow="Weather" title="Weather Info" />
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div className="flex items-start gap-4">
             <div>
-              <div className="text-[36px] font-extrabold leading-none text-sky-500">27°C</div>
+              <div className="text-[38px] font-extrabold leading-none text-sky-500">27°C</div>
 
               <div className="mt-3 space-y-1 text-[12px] text-slate-700">
                 <div className="flex items-center gap-2">
@@ -574,51 +650,63 @@ function ApiPage({
             </div>
 
             <div className="pt-1">
-              <div className="text-[14px] font-extrabold text-slate-800">Jakarta</div>
+              <div className="text-[15px] font-extrabold text-slate-800">Jakarta</div>
               <div className="text-[12px] text-slate-500">Partly cloudy</div>
             </div>
           </div>
 
-          <div className="text-slate-700">
+          <div className="rounded-full bg-slate-100 p-3 text-slate-700">
             <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 16a4 4 0 1 1 1.1-7.84A5 5 0 0 1 17 9a3.5 3.5 0 1 1 .5 7H6Z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="m8 19 1-2m4 2 1-2m4 2 1-2" />
             </svg>
           </div>
         </div>
+      </section>
 
-        <div className="my-5 border-t border-slate-100" />
+      <section
+        ref={musicRef}
+        className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+      >
+        <SectionTitle eyebrow="Music Widget" title="Player Control" />
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex gap-1 text-sky-500">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+        <div className="rounded-[24px] bg-gradient-to-br from-sky-50 via-cyan-50 to-violet-50 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                Now Playing
+              </p>
+              <div className="mt-1 truncate text-[15px] font-extrabold text-sky-600">
+                {currentTrack}
+              </div>
+              <div className="mt-1 text-[12px] text-slate-500">
+                {isPlaying ? "Sedang diputar" : "Sedang dijeda"}
+              </div>
             </div>
 
-            <div>
-              <div className="text-[14px] font-extrabold text-sky-500">
-                {isPlaying ? "Now Playing" : "Music Player"}
-              </div>
-              <div className="text-[12px] text-slate-400">{currentTrack}</div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onTogglePlay}
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_22px_rgba(14,165,233,0.24)]"
+              >
+                {isPlaying ? <IconPause /> : <IconPlay />}
+              </button>
+
+              <button
+                onClick={onNextTrack}
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_22px_rgba(167,139,250,0.22)]"
+              >
+                <IconNext />
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onTogglePlay}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_24px_rgba(14,165,233,0.25)]"
-            >
-              {isPlaying ? <IconPause /> : <IconPlay />}
-            </button>
-            <button
-              onClick={onNextTrack}
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_24px_rgba(167,139,250,0.25)]"
-            >
-              <IconNext />
-            </button>
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white">
+            <div
+              className={`h-full rounded-full bg-sky-500 transition-all duration-500 ${
+                isPlaying ? "w-[68%]" : "w-[28%]"
+              }`}
+            />
           </div>
         </div>
       </section>
@@ -661,14 +749,14 @@ export default function App() {
 
   const [currentTime, setCurrentTime] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const tracks = ["Muinzz API Music", "Night Drive", "Sky Beat", "Cloud Signal"];
   const [trackIndex, setTrackIndex] = useState(0);
+
+  const tracks = ["Muinzz API Music", "Night Drive", "Sky Beat", "Cloud Signal"];
 
   const topRef = useRef(null);
   const productsRef = useRef(null);
   const apiFeaturesRef = useRef(null);
-
-  const currentTrack = tracks[trackIndex];
+  const musicRef = useRef(null);
 
   const showToast = (message, type = "info") => {
     setToast({ message, type });
@@ -799,7 +887,8 @@ export default function App() {
     setMenuOpen(false);
 
     setTimeout(() => {
-      const y = productsRef.current?.getBoundingClientRect().top + window.scrollY - 88;
+      const y =
+        (productsRef.current?.getBoundingClientRect().top || 0) + window.scrollY - 88;
 
       window.scrollTo({
         top: y,
@@ -944,24 +1033,28 @@ export default function App() {
   const nextTrack = () => {
     setTrackIndex((prev) => (prev + 1) % tracks.length);
     setIsPlaying(true);
-    showToast("Pindah track.", "success");
+    showToast("Track diganti.", "success");
   };
 
-  const scrollToApiFeatures = () => {
-    apiFeaturesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    showToast("Menuju fitur API.", "info");
+  const openApiPageAndScroll = (ref) => {
+    setCurrentPage("api");
+    setMenuOpen(false);
+
+    setTimeout(() => {
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 180);
   };
 
   const ProductCard = ({ item }) => (
     <div
-      className={`group overflow-hidden rounded-[24px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)] active:scale-[0.985] ${
+      className={`group overflow-hidden rounded-[26px] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)] active:scale-[0.985] ${
         darkMode
           ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]"
           : "border-white/70 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.05)]"
       }`}
     >
-      <div className="p-3">
-        <div className="mb-2.5 flex items-center justify-between">
+      <div className="p-3.5">
+        <div className="mb-3 flex items-center justify-between">
           <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
             {item.badge}
           </span>
@@ -971,11 +1064,11 @@ export default function App() {
         </div>
 
         <div
-          className={`rounded-[18px] border p-2.5 ${
+          className={`rounded-[20px] border p-3 ${
             darkMode ? "border-slate-700 bg-slate-800" : "border-slate-200 bg-slate-50"
           }`}
         >
-          <div className="flex h-[82px] items-center justify-center overflow-hidden rounded-[14px] bg-white">
+          <div className="flex h-[92px] items-center justify-center overflow-hidden rounded-[16px] bg-white">
             <img
               src={item.image}
               alt={item.name}
@@ -989,7 +1082,7 @@ export default function App() {
 
         <div className="pt-3">
           <h3
-            className={`min-h-[34px] text-[13px] font-extrabold leading-tight ${
+            className={`min-h-[36px] text-[13px] font-extrabold leading-tight ${
               darkMode ? "text-white" : "text-slate-800"
             }`}
           >
@@ -1002,12 +1095,12 @@ export default function App() {
             <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
               Harga mulai
             </div>
-            <p className="mt-1 text-[16px] font-extrabold text-sky-600">{item.price}</p>
+            <p className="mt-1 text-[17px] font-extrabold text-sky-600">{item.price}</p>
           </div>
 
           <button
             onClick={() => setSelectedProduct(item)}
-            className="mt-3.5 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
+            className="mt-4 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
           >
             Beli Sekarang
           </button>
@@ -1020,13 +1113,8 @@ export default function App() {
     if (!data.length) return null;
 
     return (
-      <section className="mt-8">
-        <div className="mb-4 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-sky-500" />
-          <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-            {title}
-          </h2>
-        </div>
+      <section className="mt-10">
+        <SectionTitle eyebrow="Catalog" title={title} darkMode={darkMode} />
 
         <div className="grid grid-cols-2 gap-3.5">
           {data.map((item, index) => (
@@ -1052,7 +1140,7 @@ export default function App() {
       >
         <div ref={topRef} className="mx-auto max-w-sm px-3 pt-3">
           <div
-            className={`rounded-[24px] border px-4 py-3 ${
+            className={`rounded-[26px] border px-4 py-3 ${
               darkMode
                 ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]"
                 : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.05)]"
@@ -1072,7 +1160,7 @@ export default function App() {
                     darkMode ? "text-white" : "text-slate-800"
                   }`}
                 >
-                  {currentPage === "api" ? "MUINZZ API" : BRAND}
+                  {currentPage === "api" ? API_BRAND : BRAND}
                 </h1>
                 <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-400">
                   {currentPage === "api" ? "Api Showcase" : "Premium Digital Store"}
@@ -1097,32 +1185,34 @@ export default function App() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           onOpenMenu={() => setMenuOpen(true)}
-          apiFeaturesRef={apiFeaturesRef}
-          onExploreApis={scrollToApiFeatures}
+          onExploreApis={() => apiFeaturesRef.current?.scrollIntoView({ behavior: "smooth" })}
           onOpenInfo={() => setShowApiInfo(true)}
           onOpenFeature={(item) => setSelectedApiFeature(item)}
+          onMusicFocus={() => musicRef.current?.scrollIntoView({ behavior: "smooth" })}
           currentTime={currentTime}
           isPlaying={isPlaying}
           onTogglePlay={togglePlay}
           onNextTrack={nextTrack}
-          currentTrack={currentTrack}
+          currentTrack={tracks[trackIndex]}
+          apiFeaturesRef={apiFeaturesRef}
+          musicRef={musicRef}
         />
       ) : (
-        <div className="mx-auto max-w-sm px-3 pb-6">
-          <div className="mt-4 overflow-hidden rounded-[28px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_16px_34px_rgba(59,130,246,0.25)]">
+        <div className="mx-auto max-w-sm px-3 pb-8">
+          <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-[0_18px_36px_rgba(59,130,246,0.24)]">
             <div className="relative">
               <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
               <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
 
               <div className="relative">
-                <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
+                <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
                   Trusted Service
                 </div>
 
-                <h2 className="mt-3 text-[24px] font-extrabold leading-tight tracking-tight">
+                <h2 className="mt-4 text-[28px] font-extrabold leading-tight tracking-tight">
                   {BRAND}
                 </h2>
-                <p className="mt-2 max-w-[235px] text-[13px] leading-6 text-white/90">
+                <p className="mt-2 max-w-[250px] text-[13px] leading-6 text-white/90">
                   Premium account, panel, dan server provider yang simpel, cepat, dan enak dipakai.
                 </p>
 
@@ -1137,24 +1227,25 @@ export default function App() {
                   ))}
                 </div>
 
-                <div className="mt-4 flex gap-3">
+                <div className="mt-5 flex gap-3">
                   <button
                     onClick={() =>
                       productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
                     }
-                    className="rounded-full bg-white px-5 py-3 text-[13px] font-extrabold text-sky-600"
+                    className="rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_10px_20px_rgba(255,255,255,0.18)]"
                   >
                     Lihat Produk
                   </button>
+
                   <button
                     onClick={openGuideWithLoading}
-                    className="rounded-full border border-white/30 bg-white/10 px-5 py-3 text-[13px] font-extrabold text-white"
+                    className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white"
                   >
                     Panduan
                   </button>
                 </div>
 
-                <div className="mt-4 grid grid-cols-2 gap-2.5">
+                <div className="mt-5 grid grid-cols-2 gap-2.5">
                   {statsLoading ? (
                     <>
                       <SkeletonStat />
@@ -1165,19 +1256,19 @@ export default function App() {
                     </>
                   ) : (
                     <>
-                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
                         <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
-                        <div className="mt-1 text-base font-extrabold">{paidCount}</div>
+                        <div className="mt-1 text-[18px] font-extrabold">{paidCount}</div>
                       </div>
 
-                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
                         <div className="text-[10px] text-white/80">Total Order</div>
-                        <div className="mt-1 text-base font-extrabold">{totalOrders}</div>
+                        <div className="mt-1 text-[18px] font-extrabold">{totalOrders}</div>
                       </div>
 
-                      <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                      <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
                         <div className="text-[10px] text-white/80">Pending</div>
-                        <div className="mt-1 text-base font-extrabold">{totalPending}</div>
+                        <div className="mt-1 text-[18px] font-extrabold">{totalPending}</div>
                       </div>
                     </>
                   )}
@@ -1186,63 +1277,72 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-2.5">
-            {trustItems.map((item) => {
-              const icon =
-                item.icon === "shield" ? (
-                  <IconShield />
-                ) : item.icon === "bolt" ? (
-                  <IconBolt />
-                ) : (
-                  <IconHeadset />
-                );
+          <section className="mt-8">
+            <SectionTitle eyebrow="Why Choose Us" title="Layanan yang cepat dan aman" darkMode={darkMode} />
 
-              return (
-                <div
-                  key={item.title}
-                  className={`rounded-[20px] border p-3 transition-all duration-300 hover:-translate-y-1 ${
-                    darkMode
-                      ? "border-slate-800 bg-slate-900"
-                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+            <div className="grid grid-cols-3 gap-2.5">
+              {trustItems.map((item) => {
+                const icon =
+                  item.icon === "shield" ? (
+                    <IconShield />
+                  ) : item.icon === "bolt" ? (
+                    <IconBolt />
+                  ) : (
+                    <IconHeadset />
+                  );
+
+                return (
+                  <div
+                    key={item.title}
+                    className={`rounded-[22px] border p-3.5 transition-all duration-300 hover:-translate-y-1 ${
+                      darkMode
+                        ? "border-slate-800 bg-slate-900"
+                        : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+                    }`}
+                  >
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-500">
+                      {icon}
+                    </div>
+                    <h3
+                      className={`text-[12px] font-extrabold ${
+                        darkMode ? "text-white" : "text-slate-800"
+                      }`}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 text-[10px] leading-5 text-slate-400">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="mt-8">
+            <SectionTitle eyebrow="Category" title="Pilih produk yang kamu cari" darkMode={darkMode} />
+
+            <div className="flex gap-2.5 overflow-x-auto pb-2">
+              {categories.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => handleCategoryClick(item)}
+                  className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
+                    activeCategory === item
+                      ? "border-sky-500 bg-sky-500 text-white shadow-md"
+                      : darkMode
+                      ? "border-slate-700 bg-slate-900 text-white"
+                      : "border-white/70 bg-white text-slate-700 shadow-sm"
                   }`}
                 >
-                  <div className="mb-2 text-sky-500">{icon}</div>
-                  <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-                    {item.title}
-                  </h3>
-                  <p className="mt-1.5 text-[10px] leading-5 text-slate-400">{item.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2">
-            {categories.map((item) => (
-              <button
-                key={item}
-                onClick={() => handleCategoryClick(item)}
-                className={`whitespace-nowrap rounded-full border px-4 py-2 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
-                  activeCategory === item
-                    ? "border-sky-500 bg-sky-500 text-white shadow-md"
-                    : darkMode
-                    ? "border-slate-700 bg-slate-900 text-white"
-                    : "border-white/70 bg-white text-slate-700 shadow-sm"
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+                  {item}
+                </button>
+              ))}
+            </div>
+          </section>
 
           <div ref={productsRef}>
             {statsLoading ? (
               <section className="mt-8">
-                <div className="mb-4 flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-sky-500" />
-                  <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-                    Virtual Private Server
-                  </h2>
-                </div>
+                <SectionTitle eyebrow="Catalog" title="Virtual Private Server" darkMode={darkMode} />
                 <div className="grid grid-cols-2 gap-3.5">
                   <SkeletonProduct />
                   <SkeletonProduct />
@@ -1259,30 +1359,29 @@ export default function App() {
             )}
           </div>
 
-          <section className="mt-8">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-sky-500" />
-              <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-                Testimoni Pengguna
-              </h2>
-            </div>
+          <section className="mt-10">
+            <SectionTitle eyebrow="Reviews" title="Testimoni Pengguna" darkMode={darkMode} />
 
             <div className="space-y-3">
               {testimonials.map((item) => (
                 <div
                   key={item.name}
-                  className={`rounded-[22px] border p-4 ${
+                  className={`rounded-[24px] border p-4 ${
                     darkMode
                       ? "border-slate-800 bg-slate-900"
                       : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-xs font-extrabold text-sky-600">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sm font-extrabold text-sky-600">
                       {item.name.charAt(0)}
                     </div>
                     <div className="min-w-0">
-                      <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                      <h3
+                        className={`text-[13px] font-extrabold ${
+                          darkMode ? "text-white" : "text-slate-800"
+                        }`}
+                      >
                         {item.name}
                       </h3>
                       <p className="text-[10px] text-slate-400">{item.role}</p>
@@ -1302,7 +1401,7 @@ export default function App() {
           </section>
 
           <footer
-            className={`mt-8 rounded-[24px] border px-4 py-5 ${
+            className={`mt-10 rounded-[26px] border px-4 py-5 ${
               darkMode
                 ? "border-slate-800 bg-slate-900"
                 : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
@@ -1310,7 +1409,11 @@ export default function App() {
           >
             <div className="flex items-center justify-between gap-3">
               <div>
-                <h3 className={`text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                <h3
+                  className={`text-[14px] font-extrabold ${
+                    darkMode ? "text-white" : "text-slate-800"
+                  }`}
+                >
                   {BRAND}
                 </h3>
                 <p className="mt-1 text-[11px] leading-5 text-slate-400">
@@ -1328,21 +1431,17 @@ export default function App() {
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
               <div>
-                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
-                  Layanan
-                </div>
+                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Layanan</div>
                 <div className="mt-1">Setiap hari</div>
               </div>
               <div>
-                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
-                  Support
-                </div>
+                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Support</div>
                 <div className="mt-1">Fast respon admin</div>
               </div>
             </div>
 
             <div className="mt-4 border-t border-slate-200 pt-3 text-center text-[10px] text-slate-400">
-              © 2026 Muinshop Cik. All rights reserved.
+              © 2026 {BRAND}. All rights reserved.
             </div>
           </footer>
         </div>
@@ -1362,8 +1461,8 @@ export default function App() {
             onClick={() => setMenuOpen(false)}
           />
 
-          <div className="relative h-full w-[82%] max-w-[340px] overflow-y-auto rounded-r-[28px] bg-white p-5 shadow-2xl">
-            <div className="mb-7 rounded-[22px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
+          <div className="relative h-full w-[84%] max-w-[340px] overflow-y-auto rounded-r-[28px] bg-white p-5 shadow-2xl">
+            <div className="mb-7 rounded-[24px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-md">
                   <span className="text-lg font-extrabold">M</span>
@@ -1375,73 +1474,106 @@ export default function App() {
               </div>
             </div>
 
-            <div className="space-y-3.5">
-              <button
-                onClick={() => {
-                  setCurrentPage("shop");
-                  setMenuOpen(false);
-                  setTimeout(() => {
-                    topRef.current?.scrollIntoView({ behavior: "smooth" });
-                  }, 100);
-                }}
-                className="flex w-full items-center gap-3 rounded-[20px] bg-slate-100 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-200 active:scale-[0.98]"
-              >
-                <IconHome />
-                <span>Beranda Shop</span>
-              </button>
+            <div className="space-y-6">
+              <div>
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                  Navigasi
+                </p>
 
-              <button
-                onClick={() => {
-                  setCurrentPage("api");
-                  setMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
-              >
-                <IconApiPage />
-                <span>Laman API</span>
-              </button>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => {
+                      setCurrentPage("shop");
+                      setMenuOpen(false);
+                      setTimeout(() => {
+                        topRef.current?.scrollIntoView({ behavior: "smooth" });
+                      }, 100);
+                    }}
+                    className={`flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold transition-all duration-200 active:scale-[0.98] ${
+                      currentPage === "shop"
+                        ? "bg-slate-100 text-slate-800"
+                        : "text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <IconHome />
+                    <span>Beranda Shop</span>
+                  </button>
 
-              <button
-                onClick={openGuideWithLoading}
-                className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
-              >
-                <div className="flex items-center gap-3">
-                  <IconBook />
-                  <span>Panduan</span>
+                  <button
+                    onClick={() => {
+                      setCurrentPage("api");
+                      setMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className={`flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold transition-all duration-200 active:scale-[0.98] ${
+                      currentPage === "api"
+                        ? "bg-sky-500 text-white"
+                        : "text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <IconApiPage />
+                    <span>Laman API</span>
+                  </button>
+
+                  <button
+                    onClick={openGuideWithLoading}
+                    className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
+                  >
+                    <div className="flex items-center gap-3">
+                      <IconBook />
+                      <span>Panduan</span>
+                    </div>
+                    <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
+                      WAJIB
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setCurrentPage("shop");
+                      setMenuOpen(false);
+                      setTimeout(() => {
+                        productsRef.current?.scrollIntoView({ behavior: "smooth" });
+                      }, 120);
+                    }}
+                    className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-700 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+                  >
+                    <IconBag />
+                    <span>Produk Terjual</span>
+                  </button>
                 </div>
-                <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
-                  WAJIB
-                </span>
-              </button>
+              </div>
 
-              <button
-                onClick={() => {
-                  setCurrentPage("shop");
-                  setMenuOpen(false);
-                  setTimeout(() => {
-                    productsRef.current?.scrollIntoView({ behavior: "smooth" });
-                  }, 120);
-                }}
-                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
-              >
-                <IconBag />
-                <span>Produk Terjual</span>
-              </button>
+              <div>
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                  Shortcut API
+                </p>
 
-              {!session ? (
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setShowAdmin(true);
-                  }}
-                  className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                >
-                  <IconLogin />
-                  <span>Login Admin</span>
-                </button>
-              ) : (
-                <>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => openApiPageAndScroll(apiFeaturesRef)}
+                    className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-700 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+                  >
+                    <IconLayers />
+                    <span>Main Features</span>
+                  </button>
+
+                  <button
+                    onClick={() => openApiPageAndScroll(musicRef)}
+                    className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-700 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+                  >
+                    <IconInfo />
+                    <span>Music Widget</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                  Admin
+                </p>
+
+                {!session ? (
                   <button
                     onClick={() => {
                       setMenuOpen(false);
@@ -1450,18 +1582,31 @@ export default function App() {
                     className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
                   >
                     <IconLogin />
-                    <span>Panel Admin</span>
+                    <span>Login Admin</span>
                   </button>
+                ) : (
+                  <div className="space-y-3">
+                    <button
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setShowAdmin(true);
+                      }}
+                      className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                    >
+                      <IconLogin />
+                      <span>Panel Admin</span>
+                    </button>
 
-                  <button
-                    onClick={handleLogout}
-                    className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
-                  >
-                    <IconLogout />
-                    <span>Logout Admin</span>
-                  </button>
-                </>
-              )}
+                    <button
+                      onClick={handleLogout}
+                      className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                    >
+                      <IconLogout />
+                      <span>Logout Admin</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="mt-7 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
@@ -1469,7 +1614,7 @@ export default function App() {
                 {BRAND}
               </p>
               <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                Fitur lama tetap aman, tampilan baru masuk, dan halaman API sekarang gak sekadar ganteng doang tapi udah hidup.
+                Fitur lama tetap utuh, tampilan baru ikut naik kelas, dan halaman API sekarang sudah lebih hidup.
               </p>
             </div>
           </div>
@@ -1478,15 +1623,15 @@ export default function App() {
 
       {selectedProduct && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
-            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[18px] bg-slate-50">
+          <div className="w-full max-w-sm rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
+            <div className="mx-auto mb-4 flex h-[88px] w-[88px] items-center justify-center rounded-[20px] bg-slate-50">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
                 onError={(e) => {
                   e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
                 }}
-                className="h-16 object-contain"
+                className="h-[68px] object-contain"
               />
             </div>
 
@@ -1500,7 +1645,7 @@ export default function App() {
               {selectedProduct.name}
             </h3>
 
-            <p className="mt-2 text-center text-[20px] font-extrabold text-sky-600">
+            <p className="mt-2 text-center text-[22px] font-extrabold text-sky-600">
               {selectedProduct.price}
             </p>
 
@@ -1508,11 +1653,9 @@ export default function App() {
               {selectedProduct.description}
             </p>
 
-            <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50 p-4">
-              <div className="mb-3 text-[12px] font-extrabold text-slate-700">
-                Keunggulan Produk
-              </div>
-              <div className="space-y-2">
+            <div className="mt-4 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
+              <div className="mb-3 text-[12px] font-extrabold text-slate-700">Keunggulan Produk</div>
+              <div className="space-y-2.5">
                 {selectedProduct.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-2 text-[12px] text-slate-600">
                     <div className="mt-0.5 text-sky-500">
@@ -1526,21 +1669,21 @@ export default function App() {
 
             <input
               placeholder="Nama"
-              className="mt-4 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+              className="mt-4 w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
             />
 
             <input
               placeholder="WhatsApp"
-              className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+              className="mt-3 w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
               value={customerWhatsapp}
               onChange={(e) => setCustomerWhatsapp(e.target.value)}
             />
 
             <textarea
               placeholder="Catatan"
-              className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
+              className="mt-3 w-full rounded-2xl border border-slate-200 px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
               rows={3}
               value={customerNote}
               onChange={(e) => setCustomerNote(e.target.value)}
@@ -1566,7 +1709,7 @@ export default function App() {
 
       {showAdmin && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-[16px] font-extrabold">
                 {session ? "Panel Admin" : "Login Admin"}
@@ -1626,7 +1769,10 @@ export default function App() {
                   </div>
                 ) : (
                   orders.map((order) => (
-                    <div key={order.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div
+                      key={order.id}
+                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                    >
                       <div className="font-extrabold">{order.product_name}</div>
                       <div className="mt-1 text-[12px]">Harga: {order.price}</div>
                       <div className="text-[12px]">Nama: {order.customer_name}</div>
@@ -1751,9 +1897,7 @@ export default function App() {
             </div>
 
             <div className="mt-6 rounded-[24px] border border-orange-200 bg-orange-50 px-6 py-5 shadow-sm">
-              <h3 className="text-[18px] font-extrabold text-orange-600">
-                ⚠️ PENTING: JANGAN REFRESH!
-              </h3>
+              <h3 className="text-[18px] font-extrabold text-orange-600">⚠️ PENTING: JANGAN REFRESH!</h3>
               <p className="mt-3 text-[13px] leading-7 text-orange-700">
                 Dilarang menutup atau memuat ulang halaman saat proses transaksi. Jika ada kendala, hubungi CS segera.
               </p>
@@ -1773,7 +1917,7 @@ export default function App() {
         <div className="fixed inset-0 z-[130] overflow-y-auto bg-[#eef3fb] px-4 py-8">
           <div className="mx-auto max-w-md">
             <div className="rounded-[28px] bg-white p-6 text-center shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-              <div className="mx-auto flex h-18 w-18 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+              <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <svg className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -1825,12 +1969,20 @@ export default function App() {
 
       {showApiInfo && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
-            <h3 className="text-[16px] font-extrabold">Tentang Muinzz API</h3>
+          <div className="w-full max-w-sm rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
+            <h3 className="text-[16px] font-extrabold">{API_BRAND}</h3>
             <p className="mt-3 text-[13px] leading-6 text-slate-600">
-              Halaman ini adalah showcase untuk tools API kamu. Sekarang tombol-tombol utamanya sudah hidup:
-              explore, info, feature detail, player, clock, dan navigasi.
+              Halaman API ini sekarang fokus buat showcase tools, fitur, widget, dan interaksi kecil yang lebih halus tanpa ngerusak halaman shop utama.
             </p>
+
+            <div className="mt-4 rounded-[18px] bg-slate-50 p-4 text-[12px] leading-6 text-slate-500">
+              Kamu bisa pakai halaman ini buat:
+              <br />• landing API
+              <br />• promosi fitur tools
+              <br />• quick action section
+              <br />• endpoint showcase
+            </div>
+
             <button
               onClick={() => setShowApiInfo(false)}
               className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
@@ -1843,11 +1995,10 @@ export default function App() {
 
       {selectedApiFeature && (
         <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="w-full max-w-sm rounded-[26px] bg-white p-5 text-slate-900 shadow-2xl">
             <h3 className="text-[16px] font-extrabold">{selectedApiFeature.title}</h3>
-            <p className="mt-3 text-[13px] leading-6 text-slate-600">
-              {selectedApiFeature.detail}
-            </p>
+            <p className="mt-3 text-[13px] leading-6 text-slate-600">{selectedApiFeature.detail}</p>
+
             <button
               onClick={() => setSelectedApiFeature(null)}
               className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
@@ -1859,4 +2010,5 @@ export default function App() {
       )}
     </div>
   );
-                           }
+    }
+    
