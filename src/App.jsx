@@ -102,6 +102,24 @@ const testimonials = [
   },
 ];
 
+const apiFeatures = [
+  {
+    title: "Artificial Intelligence",
+    desc: "Chatbot Pintar Berbasis AI Untuk Menjawab Segala Pertanyaanmu Secara Instan",
+    icon: "bot",
+  },
+  {
+    title: "Social Media Downloader",
+    desc: "Unduh video & foto dari TikTok, Instagram, YouTube, dan Facebook Tanpa Watermark",
+    icon: "download",
+  },
+  {
+    title: "Stalker Tools",
+    desc: "Dapatkan Informasi Mendalam Dari Profil Sosial Media Target",
+    icon: "spy",
+  },
+];
+
 const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
 const PAKASIR_SLUG = import.meta.env.VITE_PAKASIR_SLUG || "muin2";
 
@@ -220,6 +238,97 @@ function IconStar() {
   );
 }
 
+function IconApiPage() {
+  return (
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h8M6 12h12M8 18h8" />
+      <circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="20" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function IconLayers() {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="m12 3 8 4-8 4-8-4 8-4Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4 12 8 4 8-4" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4 17 8 4 8-4" />
+    </svg>
+  );
+}
+
+function IconBot() {
+  return (
+    <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <rect x="5" y="8" width="14" height="11" rx="3" />
+      <path strokeLinecap="round" d="M12 4v4M9 13h.01M15 13h.01M9 16h6" />
+    </svg>
+  );
+}
+
+function IconCloudDownload() {
+  return (
+    <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 18a4 4 0 1 1 .8-7.92A5 5 0 0 1 17.5 9a3.5 3.5 0 1 1 .5 7H7Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v7m0 0 3-3m-3 3-3-3" />
+    </svg>
+  );
+}
+
+function IconSpy() {
+  return (
+    <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c3 2.5 5 4.8 5 8a5 5 0 1 1-10 0c0-3.2 2-5.5 5-8Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 20h8M9 14h.01M15 14h.01" />
+    </svg>
+  );
+}
+
+function IconLocation() {
+  return (
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" />
+      <circle cx="12" cy="10" r="2.2" />
+    </svg>
+  );
+}
+
+function IconDrop() {
+  return (
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9Z" />
+    </svg>
+  );
+}
+
+function IconWind() {
+  return (
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h10a2 2 0 1 0-2-2" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h14a2 2 0 1 1-2 2" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16h8" />
+    </svg>
+  );
+}
+
+function IconPlay() {
+  return (
+    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+      <path d="M8 5v14l11-7-11-7Z" />
+    </svg>
+  );
+}
+
+function IconNext() {
+  return (
+    <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+      <path d="M6 5v14l8-7-8-7Zm10 0h2v14h-2z" />
+    </svg>
+  );
+}
+
 function Toast({ toast, onClose }) {
   useEffect(() => {
     if (!toast) return;
@@ -267,6 +376,193 @@ function SkeletonProduct() {
   );
 }
 
+function FeatureCard({ icon, title, desc, iconColor }) {
+  return (
+    <div className="rounded-[24px] bg-[#f2f6f9] p-4 transition duration-300 hover:-translate-y-1">
+      <div className="flex gap-4">
+        <div className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[22px] bg-white ${iconColor}`}>
+          {icon}
+        </div>
+
+        <div className="min-w-0">
+          <h3 className="text-[14px] font-extrabold text-slate-800">{title}</h3>
+          <p className="mt-2 text-[12px] leading-7 text-slate-500">{desc}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ApiPage({ onBack }) {
+  return (
+    <div className="mx-auto max-w-sm px-3 pb-8">
+      <div className="mt-4 rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+        <div className="flex items-center justify-between">
+          <button className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.30)]">
+            <IconMenu />
+          </button>
+
+          <h1 className="text-[15px] font-extrabold text-sky-500">Vanzz API</h1>
+
+          <button
+            onClick={onBack}
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.30)]"
+          >
+            <IconHome />
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-7 flex justify-center">
+        <img
+          src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop"
+          alt="Vanzz API"
+          className="h-[160px] w-[78%] rounded-[26px] object-cover shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
+        />
+      </div>
+
+      <div className="mt-7 text-center">
+        <h2 className="text-[30px] font-extrabold text-sky-500">Vanzz API</h2>
+        <p className="mt-2 text-[13px] text-slate-400">
+          API solutions for developer.
+        </p>
+      </div>
+
+      <div className="mt-6 grid grid-cols-3 gap-3">
+        <div className="rounded-[24px] border border-cyan-100 bg-white px-3 py-4 text-center shadow-[0_8px_20px_rgba(15,23,42,0.03)]">
+          <p className="text-[10px] font-bold uppercase text-slate-400">Clock</p>
+          <p className="mt-2 text-[16px] font-extrabold text-sky-500">10:46</p>
+        </div>
+
+        <div className="rounded-[24px] border border-cyan-100 bg-white px-3 py-4 text-center shadow-[0_8px_20px_rgba(15,23,42,0.03)]">
+          <p className="text-[10px] font-bold uppercase text-slate-400">Power</p>
+          <p className="mt-2 text-[16px] font-extrabold text-sky-500">32%</p>
+        </div>
+
+        <div className="rounded-[24px] border border-cyan-100 bg-white px-3 py-4 text-center shadow-[0_8px_20px_rgba(15,23,42,0.03)]">
+          <p className="text-[10px] font-bold uppercase text-slate-400">Total</p>
+          <p className="mt-2 text-[16px] font-extrabold text-sky-500">300</p>
+        </div>
+      </div>
+
+      <div className="mt-5 flex justify-center">
+        <button className="inline-flex items-center gap-2 rounded-full bg-sky-500 px-6 py-3 text-[13px] font-extrabold text-white shadow-[0_12px_24px_rgba(14,165,233,0.30)] transition hover:scale-[1.02] active:scale-[0.98]">
+          <IconLayers />
+          <span>Explore Apis</span>
+        </button>
+      </div>
+
+      <section className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+        <div className="mb-5 flex items-center gap-2 text-slate-800">
+          <div className="text-sky-500">
+            <IconLayers />
+          </div>
+          <h3 className="text-[14px] font-extrabold">Main Features</h3>
+        </div>
+
+        <div className="space-y-4">
+          {apiFeatures.map((item) => (
+            <FeatureCard
+              key={item.title}
+              icon={
+                item.icon === "bot" ? (
+                  <IconBot />
+                ) : item.icon === "download" ? (
+                  <IconCloudDownload />
+                ) : (
+                  <IconSpy />
+                )
+              }
+              title={item.title}
+              desc={item.desc}
+              iconColor={
+                item.icon === "bot"
+                  ? "text-violet-500"
+                  : item.icon === "download"
+                  ? "text-cyan-500"
+                  : "text-rose-400"
+              }
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+        <div className="mb-4 flex items-center gap-2 text-slate-500">
+          <IconLocation />
+          <h3 className="text-[12px] font-extrabold uppercase tracking-[0.18em]">
+            Weather Info
+          </h3>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-start gap-4">
+            <div>
+              <div className="text-[36px] font-extrabold leading-none text-sky-500">
+                27°C
+              </div>
+
+              <div className="mt-3 space-y-1 text-[12px] text-slate-700">
+                <div className="flex items-center gap-2">
+                  <IconDrop />
+                  <span>80%</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconWind />
+                  <span>9 km/h</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-1">
+              <div className="text-[14px] font-extrabold text-slate-800">
+                Jakarta
+              </div>
+              <div className="text-[12px] text-slate-500">Partly cloudy</div>
+            </div>
+          </div>
+
+          <div className="text-slate-700">
+            <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 16a4 4 0 1 1 1.1-7.84A5 5 0 0 1 17 9a3.5 3.5 0 1 1 .5 7H6Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="m8 19 1-2m4 2 1-2m4 2 1-2" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="my-5 border-t border-slate-100" />
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex gap-1 text-sky-500">
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+            </div>
+
+            <div>
+              <div className="text-[14px] font-extrabold text-sky-500">
+                Music Player
+              </div>
+              <div className="text-[12px] text-slate-400">Vanzz API Music</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_24px_rgba(14,165,233,0.25)]">
+              <IconPlay />
+            </button>
+            <button className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_24px_rgba(167,139,250,0.25)]">
+              <IconNext />
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -275,6 +571,7 @@ export default function App() {
   const [showGuide, setShowGuide] = useState(false);
   const [guideLoading, setGuideLoading] = useState(false);
   const [toast, setToast] = useState(null);
+  const [currentPage, setCurrentPage] = useState("shop");
 
   const [paidCount, setPaidCount] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -412,6 +709,7 @@ export default function App() {
   };
 
   const handleCategoryClick = (category) => {
+    setCurrentPage("shop");
     setActiveCategory(category);
     setMenuOpen(false);
 
@@ -681,10 +979,10 @@ export default function App() {
                     darkMode ? "text-white" : "text-slate-800"
                   }`}
                 >
-                  MUINSHOP CIK
+                  {currentPage === "api" ? "VANZZ API" : "MUINSHOP CIK"}
                 </h1>
                 <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-400">
-                  Premium Digital Store
+                  {currentPage === "api" ? "Api Showcase" : "Premium Digital Store"}
                 </p>
               </div>
 
@@ -699,241 +997,250 @@ export default function App() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-sm px-3 pb-6">
-        <div className="mt-4 overflow-hidden rounded-[28px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_16px_34px_rgba(59,130,246,0.25)]">
-          <div className="relative">
-            <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
-            <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
-
+      {currentPage === "api" ? (
+        <ApiPage
+          onBack={() => {
+            setCurrentPage("shop");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+      ) : (
+        <div className="mx-auto max-w-sm px-3 pb-6">
+          <div className="mt-4 overflow-hidden rounded-[28px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white shadow-[0_16px_34px_rgba(59,130,246,0.25)]">
             <div className="relative">
-              <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
-                Trusted Service
-              </div>
+              <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
+              <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
 
-              <h2 className="mt-3 text-[24px] font-extrabold leading-tight tracking-tight">
-                Muinshop Cik
-              </h2>
-              <p className="mt-2 max-w-[235px] text-[13px] leading-6 text-white/90">
-                Premium account, panel, dan server provider yang simpel, cepat,
-                dan enak dipakai.
-              </p>
-
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-                {promoItems.map((item) => (
-                  <div
-                    key={item}
-                    className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-2.5">
-                {statsLoading ? (
-                  <>
-                    <SkeletonStat />
-                    <SkeletonStat />
-                    <div className="col-span-2">
-                      <SkeletonStat />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                      <div className="text-[10px] text-white/80">
-                        Transaksi Berhasil
-                      </div>
-                      <div className="mt-1 text-base font-extrabold">
-                        {paidCount}
-                      </div>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                      <div className="text-[10px] text-white/80">Total Order</div>
-                      <div className="mt-1 text-base font-extrabold">
-                        {totalOrders}
-                      </div>
-                    </div>
-
-                    <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
-                      <div className="text-[10px] text-white/80">Pending</div>
-                      <div className="mt-1 text-base font-extrabold">
-                        {totalPending}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 grid grid-cols-3 gap-2.5">
-          {trustItems.map((item) => {
-            const icon =
-              item.icon === "shield" ? (
-                <IconShield />
-              ) : item.icon === "bolt" ? (
-                <IconBolt />
-              ) : (
-                <IconHeadset />
-              );
-
-            return (
-              <div
-                key={item.title}
-                className={`rounded-[20px] border p-3 transition-all duration-300 hover:-translate-y-1 ${
-                  darkMode
-                    ? "border-slate-800 bg-slate-900"
-                    : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                }`}
-              >
-                <div className="mb-2 text-sky-500">{icon}</div>
-                <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-                  {item.title}
-                </h3>
-                <p className="mt-1.5 text-[10px] leading-5 text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2">
-          {categories.map((item) => (
-            <button
-              key={item}
-              onClick={() => handleCategoryClick(item)}
-              className={`whitespace-nowrap rounded-full border px-4 py-2 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
-                activeCategory === item
-                  ? "border-sky-500 bg-sky-500 text-white shadow-md"
-                  : darkMode
-                  ? "border-slate-700 bg-slate-900 text-white"
-                  : "border-white/70 bg-white text-slate-700 shadow-sm"
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-
-        <div ref={productsRef}>
-          {statsLoading ? (
-            <section className="mt-8">
-              <div className="mb-4 flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-sky-500" />
-                <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-                  Virtual Private Server
-                </h2>
-              </div>
-              <div className="grid grid-cols-2 gap-3.5">
-                <SkeletonProduct />
-                <SkeletonProduct />
-              </div>
-            </section>
-          ) : (
-            <>
-              <Section
-                title="Virtual Private Server"
-                data={groupedProducts["Virtual Private Server"]}
-              />
-              <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
-            </>
-          )}
-        </div>
-
-        <section className="mt-8">
-          <div className="mb-4 flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-sky-500" />
-            <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
-              Testimoni Pengguna
-            </h2>
-          </div>
-
-          <div className="space-y-3">
-            {testimonials.map((item) => (
-              <div
-                key={item.name}
-                className={`rounded-[22px] border p-4 ${
-                  darkMode
-                    ? "border-slate-800 bg-slate-900"
-                    : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-xs font-extrabold text-sky-600">
-                    {item.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-                      {item.name}
-                    </h3>
-                    <p className="text-[10px] text-slate-400">{item.role}</p>
-                  </div>
+              <div className="relative">
+                <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
+                  Trusted Service
                 </div>
 
-                <div className="mt-3 flex gap-1">
-                  {Array.from({ length: item.rating }).map((_, i) => (
-                    <IconStar key={i} />
+                <h2 className="mt-3 text-[24px] font-extrabold leading-tight tracking-tight">
+                  Muinshop Cik
+                </h2>
+                <p className="mt-2 max-w-[235px] text-[13px] leading-6 text-white/90">
+                  Premium account, panel, dan server provider yang simpel, cepat,
+                  dan enak dipakai.
+                </p>
+
+                <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+                  {promoItems.map((item) => (
+                    <div
+                      key={item}
+                      className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
+                    >
+                      {item}
+                    </div>
                   ))}
                 </div>
 
-                <p className="mt-3 text-[12px] leading-6 text-slate-500">
-                  {item.text}
-                </p>
+                <div className="mt-4 grid grid-cols-2 gap-2.5">
+                  {statsLoading ? (
+                    <>
+                      <SkeletonStat />
+                      <SkeletonStat />
+                      <div className="col-span-2">
+                        <SkeletonStat />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                        <div className="text-[10px] text-white/80">
+                          Transaksi Berhasil
+                        </div>
+                        <div className="mt-1 text-base font-extrabold">
+                          {paidCount}
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                        <div className="text-[10px] text-white/80">Total Order</div>
+                        <div className="mt-1 text-base font-extrabold">
+                          {totalOrders}
+                        </div>
+                      </div>
+
+                      <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-2.5 backdrop-blur-md">
+                        <div className="text-[10px] text-white/80">Pending</div>
+                        <div className="mt-1 text-base font-extrabold">
+                          {totalPending}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 gap-2.5">
+            {trustItems.map((item) => {
+              const icon =
+                item.icon === "shield" ? (
+                  <IconShield />
+                ) : item.icon === "bolt" ? (
+                  <IconBolt />
+                ) : (
+                  <IconHeadset />
+                );
+
+              return (
+                <div
+                  key={item.title}
+                  className={`rounded-[20px] border p-3 transition-all duration-300 hover:-translate-y-1 ${
+                    darkMode
+                      ? "border-slate-800 bg-slate-900"
+                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+                  }`}
+                >
+                  <div className="mb-2 text-sky-500">{icon}</div>
+                  <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-1.5 text-[10px] leading-5 text-slate-400">
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2">
+            {categories.map((item) => (
+              <button
+                key={item}
+                onClick={() => handleCategoryClick(item)}
+                className={`whitespace-nowrap rounded-full border px-4 py-2 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
+                  activeCategory === item
+                    ? "border-sky-500 bg-sky-500 text-white shadow-md"
+                    : darkMode
+                    ? "border-slate-700 bg-slate-900 text-white"
+                    : "border-white/70 bg-white text-slate-700 shadow-sm"
+                }`}
+              >
+                {item}
+              </button>
             ))}
           </div>
-        </section>
 
-        <footer
-          className={`mt-8 rounded-[24px] border px-4 py-5 ${
-            darkMode
-              ? "border-slate-800 bg-slate-900"
-              : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-          }`}
-        >
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h3 className={`text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
-                Muinshop Cik
-              </h3>
-              <p className="mt-1 text-[11px] leading-5 text-slate-400">
-                Store digital dengan proses cepat, aman, dan tampilan yang sekarang
-                sudah lebih waras.
-              </p>
-            </div>
-
-            <button
-              onClick={() => window.open("https://wa.me/60166173129", "_blank")}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)]"
-            >
-              <IconWhatsApp />
-            </button>
+          <div ref={productsRef}>
+            {statsLoading ? (
+              <section className="mt-8">
+                <div className="mb-4 flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-sky-500" />
+                  <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+                    Virtual Private Server
+                  </h2>
+                </div>
+                <div className="grid grid-cols-2 gap-3.5">
+                  <SkeletonProduct />
+                  <SkeletonProduct />
+                </div>
+              </section>
+            ) : (
+              <>
+                <Section
+                  title="Virtual Private Server"
+                  data={groupedProducts["Virtual Private Server"]}
+                />
+                <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
+              </>
+            )}
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
-            <div>
-              <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
-                Layanan
+          <section className="mt-8">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-sky-500" />
+              <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-sky-600">
+                Testimoni Pengguna
+              </h2>
+            </div>
+
+            <div className="space-y-3">
+              {testimonials.map((item) => (
+                <div
+                  key={item.name}
+                  className={`rounded-[22px] border p-4 ${
+                    darkMode
+                      ? "border-slate-800 bg-slate-900"
+                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-xs font-extrabold text-sky-600">
+                      {item.name.charAt(0)}
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                        {item.name}
+                      </h3>
+                      <p className="text-[10px] text-slate-400">{item.role}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 flex gap-1">
+                    {Array.from({ length: item.rating }).map((_, i) => (
+                      <IconStar key={i} />
+                    ))}
+                  </div>
+
+                  <p className="mt-3 text-[12px] leading-6 text-slate-500">
+                    {item.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <footer
+            className={`mt-8 rounded-[24px] border px-4 py-5 ${
+              darkMode
+                ? "border-slate-800 bg-slate-900"
+                : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+            }`}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h3 className={`text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
+                  Muinshop Cik
+                </h3>
+                <p className="mt-1 text-[11px] leading-5 text-slate-400">
+                  Store digital dengan proses cepat, aman, dan tampilan yang sekarang
+                  sudah lebih waras.
+                </p>
               </div>
-              <div className="mt-1">Setiap hari</div>
-            </div>
-            <div>
-              <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
-                Support
-              </div>
-              <div className="mt-1">Fast respon admin</div>
-            </div>
-          </div>
 
-          <div className="mt-4 border-t border-slate-200 pt-3 text-center text-[10px] text-slate-400">
-            © 2026 Muinshop Cik. All rights reserved.
-          </div>
-        </footer>
-      </div>
+              <button
+                onClick={() => window.open("https://wa.me/60166173129", "_blank")}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)]"
+              >
+                <IconWhatsApp />
+              </button>
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
+              <div>
+                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
+                  Layanan
+                </div>
+                <div className="mt-1">Setiap hari</div>
+              </div>
+              <div>
+                <div className="font-bold uppercase tracking-[0.18em] text-slate-500">
+                  Support
+                </div>
+                <div className="mt-1">Fast respon admin</div>
+              </div>
+            </div>
+
+            <div className="mt-4 border-t border-slate-200 pt-3 text-center text-[10px] text-slate-400">
+              © 2026 Muinshop Cik. All rights reserved.
+            </div>
+          </footer>
+        </div>
+      )}
 
       <button
         onClick={() => window.open("https://wa.me/60166173129", "_blank")}
@@ -965,13 +1272,28 @@ export default function App() {
             <div className="space-y-3.5">
               <button
                 onClick={() => {
+                  setCurrentPage("shop");
                   setMenuOpen(false);
-                  topRef.current?.scrollIntoView({ behavior: "smooth" });
+                  setTimeout(() => {
+                    topRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
                 }}
                 className="flex w-full items-center gap-3 rounded-[20px] bg-slate-100 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-200 active:scale-[0.98]"
               >
                 <IconHome />
-                <span>Dashboard API</span>
+                <span>Beranda Shop</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setCurrentPage("api");
+                  setMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex w-full items-center gap-3 rounded-[20px] bg-sky-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+              >
+                <IconApiPage />
+                <span>Laman API</span>
               </button>
 
               <button
@@ -989,8 +1311,11 @@ export default function App() {
 
               <button
                 onClick={() => {
+                  setCurrentPage("shop");
                   setMenuOpen(false);
-                  productsRef.current?.scrollIntoView({ behavior: "smooth" });
+                  setTimeout(() => {
+                    productsRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 120);
                 }}
                 className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
               >
@@ -1038,8 +1363,7 @@ export default function App() {
                 Muinshop Cik
               </p>
               <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                Store digital dengan proses cepat, aman, dan sekarang tampilannya
-                gak bikin mata nyerah.
+                Sekarang fitur lama tetap ada, dan laman API bisa dibuka dari sidebar. Jadi kali ini tidak ada yang hilang cuma gara-gara ganti file brutal.
               </p>
             </div>
           </div>
@@ -1411,4 +1735,4 @@ export default function App() {
       )}
     </div>
   );
-    }
+}
