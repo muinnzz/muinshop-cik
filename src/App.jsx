@@ -14,6 +14,8 @@ const products = [
     description: "VPS hemat untuk kebutuhan ringan dan testing.",
     badge: "Best Seller",
     featured: true,
+    delivery: "1-5 menit",
+    status: "Ready",
     features: [
       "Cocok untuk testing dan bot ringan",
       "Aktivasi cepat setelah pembayaran",
@@ -28,6 +30,8 @@ const products = [
     description: "VPS lebih kencang untuk kebutuhan menengah.",
     badge: "Populer",
     featured: false,
+    delivery: "1-5 menit",
+    status: "Ready",
     features: [
       "Performa lebih stabil",
       "Cocok untuk kebutuhan menengah",
@@ -42,6 +46,8 @@ const products = [
     description: "Paket panel unlimited untuk kebutuhan game server.",
     badge: "Premium",
     featured: true,
+    delivery: "1-10 menit",
+    status: "Ready",
     features: [
       "Resource besar untuk game server",
       "Pengiriman cepat setelah pembayaran",
@@ -56,6 +62,8 @@ const products = [
     description: "Panel Pterodactyl dengan resource 9 GB.",
     badge: "Termurah",
     featured: false,
+    delivery: "1-10 menit",
+    status: "Ready",
     features: [
       "Harga hemat",
       "Cocok untuk kebutuhan dasar",
@@ -74,17 +82,17 @@ const promoItems = [
 const trustItems = [
   {
     title: "Transaksi Aman",
-    desc: "Pembayaran dibungkus flow yang lebih rapi dan mudah dipahami.",
+    desc: "Pembayaran cepat dan aman lewat QRIS.",
     icon: "shield",
   },
   {
     title: "Proses Cepat",
-    desc: "Order masuk diproses cepat tanpa bikin user nunggu lama.",
+    desc: "Order diproses dengan sistem yang rapi.",
     icon: "bolt",
   },
   {
     title: "Support Aktif",
-    desc: "Kalau ada kendala, admin tetap gampang dihubungi.",
+    desc: "Bisa langsung hubungi admin kalau butuh bantuan.",
     icon: "headset",
   },
 ];
@@ -116,7 +124,7 @@ const apiFeatures = [
     desc: "Chatbot pintar berbasis AI untuk menjawab pertanyaan secara instan.",
     icon: "bot",
     detail:
-      "Bagian AI cocok untuk chatbot, auto-reply, content helper, dan automasi alur kerja sederhana sampai kompleks.",
+      "Bagian AI cocok untuk chatbot, auto-reply, content helper, dan automasi workflow sederhana sampai kompleks.",
   },
   {
     title: "Social Media Downloader",
@@ -130,11 +138,27 @@ const apiFeatures = [
     desc: "Lookup informasi publik dari akun atau target secara cepat.",
     icon: "spy",
     detail:
-      "Cocok untuk metadata lookup, username checker, public profile finder, dan tools utilitas lain.",
+      "Cocok untuk metadata lookup, username checker, public profile finder, dan utilitas tambahan lainnya.",
+  },
+];
+
+const faqItems = [
+  {
+    q: "Berapa lama proses order?",
+    a: "Mayoritas order diproses dalam beberapa menit setelah pembayaran berhasil masuk.",
+  },
+  {
+    q: "Kalau nomor WhatsApp salah gimana?",
+    a: "Hubungi admin secepatnya lewat tombol WhatsApp dan sertakan Order ID kamu.",
+  },
+  {
+    q: "Kalau pembayaran pending gimana?",
+    a: "Tunggu beberapa saat, lalu cek status order. Jika masih pending, hubungi admin.",
   },
 ];
 
 const categories = ["Semua", "Virtual Private Server", "Pterodactyl"];
+const badgeFilters = ["Semua", "Best Seller", "Populer", "Premium", "Termurah"];
 const tracks = ["Muinzz API Music", "Night Drive", "Sky Beat", "Cloud Signal"];
 
 const statusStyles = {
@@ -143,7 +167,8 @@ const statusStyles = {
   failed: "border-rose-200 bg-rose-50 text-rose-700",
 };
 
-const parsePriceToNumber = (price) => Number(String(price).replace(/[^\d]/g, ""));
+const parsePriceToNumber = (price) =>
+  Number(String(price).replace(/[^\d]/g, ""));
 
 const formatRupiah = (value) => {
   if (value === null || value === undefined || value === "") return "-";
@@ -273,70 +298,6 @@ function IconApiPage() {
   );
 }
 
-function IconLayers() {
-  return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="m12 3 8 4-8 4-8-4 8-4Z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="m4 12 8 4 8-4" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="m4 17 8 4 8-4" />
-    </svg>
-  );
-}
-
-function IconBot() {
-  return (
-    <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <rect x="5" y="8" width="14" height="11" rx="3" />
-      <path strokeLinecap="round" d="M12 4v4M9 13h.01M15 13h.01M9 16h6" />
-    </svg>
-  );
-}
-
-function IconCloudDownload() {
-  return (
-    <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M7 18a4 4 0 1 1 .8-7.92A5 5 0 0 1 17.5 9a3.5 3.5 0 1 1 .5 7H7Z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v7m0 0 3-3m-3 3-3-3" />
-    </svg>
-  );
-}
-
-function IconSpy() {
-  return (
-    <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c3 2.5 5 4.8 5 8a5 5 0 1 1-10 0c0-3.2 2-5.5 5-8Z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M8 20h8M9 14h.01M15 14h.01" />
-    </svg>
-  );
-}
-
-function IconLocation() {
-  return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" />
-      <circle cx="12" cy="10" r="2.2" />
-    </svg>
-  );
-}
-
-function IconDrop() {
-  return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9Z" />
-    </svg>
-  );
-}
-
-function IconWind() {
-  return (
-    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h10a2 2 0 1 0-2-2" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h14a2 2 0 1 1-2 2" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16h8" />
-    </svg>
-  );
-}
-
 function IconPlay() {
   return (
     <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
@@ -361,15 +322,6 @@ function IconNext() {
   );
 }
 
-function IconInfo() {
-  return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="9" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6M12 7h.01" />
-    </svg>
-  );
-}
-
 function IconSearch() {
   return (
     <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.1" viewBox="0 0 24 24">
@@ -379,14 +331,12 @@ function IconSearch() {
   );
 }
 
-function TooltipPill({ text }) {
+function IconCopy() {
   return (
-    <span
-      title={text}
-      className="inline-flex cursor-help rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-bold text-slate-500"
-    >
-      ?
-    </span>
+    <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+      <rect x="9" y="9" width="11" height="11" rx="2" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
   );
 }
 
@@ -415,28 +365,6 @@ function Toast({ toast, onClose }) {
   );
 }
 
-function SkeletonStat() {
-  return (
-    <div className="animate-pulse rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-      <div className="h-2.5 w-20 rounded bg-white/30" />
-      <div className="mt-2 h-5 w-12 rounded bg-white/30" />
-    </div>
-  );
-}
-
-function SkeletonProduct() {
-  return (
-    <div className="animate-pulse overflow-hidden rounded-[24px] border border-white/70 bg-white p-3 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
-      <div className="rounded-[18px] border border-slate-200 bg-slate-50 p-2.5">
-        <div className="h-[84px] rounded-[14px] bg-slate-200" />
-      </div>
-      <div className="mt-3 h-3 w-20 rounded bg-slate-200" />
-      <div className="mt-2 h-4 w-24 rounded bg-slate-200" />
-      <div className="mt-3 h-10 rounded-2xl bg-slate-200" />
-    </div>
-  );
-}
-
 function SectionTitle({ eyebrow, title, darkMode = false, right = null }) {
   return (
     <div className="mb-4 flex items-end justify-between gap-3">
@@ -458,28 +386,6 @@ function SectionTitle({ eyebrow, title, darkMode = false, right = null }) {
   );
 }
 
-function FeatureCard({ icon, title, desc, iconColor, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="w-full rounded-[26px] border border-slate-100 bg-[#f8fbff] p-4 text-left transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(14,165,233,0.08)] active:scale-[0.99]"
-    >
-      <div className="flex gap-4">
-        <div
-          className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-[22px] bg-white shadow-sm ${iconColor}`}
-        >
-          {icon}
-        </div>
-
-        <div className="min-w-0">
-          <h3 className="text-[14px] font-extrabold text-slate-800">{title}</h3>
-          <p className="mt-2 text-[12px] leading-6 text-slate-500">{desc}</p>
-        </div>
-      </div>
-    </button>
-  );
-}
-
 function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
   return (
     <div className="fixed bottom-3 left-1/2 z-40 w-[92%] max-w-sm -translate-x-1/2 rounded-[24px] border border-white/80 bg-white/95 p-2 shadow-[0_14px_30px_rgba(15,23,42,0.12)] backdrop-blur-md">
@@ -493,7 +399,6 @@ function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
           <IconHome />
           <span>Home</span>
         </button>
-
         <button
           onClick={onApi}
           className={`flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold transition ${
@@ -503,7 +408,6 @@ function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
           <IconApiPage />
           <span>API</span>
         </button>
-
         <button
           onClick={onProducts}
           className="flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold text-slate-600 transition hover:bg-slate-100"
@@ -511,7 +415,6 @@ function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
           <IconBag />
           <span>Produk</span>
         </button>
-
         <button
           onClick={onAdmin}
           className="flex flex-col items-center gap-1 rounded-[18px] py-2 text-[10px] font-bold text-slate-600 transition hover:bg-slate-100"
@@ -524,266 +427,10 @@ function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
   );
 }
 
-function ApiPage({
-  onBack,
-  onOpenMenu,
-  onExploreApis,
-  onOpenInfo,
-  onOpenFeature,
-  onMusicFocus,
-  currentTime,
-  isPlaying,
-  onTogglePlay,
-  onNextTrack,
-  currentTrack,
-  apiFeaturesRef,
-  musicRef,
-  progress,
-}) {
-  return (
-    <div className="mx-auto max-w-sm animate-[fadeIn_.28s_ease] px-3 pb-28">
-      <div className="mt-4 rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={onOpenMenu}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)] transition active:scale-95"
-          >
-            <IconMenu />
-          </button>
-
-          <div className="text-center">
-            <h1 className="text-[15px] font-extrabold text-sky-500">{API_BRAND}</h1>
-            <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-400">
-              Api Showcase
-            </p>
-          </div>
-
-          <button
-            onClick={onBack}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)] transition active:scale-95"
-          >
-            <IconHome />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 p-5 text-white shadow-[0_18px_36px_rgba(14,165,233,0.22)]">
-        <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/90">
-          Developer Tools
-        </div>
-
-        <h2 className="mt-4 text-[28px] font-extrabold leading-tight">{API_BRAND}</h2>
-        <p className="mt-2 text-[13px] leading-6 text-white/90">
-          Showcase API yang lebih halus, lebih rapi, dan tombolnya sekarang benar-benar kerja.
-        </p>
-
-        <div className="mt-5 grid grid-cols-3 gap-3">
-          <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
-            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">Clock</p>
-            <p className="mt-2 text-[15px] font-extrabold">{currentTime}</p>
-          </div>
-          <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
-            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">Player</p>
-            <p className="mt-2 text-[15px] font-extrabold">{isPlaying ? "ON" : "OFF"}</p>
-          </div>
-          <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center backdrop-blur-md">
-            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/75">Status</p>
-            <p className="mt-2 text-[15px] font-extrabold">LIVE</p>
-          </div>
-        </div>
-
-        <div className="mt-5 flex gap-3">
-          <button
-            onClick={onExploreApis}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_12px_22px_rgba(255,255,255,0.18)] transition hover:scale-[1.01] active:scale-[0.98]"
-          >
-            <IconLayers />
-            <span>Explore APIs</span>
-          </button>
-
-          <button
-            onClick={onOpenInfo}
-            className="flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white transition active:scale-[0.98]"
-          >
-            <IconInfo />
-            <span>Info</span>
-          </button>
-        </div>
-      </div>
-
-      <section className="mt-6 space-y-3">
-        <button
-          onClick={onOpenInfo}
-          className="w-full rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 active:scale-[0.99]"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h3 className="text-[14px] font-extrabold text-slate-800">Get Started</h3>
-              <p className="mt-1 text-[12px] leading-6 text-slate-500">
-                Buka info singkat penggunaan API.
-              </p>
-            </div>
-            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-              Open
-            </div>
-          </div>
-        </button>
-
-        <button
-          onClick={onExploreApis}
-          className="w-full rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 active:scale-[0.99]"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h3 className="text-[14px] font-extrabold text-slate-800">Main Features</h3>
-              <p className="mt-1 text-[12px] leading-6 text-slate-500">
-                Loncat ke daftar fitur utama.
-              </p>
-            </div>
-            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-              Go
-            </div>
-          </div>
-        </button>
-
-        <button
-          onClick={onMusicFocus}
-          className="w-full rounded-[24px] border border-white/80 bg-white p-4 text-left shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 active:scale-[0.99]"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h3 className="text-[14px] font-extrabold text-slate-800">Music Widget</h3>
-              <p className="mt-1 text-[12px] leading-6 text-slate-500">
-                Kontrol widget music player.
-              </p>
-            </div>
-            <div className="rounded-full bg-sky-50 px-3 py-1 text-[10px] font-bold text-sky-600">
-              Play
-            </div>
-          </div>
-        </button>
-      </section>
-
-      <section
-        ref={apiFeaturesRef}
-        className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-      >
-        <SectionTitle eyebrow="Api Features" title="Main Features" />
-
-        <div className="space-y-4">
-          {apiFeatures.map((item) => (
-            <FeatureCard
-              key={item.title}
-              icon={
-                item.icon === "bot" ? (
-                  <IconBot />
-                ) : item.icon === "download" ? (
-                  <IconCloudDownload />
-                ) : (
-                  <IconSpy />
-                )
-              }
-              title={item.title}
-              desc={item.desc}
-              iconColor={
-                item.icon === "bot"
-                  ? "text-violet-500"
-                  : item.icon === "download"
-                  ? "text-cyan-500"
-                  : "text-rose-400"
-              }
-              onClick={() => onOpenFeature(item)}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
-        <SectionTitle eyebrow="Weather" title="Weather Info" />
-
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-start gap-4">
-            <div>
-              <div className="text-[38px] font-extrabold leading-none text-sky-500">27°C</div>
-
-              <div className="mt-3 space-y-1 text-[12px] text-slate-700">
-                <div className="flex items-center gap-2">
-                  <IconDrop />
-                  <span>80%</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <IconWind />
-                  <span>9 km/h</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-1">
-              <div className="text-[15px] font-extrabold text-slate-800">Jakarta</div>
-              <div className="text-[12px] text-slate-500">Partly cloudy</div>
-            </div>
-          </div>
-
-          <div className="rounded-full bg-slate-100 p-3 text-slate-700">
-            <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 16a4 4 0 1 1 1.1-7.84A5 5 0 0 1 17 9a3.5 3.5 0 1 1 .5 7H6Z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="m8 19 1-2m4 2 1-2m4 2 1-2" />
-            </svg>
-          </div>
-        </div>
-      </section>
-
-      <section
-        ref={musicRef}
-        className="mt-10 rounded-[30px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-      >
-        <SectionTitle eyebrow="Music Widget" title="Player Control" />
-
-        <div className="rounded-[24px] bg-gradient-to-br from-sky-50 via-cyan-50 to-violet-50 p-4">
-          <div className="flex items-center justify-between gap-3">
-            <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                Now Playing
-              </p>
-              <div className="mt-1 truncate text-[15px] font-extrabold text-sky-600">
-                {currentTrack}
-              </div>
-              <div className="mt-1 text-[12px] text-slate-500">
-                {isPlaying ? "Sedang diputar" : "Sedang dijeda"}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={onTogglePlay}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-[0_12px_22px_rgba(14,165,233,0.24)] transition active:scale-95"
-              >
-                {isPlaying ? <IconPause /> : <IconPlay />}
-              </button>
-
-              <button
-                onClick={onNextTrack}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-400 text-white shadow-[0_12px_22px_rgba(167,139,250,0.22)] transition active:scale-95"
-              >
-                <IconNext />
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white">
-            <div
-              className="h-full rounded-full bg-sky-500 transition-all duration-700"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-export default function App() {
+function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
+  const [activeBadge, setActiveBadge] = useState("Semua");
+  const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
@@ -796,6 +443,7 @@ export default function App() {
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalPending, setTotalPending] = useState(0);
   const [statsLoading, setStatsLoading] = useState(true);
+  const [loadingError, setLoadingError] = useState("");
 
   const [customerName, setCustomerName] = useState("");
   const [customerWhatsapp, setCustomerWhatsapp] = useState("");
@@ -815,24 +463,22 @@ export default function App() {
   const [showApiInfo, setShowApiInfo] = useState(false);
   const [selectedApiFeature, setSelectedApiFeature] = useState(null);
 
+  const [orderLookupId, setOrderLookupId] = useState("");
+  const [orderLookupLoading, setOrderLookupLoading] = useState(false);
+  const [orderLookupResult, setOrderLookupResult] = useState(null);
+
+  const [faqOpen, setFaqOpen] = useState(null);
+
   const [currentTime, setCurrentTime] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
   const [musicProgress, setMusicProgress] = useState(18);
 
-  const [orderLookupId, setOrderLookupId] = useState("");
-  const [orderLookupLoading, setOrderLookupLoading] = useState(false);
-  const [orderLookupResult, setOrderLookupResult] = useState(null);
-
   const topRef = useRef(null);
   const productsRef = useRef(null);
-  const apiFeaturesRef = useRef(null);
-  const musicRef = useRef(null);
   const customerNameRef = useRef(null);
 
-  const showToast = (message, type = "info") => {
-    setToast({ message, type });
-  };
+  const showToast = (message, type = "info") => setToast({ message, type });
 
   useEffect(() => {
     const updateClock = () => {
@@ -841,44 +487,31 @@ export default function App() {
       const mm = String(now.getMinutes()).padStart(2, "0");
       setCurrentTime(`${hh}:${mm}`);
     };
-
     updateClock();
     const timer = setInterval(updateClock, 1000);
     return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    let progressTimer;
-
+    let timer;
     if (isPlaying) {
-      progressTimer = setInterval(() => {
-        setMusicProgress((prev) => {
-          if (prev >= 100) return 0;
-          return prev + 2;
-        });
+      timer = setInterval(() => {
+        setMusicProgress((prev) => (prev >= 100 ? 0 : prev + 2));
       }, 600);
     }
-
-    return () => {
-      if (progressTimer) clearInterval(progressTimer);
-    };
+    return () => clearInterval(timer);
   }, [isPlaying]);
 
   useEffect(() => {
     let mounted = true;
-
     supabase.auth.getSession().then(({ data }) => {
-      if (mounted) {
-        setSession(data.session ?? null);
-      }
+      if (mounted) setSession(data.session ?? null);
     });
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, currentSession) => {
       setSession(currentSession ?? null);
     });
-
     return () => {
       mounted = false;
       subscription.unsubscribe();
@@ -889,7 +522,6 @@ export default function App() {
     const params = new URLSearchParams(window.location.search);
     const orderId = params.get("order_id");
     const payment = params.get("payment");
-
     if (payment === "success" && orderId) {
       setSuccessOrderId(orderId);
       setShowSuccessPage(true);
@@ -898,9 +530,7 @@ export default function App() {
 
   useEffect(() => {
     if (selectedProduct) {
-      setTimeout(() => {
-        customerNameRef.current?.focus();
-      }, 150);
+      setTimeout(() => customerNameRef.current?.focus(), 100);
     }
   }, [selectedProduct]);
 
@@ -913,21 +543,18 @@ export default function App() {
 
   const fetchStats = async () => {
     setStatsLoading(true);
-
-    const { count: total } = await supabase
-      .from("orders")
-      .select("id", { count: "exact", head: true });
-
-    const { count: paid } = await supabase
+    setLoadingError("");
+    const { count: total, error: totalError } = await supabase.from("orders").select("id", { count: "exact", head: true });
+    const { count: paid, error: paidError } = await supabase
       .from("orders")
       .select("id", { count: "exact", head: true })
       .eq("status", "paid");
-
-    const { count: pending } = await supabase
+    const { count: pending, error: pendingError } = await supabase
       .from("orders")
       .select("id", { count: "exact", head: true })
       .eq("status", "pending");
 
+    if (totalError || paidError || pendingError) setLoadingError("Gagal memuat statistik.");
     setTotalOrders(total || 0);
     setPaidCount(paid || 0);
     setTotalPending(pending || 0);
@@ -936,18 +563,12 @@ export default function App() {
 
   const fetchOrders = async () => {
     setOrdersLoading(true);
-
-    const { data, error } = await supabase
-      .from("orders")
-      .select("*")
-      .order("id", { ascending: false });
-
+    const { data, error } = await supabase.from("orders").select("*").order("id", { ascending: false });
     if (error) {
-      console.log("fetchOrders error:", error.message);
       setOrdersLoading(false);
+      showToast("Gagal memuat order admin.", "error");
       return;
     }
-
     setOrders(data || []);
     setOrdersLoading(false);
   };
@@ -959,24 +580,23 @@ export default function App() {
 
   const refreshData = async ({ withOrders = false } = {}) => {
     await fetchStats();
-    if (withOrders && session) {
-      await fetchOrders();
-    }
+    if (withOrders && session) await fetchOrders();
   };
 
   const filteredProducts = useMemo(() => {
-    if (activeCategory === "Semua") return products;
-    return products.filter((item) => item.category === activeCategory);
-  }, [activeCategory]);
+    let result = products;
+    if (activeCategory !== "Semua") result = result.filter((item) => item.category === activeCategory);
+    if (activeBadge !== "Semua") result = result.filter((item) => item.badge === activeBadge);
+    if (search.trim()) {
+      result = result.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+    }
+    return result;
+  }, [activeCategory, activeBadge, search]);
 
-  const featuredProducts = useMemo(() => {
-    return products.filter((item) => item.featured);
-  }, []);
+  const featuredProducts = useMemo(() => products.filter((item) => item.featured), []);
 
   const groupedProducts = {
-    "Virtual Private Server": filteredProducts.filter(
-      (item) => item.category === "Virtual Private Server"
-    ),
+    "Virtual Private Server": filteredProducts.filter((item) => item.category === "Virtual Private Server"),
     Pterodactyl: filteredProducts.filter((item) => item.category === "Pterodactyl"),
   };
 
@@ -984,38 +604,33 @@ export default function App() {
     setCurrentPage("shop");
     setActiveCategory(category);
     setMenuOpen(false);
-
     setTimeout(() => {
-      const y =
-        (productsRef.current?.getBoundingClientRect().top || 0) + window.scrollY - 88;
-
-      window.scrollTo({
-        top: y,
-        behavior: "smooth",
-      });
+      const y = (productsRef.current?.getBoundingClientRect().top || 0) + window.scrollY - 88;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }, 120);
   };
 
   const openGuideWithLoading = () => {
     setGuideLoading(true);
     setMenuOpen(false);
-
     setTimeout(() => {
       setGuideLoading(false);
       setShowGuide(true);
-    }, 900);
+    }, 700);
   };
 
   const handleCreateOrder = async () => {
     if (!selectedProduct) return;
-
-    if (!customerName.trim() || !customerWhatsapp.trim()) {
-      showToast("Isi nama dan WhatsApp aktif dulu ya.", "error");
+    if (customerName.trim().length < 3) {
+      showToast("Nama minimal 3 huruf.", "error");
+      return;
+    }
+    if (formatWhatsapp(customerWhatsapp).length < 10) {
+      showToast("Nomor WhatsApp belum valid.", "error");
       return;
     }
 
     setSubmitting(true);
-
     const amount = parsePriceToNumber(selectedProduct.price);
     const orderId = `ORDER-${Date.now()}`;
 
@@ -1034,17 +649,14 @@ export default function App() {
     setSubmitting(false);
 
     if (error) {
-      showToast("Gagal simpan order. Coba cek koneksi lalu ulangi lagi.", "error");
+      showToast("Gagal simpan order.", "error");
       return;
     }
 
     await refreshData({ withOrders: true });
     showToast("Order berhasil dibuat. Mengarah ke pembayaran...", "success");
 
-    const redirectUrl = `${window.location.origin}?payment=success&order_id=${encodeURIComponent(
-      orderId
-    )}`;
-
+    const redirectUrl = `${window.location.origin}?payment=success&order_id=${encodeURIComponent(orderId)}`;
     const paymentUrl =
       `https://app.pakasir.com/pay/${PAKASIR_SLUG}/${amount}` +
       `?order_id=${encodeURIComponent(orderId)}` +
@@ -1056,17 +668,11 @@ export default function App() {
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email: adminEmail,
-      password: adminPassword,
-    });
-
+    const { error } = await supabase.auth.signInWithPassword({ email: adminEmail, password: adminPassword });
     if (error) {
-      showToast("Login admin gagal. Cek email atau password lalu coba lagi.", "error");
+      showToast("Login admin gagal.", "error");
       return;
     }
-
     await fetchOrders();
     await fetchStats();
     showToast("Login admin berhasil.", "success");
@@ -1080,31 +686,21 @@ export default function App() {
   };
 
   const markAsPaid = async (id) => {
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: "paid" })
-      .eq("id", id);
-
+    const { error } = await supabase.from("orders").update({ status: "paid" }).eq("id", id);
     if (error) {
       showToast("Gagal update status order.", "error");
       return;
     }
-
     await refreshData({ withOrders: true });
     showToast("Order ditandai berhasil.", "success");
   };
 
   const markAsPending = async (id) => {
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: "pending" })
-      .eq("id", id);
-
+    const { error } = await supabase.from("orders").update({ status: "pending" }).eq("id", id);
     if (error) {
       showToast("Gagal update status order.", "error");
       return;
     }
-
     await refreshData({ withOrders: true });
     showToast("Order ditandai pending.", "success");
   };
@@ -1112,14 +708,11 @@ export default function App() {
   const deleteOrder = async (id) => {
     const confirmed = window.confirm("Hapus order ini?");
     if (!confirmed) return;
-
     const { error } = await supabase.from("orders").delete().eq("id", id);
-
     if (error) {
       showToast("Gagal hapus order.", "error");
       return;
     }
-
     await refreshData({ withOrders: true });
     showToast("Order berhasil dihapus.", "success");
   };
@@ -1129,38 +722,35 @@ export default function App() {
       showToast("Masukkan order ID dulu.", "error");
       return;
     }
-
     setOrderLookupLoading(true);
     setOrderLookupResult(null);
-
-    const { data, error } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("order_id", orderLookupId.trim())
-      .maybeSingle();
-
+    const { data, error } = await supabase.from("orders").select("*").eq("order_id", orderLookupId.trim()).maybeSingle();
     setOrderLookupLoading(false);
-
     if (error) {
-      showToast("Gagal cek order. Coba lagi sebentar.", "error");
+      showToast("Gagal cek order.", "error");
       return;
     }
-
     if (!data) {
       showToast("Order ID tidak ditemukan.", "error");
       return;
     }
-
     setOrderLookupResult(data);
     showToast("Order ditemukan.", "success");
   };
 
+  const copyOrderId = async () => {
+    if (!successOrderId) return;
+    try {
+      await navigator.clipboard.writeText(successOrderId);
+      showToast("Order ID berhasil disalin.", "success");
+    } catch {
+      showToast("Gagal menyalin Order ID.", "error");
+    }
+  };
+
   const togglePlay = () => {
-    setIsPlaying((prev) => {
-      const next = !prev;
-      showToast(next ? "Music diputar." : "Music dijeda.", "info");
-      return next;
-    });
+    setIsPlaying((prev) => !prev);
+    showToast(isPlaying ? "Music dijeda." : "Music diputar.", "info");
   };
 
   const nextTrack = () => {
@@ -1180,17 +770,7 @@ export default function App() {
     >
       <div className="p-3.5">
         <div className="mb-3 flex items-center justify-between">
-          <span
-            className={`rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide ${
-              item.badge === "Best Seller"
-                ? "bg-orange-50 text-orange-600"
-                : item.badge === "Premium"
-                ? "bg-violet-50 text-violet-600"
-                : item.badge === "Populer"
-                ? "bg-sky-50 text-sky-600"
-                : "bg-emerald-50 text-emerald-600"
-            }`}
-          >
+          <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-sky-600">
             {item.badge}
           </span>
           <span className="text-[10px] font-semibold text-slate-400">
@@ -1198,41 +778,25 @@ export default function App() {
           </span>
         </div>
 
-        <div
-          className={`rounded-[20px] border p-3 ${
-            darkMode ? "border-slate-700 bg-slate-800" : "border-slate-200 bg-slate-50"
-          }`}
-        >
+        <div className={`rounded-[20px] border p-3 ${darkMode ? "border-slate-700 bg-slate-800" : "border-slate-200 bg-slate-50"}`}>
           <div className="flex h-[92px] items-center justify-center overflow-hidden rounded-[16px] bg-white">
-            <img
-              src={item.image}
-              alt={item.name}
-              onError={(e) => {
-                e.currentTarget.src = "https://via.placeholder.com/140x100?text=No+Image";
-              }}
-              className="h-full object-contain transition-transform duration-300 group-hover:scale-105"
-            />
+            <img src={item.image} alt={item.name} className="h-full object-contain transition-transform duration-300 group-hover:scale-105" />
           </div>
         </div>
 
         <div className="pt-3">
-          <h3
-            className={`min-h-[36px] text-[13px] font-extrabold leading-tight ${
-              darkMode ? "text-white" : "text-slate-800"
-            }`}
-          >
+          <h3 className={`min-h-[36px] text-[13px] font-extrabold leading-tight ${darkMode ? "text-white" : "text-slate-800"}`}>
             {item.name}
           </h3>
-
           <p className="mt-1 text-[11px] leading-5 text-slate-400">{item.description}</p>
-
+          <div className="mt-3 flex items-center justify-between text-[10px] text-slate-400">
+            <span>{item.status}</span>
+            <span>{item.delivery}</span>
+          </div>
           <div className="mt-3">
-            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-              Harga mulai
-            </div>
+            <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Harga mulai</div>
             <p className="mt-1 text-[17px] font-extrabold text-sky-600">{item.price}</p>
           </div>
-
           <button
             onClick={() => setSelectedProduct(item)}
             className="mt-4 w-full rounded-2xl bg-sky-500 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 active:scale-[0.98]"
@@ -1246,11 +810,9 @@ export default function App() {
 
   const Section = ({ title, data }) => {
     if (!data.length) return null;
-
     return (
       <section className="mt-10">
         <SectionTitle eyebrow="Catalog" title={title} darkMode={darkMode} />
-
         <div className="grid grid-cols-2 gap-3.5">
           {data.map((item, index) => (
             <ProductCard key={index} item={item} />
@@ -1261,51 +823,25 @@ export default function App() {
   };
 
   return (
-    <div
-      className={`min-h-screen transition-colors duration-300 ${
-        darkMode ? "bg-slate-950 text-white" : "bg-[#eef3fb] text-slate-900"
-      }`}
-    >
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? "bg-slate-950 text-white" : "bg-[#eef3fb] text-slate-900"}`}>
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      <div
-        className={`sticky top-0 z-40 backdrop-blur-md ${
-          darkMode ? "bg-slate-950/80" : "bg-[#eef3fb]/80"
-        }`}
-      >
+      <div className={`sticky top-0 z-40 backdrop-blur-md ${darkMode ? "bg-slate-950/80" : "bg-[#eef3fb]/80"}`}>
         <div ref={topRef} className="mx-auto max-w-sm px-3 pt-3">
-          <div
-            className={`rounded-[26px] border px-4 py-3 ${
-              darkMode
-                ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]"
-                : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.05)]"
-            }`}
-          >
+          <div className={`rounded-[26px] border px-4 py-3 ${darkMode ? "border-slate-800 bg-slate-900 shadow-[0_10px_24px_rgba(0,0,0,0.22)]" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.05)]"}`}>
             <div className="flex items-center justify-between">
-              <button
-                onClick={() => setMenuOpen(true)}
-                className="rounded-full p-2 text-slate-700 transition-all duration-200 active:scale-95 dark:text-white"
-              >
+              <button onClick={() => setMenuOpen(true)} className="rounded-full p-2 text-slate-700 transition-all duration-200 active:scale-95 dark:text-white">
                 <IconMenu />
               </button>
-
               <div className="text-center">
-                <h1
-                  className={`text-[14px] font-extrabold uppercase tracking-[0.14em] ${
-                    darkMode ? "text-white" : "text-slate-800"
-                  }`}
-                >
+                <h1 className={`text-[14px] font-extrabold uppercase tracking-[0.14em] ${darkMode ? "text-white" : "text-slate-800"}`}>
                   {currentPage === "api" ? API_BRAND : BRAND}
                 </h1>
                 <p className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-400">
                   {currentPage === "api" ? "Api Showcase" : "Premium Digital Store"}
                 </p>
               </div>
-
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white shadow-md transition-all duration-300 active:scale-95"
-              >
+              <button onClick={() => setDarkMode(!darkMode)} className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white shadow-md transition-all duration-300 active:scale-95">
                 {darkMode ? "☀️" : "🌙"}
               </button>
             </div>
@@ -1314,111 +850,122 @@ export default function App() {
       </div>
 
       {currentPage === "api" ? (
-        <ApiPage
-          onBack={() => {
-            setCurrentPage("shop");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          onOpenMenu={() => setMenuOpen(true)}
-          onExploreApis={() => apiFeaturesRef.current?.scrollIntoView({ behavior: "smooth" })}
-          onOpenInfo={() => setShowApiInfo(true)}
-          onOpenFeature={(item) => setSelectedApiFeature(item)}
-          onMusicFocus={() => musicRef.current?.scrollIntoView({ behavior: "smooth" })}
-          currentTime={currentTime}
-          isPlaying={isPlaying}
-          onTogglePlay={togglePlay}
-          onNextTrack={nextTrack}
-          currentTrack={tracks[trackIndex]}
-          apiFeaturesRef={apiFeaturesRef}
-          musicRef={musicRef}
-          progress={musicProgress}
-        />
+        <div className="mx-auto max-w-sm px-3 pb-28">
+          <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 p-5 text-white shadow-[0_18px_36px_rgba(14,165,233,0.22)]">
+            <div className="flex items-center justify-between">
+              <button onClick={() => setMenuOpen(true)} className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-white">
+                <IconMenu />
+              </button>
+              <div className="text-center">
+                <h2 className="text-[16px] font-extrabold">{API_BRAND}</h2>
+                <p className="text-[10px] text-white/80">API Showcase</p>
+              </div>
+              <button onClick={() => setCurrentPage("shop")} className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-white">
+                <IconHome />
+              </button>
+            </div>
+
+            <div className="mt-5 grid grid-cols-3 gap-3">
+              <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center">
+                <p className="text-[9px]">Clock</p>
+                <p className="mt-2 font-extrabold">{currentTime}</p>
+              </div>
+              <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center">
+                <p className="text-[9px]">Player</p>
+                <p className="mt-2 font-extrabold">{isPlaying ? "ON" : "OFF"}</p>
+              </div>
+              <div className="rounded-[22px] border border-white/20 bg-white/15 px-3 py-4 text-center">
+                <p className="text-[9px]">Status</p>
+                <p className="mt-2 font-extrabold">LIVE</p>
+              </div>
+            </div>
+
+            <div className="mt-5 flex gap-3">
+              <button onClick={() => setShowApiInfo(true)} className="flex-1 rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600">
+                Info
+              </button>
+              <button onClick={togglePlay} className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white">
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+              <button onClick={nextTrack} className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white">
+                Next
+              </button>
+            </div>
+          </div>
+
+          <section className="mt-8 rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+            <SectionTitle eyebrow="API Features" title="Main Features" />
+            <div className="space-y-3">
+              {apiFeatures.map((item) => (
+                <button key={item.title} onClick={() => setSelectedApiFeature(item)} className="w-full rounded-[24px] border border-slate-100 bg-[#f8fbff] p-4 text-left transition hover:-translate-y-1">
+                  <div className="text-[14px] font-extrabold text-slate-800">{item.title}</div>
+                  <p className="mt-1 text-[12px] leading-6 text-slate-500">{item.desc}</p>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-8 rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+            <SectionTitle eyebrow="Music Widget" title="Player Control" />
+            <div className="rounded-[24px] bg-gradient-to-br from-sky-50 via-cyan-50 to-violet-50 p-4">
+              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Now Playing</div>
+              <div className="mt-1 text-[15px] font-extrabold text-sky-600">{tracks[trackIndex]}</div>
+              <div className="mt-1 text-[12px] text-slate-500">{isPlaying ? "Sedang diputar" : "Sedang dijeda"}</div>
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-white">
+                <div className="h-full rounded-full bg-sky-500 transition-all duration-700" style={{ width: `${musicProgress}%` }} />
+              </div>
+            </div>
+          </section>
+        </div>
       ) : (
-        <div className="mx-auto max-w-sm animate-[fadeIn_.28s_ease] px-3 pb-28">
+        <div className="mx-auto max-w-sm px-3 pb-28">
           <div className="mt-4 overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-5 text-white shadow-[0_18px_36px_rgba(59,130,246,0.24)]">
-            <div className="relative">
-              <div className="absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
-              <div className="absolute right-8 top-10 h-16 w-16 rounded-full bg-white/10 blur-xl" />
+            <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
+              Trusted Service
+            </div>
+            <h2 className="mt-3 text-[28px] font-extrabold leading-tight tracking-tight">{BRAND}</h2>
+            <p className="mt-2 max-w-[250px] text-[13px] leading-6 text-white/90">
+              Premium account, panel, dan server provider yang simpel, cepat, dan enak dipakai.
+            </p>
 
-              <div className="relative">
-                <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/90">
-                  Trusted Service
+            <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+              {promoItems.map((item) => (
+                <div key={item} className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95">
+                  {item}
                 </div>
+              ))}
+            </div>
 
-                <div className="mt-4 flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/85">
-                    Live Support Active
-                  </span>
-                </div>
+            <div className="mt-5 flex gap-3">
+              <button onClick={() => productsRef.current?.scrollIntoView({ behavior: "smooth" })} className="rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600">
+                Mulai Belanja
+              </button>
+              <button onClick={openGuideWithLoading} className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white">
+                Panduan
+              </button>
+            </div>
 
-                <h2 className="mt-3 text-[28px] font-extrabold leading-tight tracking-tight">
-                  {BRAND}
-                </h2>
-                <p className="mt-2 max-w-[250px] text-[13px] leading-6 text-white/90">
-                  Premium account, panel, dan server provider yang simpel, cepat, dan enak dipakai.
-                </p>
-
-                <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-                  {promoItems.map((item) => (
-                    <div
-                      key={item}
-                      className="whitespace-nowrap rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-semibold text-white/95 backdrop-blur-md"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 flex gap-3">
-                  <button
-                    onClick={() =>
-                      productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-                    }
-                    className="rounded-full bg-white px-5 py-3 text-[12px] font-extrabold text-sky-600 shadow-[0_10px_20px_rgba(255,255,255,0.18)] transition hover:scale-[1.01] active:scale-[0.98]"
-                  >
-                    Mulai Belanja
-                  </button>
-
-                  <button
-                    onClick={openGuideWithLoading}
-                    className="rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-extrabold text-white transition active:scale-[0.98]"
-                  >
-                    Panduan
-                  </button>
-                </div>
-
-                <div className="mt-5 grid grid-cols-2 gap-2.5">
-                  {statsLoading ? (
-                    <>
-                      <SkeletonStat />
-                      <SkeletonStat />
-                      <div className="col-span-2">
-                        <SkeletonStat />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-                        <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
-                        <div className="mt-1 text-[18px] font-extrabold">{paidCount}</div>
-                      </div>
-
-                      <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-                        <div className="text-[10px] text-white/80">Total Order</div>
-                        <div className="mt-1 text-[18px] font-extrabold">{totalOrders}</div>
-                      </div>
-
-                      <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-3 backdrop-blur-md">
-                        <div className="text-[10px] text-white/80">Pending</div>
-                        <div className="mt-1 text-[18px] font-extrabold">{totalPending}</div>
-                      </div>
-                    </>
-                  )}
-                </div>
+            <div className="mt-5 grid grid-cols-2 gap-2.5">
+              <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3">
+                <div className="text-[10px] text-white/80">Transaksi Berhasil</div>
+                <div className="mt-1 text-[18px] font-extrabold">{paidCount}</div>
+              </div>
+              <div className="rounded-2xl border border-white/15 bg-white/15 px-3 py-3">
+                <div className="text-[10px] text-white/80">Total Order</div>
+                <div className="mt-1 text-[18px] font-extrabold">{totalOrders}</div>
+              </div>
+              <div className="col-span-2 rounded-2xl border border-white/15 bg-white/15 px-3 py-3">
+                <div className="text-[10px] text-white/80">Pending</div>
+                <div className="mt-1 text-[18px] font-extrabold">{totalPending}</div>
               </div>
             </div>
           </div>
+
+          {loadingError ? (
+            <div className="mt-6 rounded-[24px] border border-rose-200 bg-rose-50 p-4 text-[12px] text-rose-600">
+              {loadingError}
+            </div>
+          ) : null}
 
           <section className="mt-8">
             <SectionTitle eyebrow="Produk Unggulan" title="Pilihan terbaik buat langsung checkout" darkMode={darkMode} />
@@ -1427,33 +974,23 @@ export default function App() {
                 <button
                   key={item.name}
                   onClick={() => setSelectedProduct(item)}
-                  className={`w-full rounded-[24px] border p-4 text-left transition hover:-translate-y-1 active:scale-[0.99] ${
-                    darkMode
-                      ? "border-slate-800 bg-slate-900"
-                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                  }`}
+                  className={`w-full rounded-[24px] border p-4 text-left ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-slate-50">
                       <img src={item.image} alt={item.name} className="h-10 object-contain" />
                     </div>
-
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className={`truncate text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>
                           {item.name}
                         </h3>
-                        <span className="rounded-full bg-orange-50 px-2 py-0.5 text-[9px] font-bold text-orange-600">
-                          {item.badge}
-                        </span>
+                        <span className="rounded-full bg-orange-50 px-2 py-0.5 text-[9px] font-bold text-orange-600">{item.badge}</span>
                       </div>
                       <p className="mt-1 text-[11px] text-slate-400">{item.description}</p>
                     </div>
-
                     <div className="text-right">
-                      <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                        Mulai
-                      </div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">Mulai</div>
                       <div className="mt-1 text-[14px] font-extrabold text-sky-600">{item.price}</div>
                     </div>
                   </div>
@@ -1464,37 +1001,20 @@ export default function App() {
 
           <section className="mt-8">
             <SectionTitle eyebrow="Why Choose Us" title="Layanan yang cepat dan aman" darkMode={darkMode} />
-
             <div className="grid grid-cols-3 gap-2.5">
               {trustItems.map((item) => {
                 const icon =
-                  item.icon === "shield" ? (
-                    <IconShield />
-                  ) : item.icon === "bolt" ? (
-                    <IconBolt />
-                  ) : (
-                    <IconHeadset />
-                  );
+                  item.icon === "shield" ? <IconShield /> : item.icon === "bolt" ? <IconBolt /> : <IconHeadset />;
 
                 return (
                   <div
                     key={item.title}
                     className={`rounded-[22px] border p-3.5 transition-all duration-300 hover:-translate-y-1 ${
-                      darkMode
-                        ? "border-slate-800 bg-slate-900"
-                        : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
+                      darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
                     }`}
                   >
-                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-500">
-                      {icon}
-                    </div>
-                    <h3
-                      className={`text-[12px] font-extrabold ${
-                        darkMode ? "text-white" : "text-slate-800"
-                      }`}
-                    >
-                      {item.title}
-                    </h3>
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-500">{icon}</div>
+                    <h3 className={`text-[12px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>{item.title}</h3>
                     <p className="mt-1.5 text-[10px] leading-5 text-slate-400">{item.desc}</p>
                   </div>
                 );
@@ -1503,67 +1023,70 @@ export default function App() {
           </section>
 
           <section className="mt-8">
-            <SectionTitle
-              eyebrow="Catalog"
-              title="Pilih produk yang kamu cari"
-              darkMode={darkMode}
-              right={<TooltipPill text="Klik kategori untuk loncat ke produk yang sesuai." />}
-            />
+            <SectionTitle eyebrow="Catalog" title="Pilih produk yang kamu cari" darkMode={darkMode} />
 
-            <div className="flex gap-2.5 overflow-x-auto pb-2">
-              {categories.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => handleCategoryClick(item)}
-                  className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
-                    activeCategory === item
-                      ? "border-sky-500 bg-sky-500 text-white shadow-md"
-                      : darkMode
-                      ? "border-slate-700 bg-slate-900 text-white"
-                      : "border-white/70 bg-white text-slate-700 shadow-sm"
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
+            <div className={`rounded-[24px] border p-3 ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}>
+              <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+                <IconSearch />
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Cari produk..."
+                  className="w-full bg-transparent text-[13px] outline-none"
+                />
+              </div>
+
+              <div className="mt-3 flex gap-2.5 overflow-x-auto pb-2">
+                {categories.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => handleCategoryClick(item)}
+                    className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-[12px] font-bold transition-all duration-300 active:scale-[0.97] ${
+                      activeCategory === item
+                        ? "border-sky-500 bg-sky-500 text-white shadow-md"
+                        : darkMode
+                        ? "border-slate-700 bg-slate-900 text-white"
+                        : "border-white/70 bg-white text-slate-700 shadow-sm"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+                {badgeFilters.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => setActiveBadge(item)}
+                    className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[10px] font-bold transition ${
+                      activeBadge === item ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-600"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
 
           <div ref={productsRef}>
-            {statsLoading ? (
-              <section className="mt-8">
-                <SectionTitle eyebrow="Catalog" title="Virtual Private Server" darkMode={darkMode} />
-                <div className="grid grid-cols-2 gap-3.5">
-                  <SkeletonProduct />
-                  <SkeletonProduct />
-                </div>
-              </section>
+            {filteredProducts.length === 0 ? (
+              <div className={`mt-8 rounded-[24px] border p-6 text-center ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}>
+                <div className="text-[14px] font-extrabold">Produk tidak ditemukan</div>
+                <p className="mt-2 text-[12px] text-slate-400">Coba ganti keyword pencarian atau reset filter badge.</p>
+              </div>
             ) : (
               <>
-                <Section
-                  title="Virtual Private Server"
-                  data={groupedProducts["Virtual Private Server"]}
-                />
+                <Section title="Virtual Private Server" data={groupedProducts["Virtual Private Server"]} />
                 <Section title="Pterodactyl" data={groupedProducts["Pterodactyl"]} />
               </>
             )}
           </div>
 
           <section className="mt-10">
-            <SectionTitle
-              eyebrow="Order Lookup"
-              title="Cek status order kamu"
-              darkMode={darkMode}
-              right={<TooltipPill text="Masukkan Order ID dari halaman pembayaran berhasil." />}
-            />
-
-            <div
-              className={`rounded-[24px] border p-4 ${
-                darkMode
-                  ? "border-slate-800 bg-slate-900"
-                  : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-              }`}
-            >
+            <SectionTitle eyebrow="Order Lookup" title="Cek status order kamu" darkMode={darkMode} />
+            <div className={`rounded-[24px] border p-4 ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}>
               <div className="flex gap-2">
                 <input
                   value={orderLookupId}
@@ -1581,14 +1104,10 @@ export default function App() {
               </div>
 
               {orderLookupLoading ? (
-                <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-[12px] text-slate-500">
-                  Mencari order...
-                </div>
+                <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-[12px] text-slate-500">Mencari order...</div>
               ) : orderLookupResult ? (
                 <div className="mt-4 rounded-2xl bg-slate-50 p-4">
-                  <div className="text-[13px] font-extrabold text-slate-800">
-                    {orderLookupResult.product_name}
-                  </div>
+                  <div className="text-[13px] font-extrabold text-slate-800">{orderLookupResult.product_name}</div>
                   <div className="mt-2 space-y-1 text-[12px] text-slate-600">
                     <div>Order ID: {orderLookupResult.order_id}</div>
                     <div>Nama: {orderLookupResult.customer_name}</div>
@@ -1597,84 +1116,74 @@ export default function App() {
                   <div className="mt-3">
                     <span
                       className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
-                        statusStyles[orderLookupResult.status] ||
-                        "border-slate-200 bg-slate-100 text-slate-700"
+                        statusStyles[orderLookupResult.status] || "border-slate-200 bg-slate-100 text-slate-700"
                       }`}
                     >
                       {orderLookupResult.status}
                     </span>
                   </div>
                 </div>
-              ) : (
-                <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-[12px] text-slate-500">
-                  Belum ada data order yang dicek.
+              ) : null}
+            </div>
+          </section>
+
+          <section className="mt-10">
+            <SectionTitle eyebrow="FAQ" title="Pertanyaan yang sering ditanya" darkMode={darkMode} />
+            <div className="space-y-3">
+              {faqItems.map((item, idx) => (
+                <div
+                  key={item.q}
+                  className={`rounded-[22px] border ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}
+                >
+                  <button
+                    onClick={() => setFaqOpen(faqOpen === idx ? null : idx)}
+                    className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left"
+                  >
+                    <span className={`text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>{item.q}</span>
+                    <span className="text-slate-400">{faqOpen === idx ? "−" : "+"}</span>
+                  </button>
+                  {faqOpen === idx ? <p className="px-4 pb-4 text-[12px] leading-6 text-slate-500">{item.a}</p> : null}
                 </div>
-              )}
+              ))}
             </div>
           </section>
 
           <section className="mt-10">
             <SectionTitle eyebrow="Reviews" title="Testimoni Pengguna" darkMode={darkMode} />
-
             <div className="space-y-3">
               {testimonials.map((item) => (
                 <div
                   key={item.name}
-                  className={`rounded-[24px] border p-4 ${
-                    darkMode
-                      ? "border-slate-800 bg-slate-900"
-                      : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                  }`}
+                  className={`rounded-[24px] border p-4 ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sm font-extrabold text-sky-600">
                       {item.name.charAt(0)}
                     </div>
                     <div className="min-w-0">
-                      <h3
-                        className={`text-[13px] font-extrabold ${
-                          darkMode ? "text-white" : "text-slate-800"
-                        }`}
-                      >
-                        {item.name}
-                      </h3>
+                      <h3 className={`text-[13px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>{item.name}</h3>
                       <p className="text-[10px] text-slate-400">{item.role}</p>
                     </div>
                   </div>
-
                   <div className="mt-3 flex gap-1">
                     {Array.from({ length: item.rating }).map((_, i) => (
                       <IconStar key={i} />
                     ))}
                   </div>
-
                   <p className="mt-3 text-[12px] leading-6 text-slate-500">{item.text}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          <footer
-            className={`mt-10 rounded-[26px] border px-4 py-5 ${
-              darkMode
-                ? "border-slate-800 bg-slate-900"
-                : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-            }`}
-          >
+          <footer className={`mt-10 rounded-[26px] border px-4 py-5 ${darkMode ? "border-slate-800 bg-slate-900" : "border-white/80 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.04)]"}`}>
             <div className="flex items-center justify-between gap-3">
               <div>
-                <h3
-                  className={`text-[14px] font-extrabold ${
-                    darkMode ? "text-white" : "text-slate-800"
-                  }`}
-                >
-                  {BRAND}
-                </h3>
+                <h3 className={`text-[14px] font-extrabold ${darkMode ? "text-white" : "text-slate-800"}`}>{BRAND}</h3>
                 <p className="mt-1 text-[11px] leading-5 text-slate-400">
                   Store digital dengan proses cepat, aman, dan tampilan yang sekarang sudah lebih waras.
                 </p>
               </div>
-
               <button
                 onClick={() => window.open("https://wa.me/60166173129", "_blank")}
                 className="flex h-11 w-11 items-center justify-center rounded-full bg-green-500 text-white shadow-[0_10px_25px_rgba(34,197,94,0.30)] transition active:scale-95"
@@ -1682,7 +1191,6 @@ export default function App() {
                 <IconWhatsApp />
               </button>
             </div>
-
             <div className="mt-4 grid grid-cols-2 gap-3 text-[10px] text-slate-400">
               <div>
                 <div className="font-bold uppercase tracking-[0.18em] text-slate-500">Layanan</div>
@@ -1693,7 +1201,6 @@ export default function App() {
                 <div className="mt-1">Fast respon admin</div>
               </div>
             </div>
-
             <div className="mt-4 border-t border-slate-200 pt-3 text-center text-[10px] text-slate-400">
               © 2026 {BRAND}. All rights reserved.
             </div>
@@ -1712,9 +1219,7 @@ export default function App() {
         currentPage={currentPage}
         onHome={() => {
           setCurrentPage("shop");
-          setTimeout(() => {
-            topRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 100);
+          setTimeout(() => topRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
         }}
         onApi={() => {
           setCurrentPage("api");
@@ -1722,27 +1227,19 @@ export default function App() {
         }}
         onProducts={() => {
           setCurrentPage("shop");
-          setTimeout(() => {
-            productsRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 120);
+          setTimeout(() => productsRef.current?.scrollIntoView({ behavior: "smooth" }), 120);
         }}
-        onAdmin={() => {
-          setShowAdmin(true);
-        }}
+        onAdmin={() => setShowAdmin(true)}
       />
 
-      {menuOpen && (
+      {menuOpen ? (
         <div className="fixed inset-0 z-50 flex">
-          <div
-            className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
-            onClick={() => setMenuOpen(false)}
-          />
-
-          <div className="relative h-full w-[84%] max-w-[340px] animate-[slideInLeft_.22s_ease] rounded-r-[30px] bg-white p-5 shadow-2xl">
-            <div className="mb-7 rounded-[24px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
+          <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px]" onClick={() => setMenuOpen(false)} />
+          <div className="relative h-full w-[82%] max-w-[340px] rounded-r-[28px] bg-white p-5 shadow-2xl">
+            <div className="mb-7 rounded-[22px] bg-gradient-to-br from-sky-500 via-blue-500 to-violet-500 p-4 text-white">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-lg font-extrabold backdrop-blur-md">
-                  M
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-md">
+                  <span className="text-lg font-extrabold">M</span>
                 </div>
                 <div>
                   <h3 className="text-lg font-extrabold">{BRAND}</h3>
@@ -1756,11 +1253,8 @@ export default function App() {
                 onClick={() => {
                   setCurrentPage("shop");
                   setMenuOpen(false);
-                  setTimeout(() => {
-                    topRef.current?.scrollIntoView({ behavior: "smooth" });
-                  }, 100);
                 }}
-                className="flex w-full items-center gap-3 rounded-[20px] bg-slate-100 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-200 active:scale-[0.98]"
+                className="flex w-full items-center gap-3 rounded-[20px] bg-slate-100 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800"
               >
                 <IconHome />
                 <span>Beranda Shop</span>
@@ -1770,9 +1264,8 @@ export default function App() {
                 onClick={() => {
                   setCurrentPage("api");
                   setMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="flex w-full items-center gap-3 rounded-[20px] bg-sky-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                className="flex w-full items-center gap-3 rounded-[20px] bg-sky-500 px-4 py-3.5 text-left text-[13px] font-bold text-white"
               >
                 <IconApiPage />
                 <span>Laman API</span>
@@ -1780,29 +1273,25 @@ export default function App() {
 
               <button
                 onClick={openGuideWithLoading}
-                className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-sky-50 active:scale-[0.98]"
+                className="flex w-full items-center justify-between rounded-[20px] border-2 border-dashed border-sky-400 px-4 py-3.5 text-left text-[13px] font-bold text-slate-800"
               >
                 <div className="flex items-center gap-3">
                   <IconBook />
                   <span>Panduan</span>
                 </div>
-                <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">
-                  WAJIB
-                </span>
+                <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[9px] font-bold text-white">WAJIB</span>
               </button>
 
               <button
                 onClick={() => {
                   setCurrentPage("shop");
                   setMenuOpen(false);
-                  setTimeout(() => {
-                    productsRef.current?.scrollIntoView({ behavior: "smooth" });
-                  }, 120);
+                  setTimeout(() => productsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
                 }}
-                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 transition-all duration-200 hover:bg-slate-50 active:scale-[0.98]"
+                className="flex w-full items-center gap-3 rounded-[20px] px-4 py-3.5 text-left text-[13px] font-bold text-slate-800 hover:bg-slate-50"
               >
                 <IconBag />
-                <span>Produk Terjual</span>
+                <span>Produk</span>
               </button>
 
               {!session ? (
@@ -1811,7 +1300,7 @@ export default function App() {
                     setMenuOpen(false);
                     setShowAdmin(true);
                   }}
-                  className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                  className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white"
                 >
                   <IconLogin />
                   <span>Login Admin</span>
@@ -1823,15 +1312,14 @@ export default function App() {
                       setMenuOpen(false);
                       setShowAdmin(true);
                     }}
-                    className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                    className="flex w-full items-center gap-3 rounded-[20px] bg-amber-500 px-4 py-3.5 text-left text-[13px] font-bold text-white"
                   >
                     <IconLogin />
                     <span>Panel Admin</span>
                   </button>
-
                   <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                    className="flex w-full items-center gap-3 rounded-[20px] bg-rose-500 px-4 py-3.5 text-left text-[13px] font-bold text-white"
                   >
                     <IconLogout />
                     <span>Logout Admin</span>
@@ -1839,31 +1327,15 @@ export default function App() {
                 </>
               )}
             </div>
-
-            <div className="mt-7 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                {BRAND}
-              </p>
-              <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                Fitur lama tetap aman, tampilan baru masuk, dan sidebar sekarang lebih rapi biar tidak terasa kayak file hasil kecelakaan.
-              </p>
-            </div>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {selectedProduct && (
+      {selectedProduct ? (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm animate-[modalIn_.22s_ease] rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
             <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-[18px] bg-slate-50">
-              <img
-                src={selectedProduct.image}
-                alt={selectedProduct.name}
-                onError={(e) => {
-                  e.currentTarget.src = "https://via.placeholder.com/160x120?text=No+Image";
-                }}
-                className="h-16 object-contain"
-              />
+              <img src={selectedProduct.image} alt={selectedProduct.name} className="h-16 object-contain" />
             </div>
 
             <div className="text-center">
@@ -1872,22 +1344,12 @@ export default function App() {
               </span>
             </div>
 
-            <h3 className="mt-4 text-center text-[16px] font-extrabold">
-              {selectedProduct.name}
-            </h3>
-
-            <p className="mt-2 text-center text-[20px] font-extrabold text-sky-600">
-              {selectedProduct.price}
-            </p>
-
-            <p className="mt-3 text-center text-[12px] leading-6 text-slate-500">
-              {selectedProduct.description}
-            </p>
+            <h3 className="mt-4 text-center text-[16px] font-extrabold">{selectedProduct.name}</h3>
+            <p className="mt-2 text-center text-[20px] font-extrabold text-sky-600">{selectedProduct.price}</p>
+            <p className="mt-3 text-center text-[12px] leading-6 text-slate-500">{selectedProduct.description}</p>
 
             <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50 p-4">
-              <div className="mb-3 text-[12px] font-extrabold text-slate-700">
-                Keunggulan Produk
-              </div>
+              <div className="mb-3 text-[12px] font-extrabold text-slate-700">Keunggulan Produk</div>
               <div className="space-y-2">
                 {selectedProduct.features.map((feature) => (
                   <div key={feature} className="flex items-start gap-2 text-[12px] text-slate-600">
@@ -1907,14 +1369,12 @@ export default function App() {
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
             />
-
             <input
               placeholder="WhatsApp"
               className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
               value={customerWhatsapp}
               onChange={(e) => setCustomerWhatsapp(e.target.value)}
             />
-
             <textarea
               placeholder="Catatan"
               className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px] outline-none transition focus:border-sky-400"
@@ -1925,7 +1385,7 @@ export default function App() {
 
             <button
               onClick={handleCreateOrder}
-              disabled={submitting}
+              disabled={submitting || customerName.trim().length < 3 || formatWhatsapp(customerWhatsapp).length < 10}
               className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold uppercase tracking-wide text-white transition-all duration-200 hover:bg-sky-600 disabled:opacity-60 active:scale-[0.98]"
             >
               {submitting ? "Memproses..." : "Lanjutkan Pembayaran"}
@@ -1939,18 +1399,14 @@ export default function App() {
             </button>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {showAdmin && (
+      {showAdmin ? (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 px-4">
-          <div className="max-h-[90vh] w-full max-w-lg animate-[modalIn_.22s_ease] overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[16px] font-extrabold">
-                {session ? "Panel Admin" : "Login Admin"}
-              </h2>
-              <button onClick={() => setShowAdmin(false)} className="text-lg">
-                ✕
-              </button>
+              <h2 className="text-[16px] font-extrabold">{session ? "Panel Admin" : "Login Admin"}</h2>
+              <button onClick={() => setShowAdmin(false)} className="text-lg">✕</button>
             </div>
 
             {!session ? (
@@ -1962,7 +1418,6 @@ export default function App() {
                   onChange={(e) => setAdminEmail(e.target.value)}
                   className="mt-2 w-full rounded-2xl border px-4 py-3 text-[13px]"
                 />
-
                 <input
                   type="password"
                   placeholder="Password admin"
@@ -1970,84 +1425,41 @@ export default function App() {
                   onChange={(e) => setAdminPassword(e.target.value)}
                   className="mt-3 w-full rounded-2xl border px-4 py-3 text-[13px]"
                 />
-
-                <button
-                  type="submit"
-                  className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white"
-                >
+                <button type="submit" className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white">
                   Login
                 </button>
               </form>
             ) : (
               <div className="space-y-4">
                 {ordersLoading ? (
-                  <>
-                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="h-4 w-40 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
-                    </div>
-                    <div className="animate-pulse rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="h-4 w-40 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-28 rounded bg-slate-200" />
-                      <div className="mt-2 h-3 w-32 rounded bg-slate-200" />
-                    </div>
-                  </>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-[12px] text-slate-500">Memuat order...</div>
                 ) : orders.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sky-100 text-sky-500">
-                      <IconBag />
-                    </div>
-                    <div className="mt-3 text-[14px] font-bold text-slate-700">
-                      Belum ada order
-                    </div>
-                    <p className="mt-1 text-[12px] text-slate-500">
-                      Order yang masuk akan tampil di sini.
-                    </p>
+                    <div className="mt-3 text-[14px] font-bold text-slate-700">Belum ada order</div>
+                    <p className="mt-1 text-[12px] text-slate-500">Order yang masuk akan tampil di sini.</p>
                   </div>
                 ) : (
                   orders.map((order) => (
-                    <div
-                      key={order.id}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                    >
+                    <div key={order.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                       <div className="font-extrabold">{order.product_name}</div>
                       <div className="mt-1 text-[12px]">Harga: {formatRupiah(order.price)}</div>
                       <div className="text-[12px]">Nama: {order.customer_name}</div>
                       <div className="text-[12px]">WhatsApp: {order.customer_whatsapp}</div>
                       <div className="text-[12px]">Catatan: {order.note || "-"}</div>
                       <div className="text-[12px]">Order ID: {order.order_id || "-"}</div>
-
                       <div className="mt-3">
-                        <span
-                          className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${
-                            statusStyles[order.status] ||
-                            "border-slate-200 bg-slate-100 text-slate-700"
-                          }`}
-                        >
+                        <span className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-bold uppercase ${statusStyles[order.status] || "border-slate-200 bg-slate-100 text-slate-700"}`}>
                           {order.status}
                         </span>
                       </div>
-
                       <div className="mt-3 flex flex-wrap gap-2">
-                        <button
-                          onClick={() => markAsPaid(order.id)}
-                          className="rounded-xl bg-green-500 px-4 py-2 text-[11px] font-bold text-white"
-                        >
+                        <button onClick={() => markAsPaid(order.id)} className="rounded-xl bg-green-500 px-4 py-2 text-[11px] font-bold text-white">
                           Tandai Berhasil
                         </button>
-
-                        <button
-                          onClick={() => markAsPending(order.id)}
-                          className="rounded-xl bg-yellow-500 px-4 py-2 text-[11px] font-bold text-white"
-                        >
+                        <button onClick={() => markAsPending(order.id)} className="rounded-xl bg-yellow-500 px-4 py-2 text-[11px] font-bold text-white">
                           Pending
                         </button>
-
-                        <button
-                          onClick={() => deleteOrder(order.id)}
-                          className="rounded-xl bg-rose-500 px-4 py-2 text-[11px] font-bold text-white"
-                        >
+                        <button onClick={() => deleteOrder(order.id)} className="rounded-xl bg-rose-500 px-4 py-2 text-[11px] font-bold text-white">
                           Hapus
                         </button>
                       </div>
@@ -2058,126 +1470,98 @@ export default function App() {
             )}
           </div>
         </div>
-      )}
+      ) : null}
 
-      {guideLoading && (
+      {guideLoading ? (
         <div className="fixed inset-0 z-[79] flex items-center justify-center bg-[#eef3fb]">
           <div className="text-center">
             <div className="mb-4 flex items-center justify-center gap-3">
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:0ms]" />
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:200ms]" />
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:400ms]" />
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:0ms]"></span>
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:200ms]"></span>
+              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-sky-500 [animation-delay:400ms]"></span>
             </div>
-            <h2 className="text-[16px] font-extrabold tracking-[0.2em] text-slate-800">
-              {BRAND}
-            </h2>
+            <h2 className="text-[16px] font-extrabold tracking-[0.2em] text-slate-800">{BRAND}</h2>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {showGuide && (
+      {showGuide ? (
         <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#eaf4ff] px-4 py-6">
-          <div className="mx-auto max-w-md animate-[fadeIn_.22s_ease]">
-            <button
-              onClick={() => setShowGuide(false)}
-              className="mb-4 rounded-xl bg-white px-4 py-2 text-[12px] font-bold text-slate-700 shadow"
-            >
+          <div className="mx-auto max-w-md">
+            <button onClick={() => setShowGuide(false)} className="mb-4 rounded-xl bg-white px-4 py-2 text-[12px] font-bold text-slate-700 shadow">
               ← Kembali
             </button>
-
-            <div className="mb-6 text-center">
-              <h1 className="text-3xl font-extrabold text-sky-600">{BRAND}</h1>
-              <div className="mt-2 text-slate-400">-------------</div>
-            </div>
-
             <div className="overflow-hidden rounded-[24px] bg-white shadow-sm">
               <div className="border-b bg-slate-50 px-6 py-5">
-                <h2 className="text-[18px] font-extrabold text-slate-800">
-                  🛒 PANDUAN CHECKOUT
-                </h2>
+                <h2 className="text-[18px] font-extrabold text-slate-800">🛒 PANDUAN CHECKOUT</h2>
               </div>
-
               <div className="space-y-6 px-6 py-6 text-slate-600">
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    1
+                {[
+                  "Isi nama & WhatsApp aktif untuk pengiriman data produk.",
+                  "Klik tombol pembayaran dan scan QRIS yang muncul.",
+                  "Tunggu sistem Pakasir memproses pembayaran kamu.",
+                  "Setelah transaksi selesai, kamu akan diarahkan kembali ke website.",
+                ].map((text, idx) => (
+                  <div key={text} className="flex gap-4">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
+                      {idx + 1}
+                    </div>
+                    <p className="text-[13px] leading-7">{text}</p>
                   </div>
-                  <p className="text-[13px] leading-7">
-                    Isi <span className="font-bold text-slate-700">Nama & WhatsApp</span> aktif untuk pengiriman data produk.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    2
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Klik tombol pembayaran dan <span className="font-bold text-slate-700">scan QRIS</span> yang muncul.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    3
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Tunggu sistem <span className="font-bold text-slate-700">Pakasir</span> memproses pembayaran kamu.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[12px] font-bold text-white">
-                    4
-                  </div>
-                  <p className="text-[13px] leading-7">
-                    Setelah transaksi selesai, kamu akan diarahkan kembali ke website.
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
+          </div>
+        </div>
+      ) : null}
 
-            <div className="mt-6 rounded-[24px] border border-orange-200 bg-orange-50 px-6 py-5 shadow-sm">
-              <h3 className="text-[18px] font-extrabold text-orange-600">
-                ⚠️ PENTING: JANGAN REFRESH!
-              </h3>
-              <p className="mt-3 text-[13px] leading-7 text-orange-700">
-                Dilarang menutup atau memuat ulang halaman saat proses transaksi. Kalau ada kendala, hubungi admin.
-              </p>
-            </div>
-
-            <button
-              onClick={() => setShowGuide(false)}
-              className="mt-6 w-full rounded-[22px] bg-sky-600 px-6 py-4 text-[14px] font-extrabold text-white shadow"
-            >
-              SAYA MENGERTI, LANJUTKAN ✅
+      {showApiInfo ? (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/50 px-4">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 shadow-2xl">
+            <h3 className="text-[16px] font-extrabold text-slate-800">Info API</h3>
+            <p className="mt-3 text-[12px] leading-6 text-slate-500">
+              Halaman API ini fokus ke showcase fitur, player widget, dan kartu fitur yang sekarang bisa diklik.
+            </p>
+            <button onClick={() => setShowApiInfo(false)} className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white">
+              Tutup
             </button>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {showSuccessPage && (
+      {selectedApiFeature ? (
+        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/50 px-4">
+          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 shadow-2xl">
+            <h3 className="text-[16px] font-extrabold text-slate-800">{selectedApiFeature.title}</h3>
+            <p className="mt-3 text-[12px] leading-6 text-slate-500">{selectedApiFeature.detail}</p>
+            <button onClick={() => setSelectedApiFeature(null)} className="mt-4 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-bold text-white">
+              Tutup
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {showSuccessPage ? (
         <div className="fixed inset-0 z-[130] overflow-y-auto bg-[#eef3fb] px-4 py-8">
-          <div className="mx-auto max-w-md animate-[fadeIn_.25s_ease]">
+          <div className="mx-auto max-w-md">
             <div className="rounded-[28px] bg-white p-6 text-center shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-              <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+              <div className="mx-auto flex h-18 w-18 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <svg className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-
-              <h2 className="mt-5 text-[22px] font-extrabold text-slate-800">
-                Pembayaran Berhasil
-              </h2>
+              <h2 className="mt-5 text-[22px] font-extrabold text-slate-800">Pembayaran Berhasil</h2>
               <p className="mt-2 text-[12px] leading-6 text-slate-500">
                 Transaksi kamu sudah diproses. Simpan order ID ini untuk cek status atau hubungi admin.
               </p>
 
               <div className="mt-5 rounded-[20px] border border-slate-200 bg-slate-50 p-4">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  Order ID
-                </div>
-                <div className="mt-2 text-[14px] font-extrabold text-slate-800">
-                  {successOrderId || "-"}
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Order ID</div>
+                <div className="mt-2 flex items-center justify-center gap-2 text-[14px] font-extrabold text-slate-800">
+                  <span>{successOrderId || "-"}</span>
+                  <button onClick={copyOrderId} className="rounded-full bg-white p-2 text-slate-600 shadow-sm">
+                    <IconCopy />
+                  </button>
                 </div>
               </div>
 
@@ -2191,13 +1575,10 @@ export default function App() {
                 >
                   Ke Beranda
                 </button>
-
                 <button
                   onClick={() =>
                     window.open(
-                      `https://wa.me/60166173129?text=${encodeURIComponent(
-                        `Halo admin, saya sudah bayar. Order ID: ${successOrderId}`
-                      )}`,
+                      `https://wa.me/60166173129?text=${encodeURIComponent(`Halo admin, saya sudah bayar. Order ID: ${successOrderId}`)}`,
                       "_blank"
                     )
                   }
@@ -2209,63 +1590,9 @@ export default function App() {
             </div>
           </div>
         </div>
-      )}
-
-      {showApiInfo && (
-        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[16px] font-extrabold">{API_BRAND} Info</h3>
-              <button onClick={() => setShowApiInfo(false)} className="text-lg">
-                ✕
-              </button>
-            </div>
-
-            <p className="mt-4 text-[13px] leading-6 text-slate-600">
-              Halaman API ini berfungsi sebagai showcase UI untuk tools, feature list, widget, dan
-              presentasi endpoint. Tombol utama sekarang sudah aktif untuk scroll, open info, dan player.
-            </p>
-
-            <div className="mt-4 rounded-[18px] bg-slate-50 p-4 text-[12px] leading-6 text-slate-600">
-              Cocok dipakai buat menampilkan dokumentasi singkat, daftar endpoint populer, demo tools,
-              dan call-to-action ke backend atau dashboard developer kamu.
-            </div>
-
-            <button
-              onClick={() => setShowApiInfo(false)}
-              className="mt-5 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold text-white"
-            >
-              Tutup
-            </button>
-          </div>
-        </div>
-      )}
-
-      {selectedApiFeature && (
-        <div className="fixed inset-0 z-[91] flex items-center justify-center bg-black/50 px-4 backdrop-blur-[2px]">
-          <div className="w-full max-w-sm rounded-[24px] bg-white p-5 text-slate-900 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[16px] font-extrabold">{selectedApiFeature.title}</h3>
-              <button onClick={() => setSelectedApiFeature(null)} className="text-lg">
-                ✕
-              </button>
-            </div>
-
-            <p className="mt-3 text-[12px] text-slate-500">{selectedApiFeature.desc}</p>
-
-            <div className="mt-4 rounded-[18px] bg-slate-50 p-4 text-[12px] leading-6 text-slate-600">
-              {selectedApiFeature.detail}
-            </div>
-
-            <button
-              onClick={() => setSelectedApiFeature(null)}
-              className="mt-5 w-full rounded-2xl bg-sky-500 py-3 text-[12px] font-extrabold text-white"
-            >
-              Sip, tutup
-            </button>
-          </div>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }
+
+export default App;
