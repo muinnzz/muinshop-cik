@@ -25,7 +25,7 @@ const products = [
   {
     category: "Virtual Private Server",
     name: "VPS R16 8 CORE",
-    price: "Rp 8.000",
+    price: "Rp 0.500",
     image: "https://cdn-icons-png.flaticon.com/512/4248/4248443.png",
     description: "VPS lebih kencang untuk kebutuhan menengah.",
     badge: "Populer",
