@@ -368,7 +368,16 @@ function BottomNav({ currentPage, onHome, onApi, onProducts, onAdmin }) {
     </div>
   );
 }
-
+function SkeletonCard() {
+  return (
+    <div className="animate-pulse rounded-[24px] border border-white/80 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
+      <div className="h-3 w-24 rounded bg-slate-200" />
+      <div className="mt-3 h-20 rounded-2xl bg-slate-200" />
+      <div className="mt-3 h-3 w-28 rounded bg-slate-200" />
+      <div className="mt-2 h-3 w-20 rounded bg-slate-200" />
+    </div>
+  );
+}
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [activeBadge, setActiveBadge] = useState("Semua");
