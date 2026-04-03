@@ -465,35 +465,35 @@ export default function App() {
     setTrackIndex((prev) => (prev + 1) % audioTracks.length);
   };
 
+  const onError = () => {
+    showToast("Track gagal dimuat.", "error");
+  };
+
   audio.addEventListener("loadedmetadata", onLoaded);
   audio.addEventListener("timeupdate", onTime);
   audio.addEventListener("ended", onEnded);
-
-  if (isPlaying) {
-    audio.play().catch(() => {
-      setIsPlaying(false);
-      showToast("Klik play lagi untuk mulai audio.", "error");
-    });
-  }
+  audio.addEventListener("error", onError);
 
   return () => {
     audio.removeEventListener("loadedmetadata", onLoaded);
     audio.removeEventListener("timeupdate", onTime);
     audio.removeEventListener("ended", onEnded);
+    audio.removeEventListener("error", onError);
   };
-}, [trackIndex, isPlaying]);
+}, [trackIndex]);
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (isPlaying) {
-      audio.play().catch(() => {
-        setIsPlaying(false);
-        showToast("Audio tidak bisa diputar sekarang.", "error");
-      });
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying]);
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  if (isPlaying) {
+    audio.play().catch(() => {
+      setIsPlaying(false);
+      showToast("Audio tidak bisa diputar sekarang.", "error");
+    });
+  } else {
+    audio.pause();
+  }
+}, [isPlaying, trackIndex]);
   useEffect(() => {
   return () => {
     const audio = audioRef.current;
