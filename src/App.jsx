@@ -419,7 +419,7 @@ export default function App() {
   const [musicDuration, setMusicDuration] = useState(0);
   const [musicReady, setMusicReady] = useState(false);
 
-  const audioRef = useRef(null);
+  const audioRef = useRef(new Audio());
   const topRef = useRef(null);
   const productsRef = useRef(null);
   const customerNameRef = useRef(null);
@@ -439,45 +439,49 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const audio = new Audio(audioTracks[trackIndex].src);
-    audio.loop = false;
-    audio.volume = 0.55;
-    audioRef.current = audio;
-    setMusicReady(false);
-    setMusicProgress(0);
+  const audio = audioRef.current;
+  if (!audio) return;
 
-    const onLoaded = () => {
-      setMusicDuration(audio.duration || 0);
-      setMusicReady(true);
-    };
-    const onTime = () => {
-      if (!audio.duration) return;
-      setMusicProgress((audio.currentTime / audio.duration) * 100);
-    };
-    const onEnded = () => {
-      setTrackIndex((prev) => (prev + 1) % audioTracks.length);
-      setIsPlaying(true);
-    };
+  setMusicReady(false);
+  setMusicProgress(0);
 
-    audio.addEventListener("loadedmetadata", onLoaded);
-    audio.addEventListener("timeupdate", onTime);
-    audio.addEventListener("ended", onEnded);
+  audio.pause();
+  audio.src = audioTracks[trackIndex].src;
+  audio.load();
+  audio.loop = false;
+  audio.volume = 0.55;
 
-    if (isPlaying) {
-      audio.play().catch(() => {
-        setIsPlaying(false);
-        showToast("Browser menolak autoplay. Tekan play lagi.", "error");
-      });
-    }
+  const onLoaded = () => {
+    setMusicDuration(audio.duration || 0);
+    setMusicReady(true);
+  };
 
-    return () => {
-      audio.pause();
-      audio.removeEventListener("loadedmetadata", onLoaded);
-      audio.removeEventListener("timeupdate", onTime);
-      audio.removeEventListener("ended", onEnded);
-    };
-  }, [trackIndex]);
+  const onTime = () => {
+    if (!audio.duration) return;
+    setMusicProgress((audio.currentTime / audio.duration) * 100);
+  };
 
+  const onEnded = () => {
+    setTrackIndex((prev) => (prev + 1) % audioTracks.length);
+  };
+
+  audio.addEventListener("loadedmetadata", onLoaded);
+  audio.addEventListener("timeupdate", onTime);
+  audio.addEventListener("ended", onEnded);
+
+  if (isPlaying) {
+    audio.play().catch(() => {
+      setIsPlaying(false);
+      showToast("Klik play lagi untuk mulai audio.", "error");
+    });
+  }
+
+  return () => {
+    audio.removeEventListener("loadedmetadata", onLoaded);
+    audio.removeEventListener("timeupdate", onTime);
+    audio.removeEventListener("ended", onEnded);
+  };
+}, [trackIndex, isPlaying]);
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -490,7 +494,15 @@ export default function App() {
       audio.pause();
     }
   }, [isPlaying]);
-
+  useEffect(() => {
+  return () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.src = "";
+    }
+  };
+}, []);
   useEffect(() => {
     let mounted = true;
     supabase.auth.getSession().then(({ data }) => {
@@ -690,9 +702,10 @@ export default function App() {
   };
 
   const togglePlay = () => {
-    setIsPlaying((prev) => !prev);
-    showToast(isPlaying ? "Music dijeda." : "Music diputar.", "info");
-  };
+  const next = !isPlaying;
+  setIsPlaying(next);
+  showToast(next ? "Music diputar." : "Music dijeda.", "info");
+};
 
   const nextTrack = () => {
     setTrackIndex((prev) => (prev + 1) % audioTracks.length);
