@@ -444,16 +444,28 @@ export default function App() {
 
   setMusicReady(false);
   setMusicProgress(0);
+  setMusicDuration(0);
 
   audio.pause();
   audio.src = audioTracks[trackIndex].src;
   audio.load();
   audio.loop = false;
   audio.volume = 0.55;
+  audio.preload = "auto";
 
   const onLoaded = () => {
     setMusicDuration(audio.duration || 0);
+  };
+
+  const onCanPlay = () => {
     setMusicReady(true);
+
+    if (isPlaying) {
+      audio.play().catch(() => {
+        setIsPlaying(false);
+        showToast("Audio tidak bisa diputar sekarang.", "error");
+      });
+    }
   };
 
   const onTime = () => {
@@ -466,34 +478,39 @@ export default function App() {
   };
 
   const onError = () => {
+    setMusicReady(false);
     showToast("Track gagal dimuat.", "error");
   };
 
   audio.addEventListener("loadedmetadata", onLoaded);
+  audio.addEventListener("canplaythrough", onCanPlay);
   audio.addEventListener("timeupdate", onTime);
   audio.addEventListener("ended", onEnded);
   audio.addEventListener("error", onError);
 
   return () => {
     audio.removeEventListener("loadedmetadata", onLoaded);
+    audio.removeEventListener("canplaythrough", onCanPlay);
     audio.removeEventListener("timeupdate", onTime);
     audio.removeEventListener("ended", onEnded);
     audio.removeEventListener("error", onError);
   };
 }, [trackIndex]);
-  useEffect(() => {
+ useEffect(() => {
   const audio = audioRef.current;
   if (!audio) return;
 
   if (isPlaying) {
-    audio.play().catch(() => {
-      setIsPlaying(false);
-      showToast("Audio tidak bisa diputar sekarang.", "error");
-    });
+    if (musicReady) {
+      audio.play().catch(() => {
+        setIsPlaying(false);
+        showToast("Audio tidak bisa diputar sekarang.", "error");
+      });
+    }
   } else {
     audio.pause();
   }
-}, [isPlaying, trackIndex]);
+}, [isPlaying, musicReady]);
   useEffect(() => {
   return () => {
     const audio = audioRef.current;
